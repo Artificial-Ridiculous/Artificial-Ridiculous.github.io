@@ -20,6 +20,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://www.cocobolo.top/" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: ZeroMerlin
 github_username:  Artificial-Ridiculous
+category_feeds: false
 
 # Build settings
 markdown: kramdown
