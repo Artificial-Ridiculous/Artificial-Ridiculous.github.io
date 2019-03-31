@@ -29,7 +29,7 @@ categories: python
 将列表看成前面的有序数组和后面的无序数组（初始时`len(有序) = 0 , len(无序) = len(nums)`）。
 每一轮扫描找出无序数组中最小的元素，将其与无序数组中的第一个元素对调。  
 下一轮开始时，有序数组长度`+1`，无序数组长度`-1`。直到`len(有序) == len(nums)`。  
-  
+ ``` 
 {% highlight python %} 
 def chooseSort(self,l,start = 0):  # start为无序数组的起始下标  每轮循环找到一个最小值放到无序数组的第一个   然后无序下标++
     if l is None or len(l) in [0, 1]: return l
@@ -46,6 +46,7 @@ def chooseSort(self,l,start = 0):  # start为无序数组的起始下标  每轮
     self.chooseSort(l,start+1)
     return l
 {% endhighlight %}  
+```
 
 #### **2. 插入排序**
 将列表看成前面的有序数组和后面的无序数组（初始时将第一个元素默认视为有序数组）。  
