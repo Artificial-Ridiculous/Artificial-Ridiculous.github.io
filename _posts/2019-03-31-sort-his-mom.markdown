@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "排他妈的序"
+title:  "排序算法"
 date:   2019-03-31 21:37:25 +0800
 categories: python
 ---
