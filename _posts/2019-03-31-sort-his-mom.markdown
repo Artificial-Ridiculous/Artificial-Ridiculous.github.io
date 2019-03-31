@@ -31,7 +31,7 @@ categories: python
 下一轮开始时，有序数组长度`+1`，无序数组长度`-1`。直到`len(有序) == len(nums)`。  
   
 ```Python  
-def chooseSort(self,l,start = 0):< Rouge::RegexLexer  # start为无序数组的起始下标  每轮循环找到一个最小值放到无序数组的第一个   然后无序下标++
+def chooseSort(self,l,start = 0):  # start为无序数组的起始下标  每轮循环找到一个最小值放到无序数组的第一个   然后无序下标++
     if l is None or len(l) in [0, 1]: return l
     if start+1 == len(l) : return l
     minNum = l[start]
