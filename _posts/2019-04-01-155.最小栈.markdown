@@ -27,7 +27,7 @@ l = []
 
 ### 解答：  
 
-{% highlight python %}
+```python
 class MinStack:
     def __init__(self):
         self.minStack = []
@@ -60,4 +60,4 @@ class MinStack:
             return None
         else:
             return self.minStack[-1]
-{% endhighlight %}
+```
