@@ -22,6 +22,7 @@ minStack.getMin();   # --> 返回 -3.
 minStack.pop();
 minStack.top();      # --> 返回 0.
 minStack.getMin();   # --> 返回 -2.
+l = []
 ```
 
 ### 解答：  
