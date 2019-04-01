@@ -19,7 +19,7 @@ True
 ```
 
 ### 输入2:   
-![ListNode]({{ "141_circularlinkedlist_test3.png" | absolute_url }})
+![ListNode]({{ "/PNG/141_circularlinkedlist_test3.png" | absolute_url }})
 
 ### 输出2:  
 ```Python
