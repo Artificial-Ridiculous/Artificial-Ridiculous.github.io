@@ -1,4 +1,10 @@
-# 15. 三数之和
+---
+layout: post
+title:  "15. 三数之和"
+date:   2019-04-01 22:06:25 +0800
+categories: codes
+---
+
 
 给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。
 
@@ -16,7 +22,7 @@ nums = [-1, 0, 1, 2, -1, -4]
 
 
 ### 解答： 
-```Python
+{% highlight python %}
 def threeSum(self, nums):
     sortednums = sorted(nums)
     if len(nums) < 3 : return []
@@ -44,4 +50,4 @@ def threeSum(self, nums):
         while i < len(sortednums)-2 and sortednums[i] == tempi : #i避免重复
             i += 1
     return res
-```
+{% endhighlight %}

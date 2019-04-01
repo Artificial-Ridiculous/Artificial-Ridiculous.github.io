@@ -1,4 +1,11 @@
-# 20. 有效的括号
+---
+layout: post
+title:  "20. 有效的括号"
+date:   2019-04-01 22:08:25 +0800
+categories: codes
+---
+
+
 
 给定一个只包括  `'('，')'，'{'，'}'，'['，']'`的字符串，判断字符串是否有效。  
 有效字符串需满足：  
@@ -38,7 +45,7 @@ False
 
 ### 解答：  
 
-```Python
+{% highlight python %}
 def isValid(self, s):
     if s is None or len(s) == 0 : return True
     stack = []
@@ -62,4 +69,4 @@ def isValid(self, s):
                 else:
                     stack.pop()
     return True if len(stack) == 0 else False
-```
+{% endhighlight %}
