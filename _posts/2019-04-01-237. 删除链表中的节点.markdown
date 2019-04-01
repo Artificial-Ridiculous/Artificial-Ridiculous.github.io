@@ -14,7 +14,8 @@ categories: codes
 示例：  
 
 ### 输入:   
-![ListNode](../PNG/237_example.png)
+![ListNode]({{ "/PNG/237_example.png" | absolute_url }})
+
 
 ### 输出:  
 

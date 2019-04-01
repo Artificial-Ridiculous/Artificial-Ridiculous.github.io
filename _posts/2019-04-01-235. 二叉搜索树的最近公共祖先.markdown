@@ -12,7 +12,7 @@ categories: codes
 示例：  
 
 ### 输入1:   
-![ListNode](../PNG/binarysearchtree_improved.png)
+![TreeNode]({{ "/PNG/235_binarysearchtree_improved.png" | absolute_url }})
 ```Python
 p=2
 q=8
