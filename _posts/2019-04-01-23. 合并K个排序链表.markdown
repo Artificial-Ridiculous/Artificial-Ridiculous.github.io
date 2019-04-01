@@ -1,4 +1,10 @@
-# 23. 合并K个排序链表
+---
+layout: post
+title:  "23. 合并K个排序链表"
+date:   2019-04-01 22:11:25 +0800
+categories: codes
+---
+
 
 给定 k 个排序链表组成的列表，返回合并后的排序链表。
 
@@ -22,7 +28,7 @@
 
 ### 解答：  
 
-```Python
+{% highlight python %}
 def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
     if l1 is None : return l2
     if l2 is None : return l1
@@ -41,4 +47,4 @@ def mergeKLists(self, lists: List[ListNode]) -> ListNode:
     if len(lists) ==1 : return lists[0]
     if len(lists) ==2 : return self.mergeTwoLists(lists[0],lists[1])
     return self.mergeTwoLists(self.mergeKLists(lists[:len(lists)//2]),self.mergeKLists(lists[len(lists)//2:]))
-```
+{% endhighlight %}

@@ -1,4 +1,9 @@
-# 155. 最小栈
+---
+layout: post
+title:  "155. 最小栈"
+date:   2019-04-01 22:16:25 +0800
+categories: codes
+---
 
 设计一个支持 push，pop，top 操作，并能在O(1)时间内检索到最小元素的栈。
 1. push(x) -- 将元素 x 推入栈中。  
@@ -21,7 +26,7 @@ minStack.getMin();   # --> 返回 -2.
 
 ### 解答：  
 
-```Python
+{% highlight python %}
 class MinStack:
     def __init__(self):
         self.minStack = []
@@ -54,4 +59,4 @@ class MinStack:
             return None
         else:
             return self.minStack[-1]
-```
+{% endhighlight %}

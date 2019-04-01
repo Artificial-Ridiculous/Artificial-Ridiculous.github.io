@@ -1,6 +1,12 @@
-# 141. 环形链表
+---
+layout: post
+title:  "142. 环形链表 II "
+date:   2019-04-01 22:16:25 +0800
+categories: codes
+---
+#  
 
-给定一个链表，判断链表中是否有环。
+给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 None。
 
 示例：  
 
@@ -9,7 +15,7 @@
 
 ### 输出1:  
 ```Python
-True
+ListNode(2)
 ```
 
 ### 输入2:   
@@ -17,12 +23,12 @@ True
 
 ### 输出2:  
 ```Python
-False
+None
 ```
 
 ### 解答：  
 
-```Python
+{% highlight python %}
 def detectCycle(self, head):
     if head is None : return None
     if head.next is None : return None
@@ -44,3 +50,4 @@ def detectCycle(self, head):
             slow = slow.next
             head = head.next
         return head
+{% endhighlight %}

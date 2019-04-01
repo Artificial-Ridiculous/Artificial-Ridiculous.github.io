@@ -1,4 +1,9 @@
-# 59. 螺旋矩阵 II
+---
+layout: post
+title:  "59. 螺旋矩阵 II"
+date:   2019-04-01 22:18:25 +0800
+categories: codes
+---
 
 给定一个正整数 n，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的正方形矩阵。
 
@@ -22,7 +27,7 @@
 
 ### 解答：  
 
-```Python
+{% highlight python %}
 def generateMatrix(self, n, m = None ): # m行 n列
     #当然可以处理n=m的正方形矩阵的特殊情况了
     m = n if m is None else m
@@ -66,4 +71,4 @@ def generateMatrix(self, n, m = None ): # m行 n列
         endX-=1
         endY-=1
     return res
-``` 
+{% endhighlight %}

@@ -1,4 +1,10 @@
-# 206. 反转链表
+---
+layout: post
+title:  "206. 反转链表"
+date:   2019-04-01 22:14:25 +0800
+categories: codes
+---
+
 
 反转一个单链表。  
 
@@ -15,11 +21,11 @@
 
 ### 解答：  
 
-```Python
+{% highlight python %}
 def reverseList(self, head: ListNode) -> ListNode:
     if head is None or head.next is None: return head
     result = self.reverseList(head.next)
     head.next.next = head
     head.next = None
     return result
-```
+{% endhighlight %}

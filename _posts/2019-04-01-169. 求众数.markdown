@@ -1,4 +1,10 @@
-# 169. 求众数
+---
+layout: post
+title:  "169. 求众数"
+date:   2019-04-01 22:15:25 +0800
+categories: codes
+---
+
 
 给定一个大小为 n 的数组，找到其中的众数。众数是指在数组中出现次数大于 `⌊ n/2 ⌋` 的元素。
 你可以假设数组是非空的，并且给定的数组总是存在众数。
@@ -26,7 +32,7 @@
 
 ### 解答：  
 
-```Python
+{% highlight python %}
 def majorityElement(self, nums: List[int]) -> int:
     cnt = 0
     maj = nums[0]
@@ -41,4 +47,4 @@ def majorityElement(self, nums: List[int]) -> int:
                 cnt = 0
         i+=1
     return maj
-```
+{% endhighlight %}

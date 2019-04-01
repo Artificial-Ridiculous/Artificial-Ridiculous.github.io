@@ -1,4 +1,9 @@
-# 104. 二叉树的最大深度
+---
+layout: post
+title:  "104. 二叉树的最大深度"
+date:   2019-04-01 22:17:25 +0800
+categories: codes
+---
 
 给定一个二叉树，找出其最大深度。
 二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。
@@ -15,10 +20,10 @@
 
 ### 解答：  
 
-```Python
+{% highlight python %}
 def maxDepth(self, root: TreeNode) -> int:
     if root is None: return 0
     leftDepth = self.maxDepth(root.left)
     rightDepth = self.maxDepth(root.right)
     return 1+leftDepth if leftDepth>=rightDepth else 1+rightDepth
-```
+{% endhighlight %}
