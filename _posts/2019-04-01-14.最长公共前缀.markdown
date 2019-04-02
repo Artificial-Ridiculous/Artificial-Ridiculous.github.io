@@ -11,26 +11,26 @@ categories: codes
 示例：  
 
 ### 输入1:
-```Python
+```python
 ["flower","flow","flight"]  
 ```
 ### 输出1:  
-```Python
+```python
 "fl"
 ```
 
 ### 输入2: 
-```Python
+```python
 ["dog","racecar","car"]  
 ```
 ### 输出2:  
-```Python
+```python
 ""
 ```
 
 ### 解答：  
 
-```Python
+```python
 def longestCommonPrefix(self, strs) -> str:
     if strs is None or strs == [] : return ""
     if len(strs) == 1 : return strs[0]

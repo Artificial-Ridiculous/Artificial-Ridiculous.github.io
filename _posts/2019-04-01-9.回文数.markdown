@@ -14,7 +14,7 @@ categories: codes
 `121`
 
 ### 输出1:  
-```Python
+```python
 True
 ```
 
@@ -22,7 +22,7 @@ True
 `-121`
 
 ### 输出2:  
-```Python
+```python
 False
 ```
 
@@ -30,14 +30,14 @@ False
 `10`
 
 ### 输出3:  
-```Python
+```python
 False
 ```
 
 
 ### 解答：  
 
-```Python
+```python
 def isPalindrome(self, x: int) -> bool:
     if x <0 or (x%10==0 and x!=0) :return False
     rev = 0

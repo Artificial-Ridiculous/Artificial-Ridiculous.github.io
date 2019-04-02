@@ -17,7 +17,7 @@ categories: codes
 示例：  
 
 ### 输入1:  
-```Python
+```python
 "()" 
 ```
 ### 输出1:  
@@ -26,26 +26,26 @@ True
 ```
 
 ### 输入2:   
-```Python
+```python
 "()[]{}"
 ```
 ### 输出2:  
-```Python
+```python
 True
 ```
 
 ### 输入3:   
-```Python
+```python
 "([)]"
 ```
 ### 输出3:  
-```Python
+```python
 False
 ```
 
 ### 解答：  
 
-```Python
+```python
 def isValid(self, s):
     if s is None or len(s) == 0 : return True
     stack = []

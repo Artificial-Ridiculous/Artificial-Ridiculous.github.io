@@ -9,10 +9,12 @@ categories: codes
 
 示例：  
 
-### 输入:   
+### 输入: 
+```python  
 nums = [1,2,3]  
-
+```
 ### 输出:  
+```python
 [  
   [3],  
   [1],  
@@ -23,11 +25,11 @@ nums = [1,2,3]
   [1,2],  
   []  
 ]  
-
+```
 
 ### 解答：  
 
-```Python
+```python
 def subsets(self, nums: List[int]) -> List[List[int]]:
     res = [[]]
     for num in nums:
