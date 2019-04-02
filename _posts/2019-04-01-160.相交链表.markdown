@@ -18,7 +18,7 @@ categories: codes
 ![ListNode]({{ "/PNG/160_example_1.png" | absolute_url }})
 
 ### 输出1:  
-```Python
+```python
 ListNode(8)
 ```
 
@@ -26,13 +26,13 @@ ListNode(8)
 ![ListNode]({{ "/PNG/160_example_3.png" | absolute_url }})
 
 ### 输出2:  
-```Python
+```python
 None
 ```
 
 ### 解答：  
 
-```Python
+```python
 def getIntersectionNode(self, headA, headB):
     if headA is None or headB is None : return None
     #合并A和B

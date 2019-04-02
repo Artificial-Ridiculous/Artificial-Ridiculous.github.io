@@ -13,19 +13,19 @@ categories: codes
 
 ### 输入1:   
 ![TreeNode]({{ "/PNG/235_binarysearchtree_improved.png" | absolute_url }})
-```Python
+```python
 p=2
 q=8
 ```
 
 ### 输出1:  
-```Python
+```python
 6
 ```
 
 ### 解答：  
 
-```Python
+```python
 def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
     if p.val>root.val and q.val>root.val:
         return self.lowestCommonAncestor(root.right,p,q)

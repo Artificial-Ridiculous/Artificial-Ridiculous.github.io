@@ -14,7 +14,7 @@ categories: codes
 ![ListNode]({{ "/PNG/142_circularlinkedlist_test1.png" | absolute_url }})
 
 ### 输出1:  
-```Python
+```python
 ListNode(2)
 ```
 
@@ -22,13 +22,13 @@ ListNode(2)
 ![ListNode]({{ "/PNG/142_circularlinkedlist_test3.png" | absolute_url }})
 
 ### 输出2:  
-```Python
+```python
 None
 ```
 
 ### 解答：  
 
-```Python
+```python
 def detectCycle(self, head):
     if head is None : return None
     if head.next is None : return None

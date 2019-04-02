@@ -17,7 +17,7 @@ categories: codes
 `[7,1,5,3,6,4]` 
 
 ### 输出1:  
-```Python
+```python
 5
 ```
 （在第` 2` 天（股票价格 `= 1`）的时候买入，在第` 5 `天（股票价格` = 6`）的时候卖出，  
@@ -28,14 +28,14 @@ categories: codes
 `[7,6,4,3,1]`
 
 ### 输出2:  
-```Python
+```python
 0
 ```
 （在这种情况下, 没有交易完成, 所以最大利润为 `0`。）
 
 ### 解答：  
 
-```Python
+```python
 def maxProfit(self, prices: List[int]) -> int:
     if prices is None or len(prices)in [0,1] : return 0
     profit = 0

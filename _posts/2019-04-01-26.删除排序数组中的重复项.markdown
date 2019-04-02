@@ -15,7 +15,7 @@ categories: codes
 `nums = [1,1,2]  `
 
 ### 输出1:  
-```Python
+```python
 2
 ```
 调用函数之后num应该被修改为
@@ -25,7 +25,7 @@ categories: codes
 `nums = [0,0,1,1,1,2,2,3,3,4]`
 
 ### 输出2:  
-```Python
+```python
 5
 ```
 调用函数之后num应该被修改为
@@ -33,7 +33,7 @@ categories: codes
 
 ### 解答：  
 
-```Python
+```python
 def removeDuplicates(self, nums) -> int:
     if nums is None or len(nums) == 0 : return 0
     if len(nums) == 1 : return 1

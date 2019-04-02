@@ -12,27 +12,27 @@ categories: codes
 示例：  
 
 ### 输入1:   
-```Python
+```python
 [3,2,3]
 ```
 
 ### 输出1:  
-```Python
+```python
 3
 ```
 
 ### 输入2:   
-```Python
+```python
 [2,2,1,1,1,2,2]
 ```
 ### 输出2:  
-```Python
+```python
 2
 ```
 
 ### 解答：  
 
-```Python
+```python
 def majorityElement(self, nums: List[int]) -> int:
     cnt = 0
     maj = nums[0]

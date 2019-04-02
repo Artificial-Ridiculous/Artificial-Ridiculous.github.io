@@ -15,7 +15,7 @@ categories: codes
 `4` 
 
 ### 输出1:  
-```Python
+```python
 False
 ```
 （如果堆中有 4 块石头，那么你永远不会赢得比赛；  
@@ -23,7 +23,7 @@ False
 
 ### 解答：  
 
-```Python
+```python
 def canWinNim(self, n: int) -> bool:
     if n % 4==0 :return False
     return True

@@ -10,10 +10,10 @@ categories: codes
 示例：  
 
 ### 输入:   
-3  
+`3` 
 
 ### 输出:  
-
+```python
 [  
 
  [ 1, 2, 3 ],  
@@ -23,11 +23,11 @@ categories: codes
  [ 7, 6, 5 ]  
  
 ]  
-
+```
 
 ### 解答：  
 
-```Python
+```python
 def generateMatrix(self, n, m = None ): # m行 n列
     #当然可以处理n=m的正方形矩阵的特殊情况了
     m = n if m is None else m

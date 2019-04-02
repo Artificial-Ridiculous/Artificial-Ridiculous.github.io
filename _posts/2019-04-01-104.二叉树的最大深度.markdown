@@ -14,13 +14,13 @@ categories: codes
 ![TreeNode]({{ "/PNG/104_BinaryTree.png" | absolute_url }})  
 
 ### 输出1:  
-```Python
+```python
 3
 ```
 
 ### 解答：  
 
-```Python
+```python
 def maxDepth(self, root: TreeNode) -> int:
     if root is None: return 0
     leftDepth = self.maxDepth(root.left)
