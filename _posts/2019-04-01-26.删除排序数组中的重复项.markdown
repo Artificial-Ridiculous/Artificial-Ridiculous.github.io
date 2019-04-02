@@ -33,7 +33,7 @@ categories: codes
 
 ### 解答：  
 
-{% highlight python %}
+```Python
 def removeDuplicates(self, nums) -> int:
     if nums is None or len(nums) == 0 : return 0
     if len(nums) == 1 : return 1
@@ -45,4 +45,4 @@ def removeDuplicates(self, nums) -> int:
         j+=1
     print(nums)
     return i+1
-{% endhighlight %}
+```

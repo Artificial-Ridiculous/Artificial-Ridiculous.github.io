@@ -24,8 +24,8 @@ categories: codes
 
 ### 解答：  
 
-{% highlight python %}
+```Python
 def deleteNode(self, node):
     node.val = node.next.val
     node.next = node.next.next
-{% endhighlight %}
+```

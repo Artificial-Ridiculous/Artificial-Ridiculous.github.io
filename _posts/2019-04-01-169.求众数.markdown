@@ -32,7 +32,7 @@ categories: codes
 
 ### 解答：  
 
-{% highlight python %}
+```Python
 def majorityElement(self, nums: List[int]) -> int:
     cnt = 0
     maj = nums[0]
@@ -47,4 +47,4 @@ def majorityElement(self, nums: List[int]) -> int:
                 cnt = 0
         i+=1
     return maj
-{% endhighlight %}
+```

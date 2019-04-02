@@ -30,7 +30,7 @@ categories: codes
 
 ### 解答：  
 
-{% highlight python %}
+```Python
 def longestCommonPrefix(self, strs) -> str:
     if strs is None or strs == [] : return ""
     if len(strs) == 1 : return strs[0]
@@ -49,4 +49,4 @@ def longestCommonPrefix(self, strs) -> str:
         if flag: res+=char
         else: break
     return res
-{% endhighlight %}
+```

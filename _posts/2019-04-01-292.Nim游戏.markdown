@@ -23,8 +23,8 @@ False
 
 ### 解答：  
 
-{% highlight python %}
+```Python
 def canWinNim(self, n: int) -> bool:
     if n % 4==0 :return False
     return True
-{% endhighlight %}
+```

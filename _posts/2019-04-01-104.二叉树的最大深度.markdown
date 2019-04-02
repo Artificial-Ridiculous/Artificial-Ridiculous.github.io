@@ -20,10 +20,10 @@ categories: codes
 
 ### 解答：  
 
-{% highlight python %}
+```Python
 def maxDepth(self, root: TreeNode) -> int:
     if root is None: return 0
     leftDepth = self.maxDepth(root.left)
     rightDepth = self.maxDepth(root.right)
     return 1+leftDepth if leftDepth>=rightDepth else 1+rightDepth
-{% endhighlight %}
+```

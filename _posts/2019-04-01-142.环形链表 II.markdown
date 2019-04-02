@@ -28,7 +28,7 @@ None
 
 ### 解答：  
 
-{% highlight python %}
+```Python
 def detectCycle(self, head):
     if head is None : return None
     if head.next is None : return None
@@ -50,4 +50,4 @@ def detectCycle(self, head):
             slow = slow.next
             head = head.next
         return head
-{% endhighlight %}
+```

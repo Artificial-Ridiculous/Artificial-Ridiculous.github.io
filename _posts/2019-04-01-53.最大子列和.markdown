@@ -23,7 +23,7 @@ categories: codes
 
 ### 解答：  
 
-{% highlight python %}
+```Python
 def maxSubArray(self, nums: List[int]) -> int:
     if nums is None or nums == []: return None
     max_so_far = max_ending_here = nums[0]
@@ -31,4 +31,4 @@ def maxSubArray(self, nums: List[int]) -> int:
         max_ending_here = max(x, max_ending_here + x)
         max_so_far = max(max_so_far,max_ending_here)
     return max_so_far
-{% endhighlight %}
+```

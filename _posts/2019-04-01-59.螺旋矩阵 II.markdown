@@ -27,7 +27,7 @@ categories: codes
 
 ### 解答：  
 
-{% highlight python %}
+```Python
 def generateMatrix(self, n, m = None ): # m行 n列
     #当然可以处理n=m的正方形矩阵的特殊情况了
     m = n if m is None else m
@@ -71,4 +71,4 @@ def generateMatrix(self, n, m = None ): # m行 n列
         endX-=1
         endY-=1
     return res
-{% endhighlight %}
+```

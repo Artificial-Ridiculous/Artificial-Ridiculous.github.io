@@ -45,7 +45,7 @@ False
 
 ### 解答：  
 
-{% highlight python %}
+```Python
 def isValid(self, s):
     if s is None or len(s) == 0 : return True
     stack = []
@@ -69,4 +69,4 @@ def isValid(self, s):
                 else:
                     stack.pop()
     return True if len(stack) == 0 else False
-{% endhighlight %}
+```

@@ -28,7 +28,7 @@ categories: codes
 
 ### 解答：  
 
-{% highlight python %}
+```Python
 def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
     if l1 is None : return l2
     if l2 is None : return l1
@@ -47,4 +47,4 @@ def mergeKLists(self, lists: List[ListNode]) -> ListNode:
     if len(lists) ==1 : return lists[0]
     if len(lists) ==2 : return self.mergeTwoLists(lists[0],lists[1])
     return self.mergeTwoLists(self.mergeKLists(lists[:len(lists)//2]),self.mergeKLists(lists[len(lists)//2:]))
-{% endhighlight %}
+```
