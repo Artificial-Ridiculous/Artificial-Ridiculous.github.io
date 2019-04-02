@@ -11,8 +11,7 @@ categories: codes
 示例：  
 
 ### 输入1:   
-![]({{ "/PNG/141_circularlinkedlist_test1.png" | absolute_url }})  
-![](../PNG/141_circularlinkedlist_test1.png)
+![ListNode]({{ "/PNG/141_circularlinkedlist_test1.png" | absolute_url }})  
 
 ### 输出1:  
 ```python
