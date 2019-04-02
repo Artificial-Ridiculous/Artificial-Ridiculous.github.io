@@ -11,8 +11,8 @@ categories: codes
 示例：  
 
 ### 输入1:   
-![]({{ "/PNG/141_circularlinkedlist_test1.png" | absolute_url }})
-![]({{ ../PNG/141_circularlinkedlist_test1.png)
+![]({{ "/PNG/141_circularlinkedlist_test1.png" | absolute_url }})  
+![](../PNG/141_circularlinkedlist_test1.png)
 
 ### 输出1:  
 ```python
