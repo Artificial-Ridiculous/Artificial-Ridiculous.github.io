@@ -20,14 +20,14 @@ Here's to the mess
 
 we make  
 
-And here's to the fools
+And here's to the fools  
 
-who dream
+who dream  
 
-Crazy, as they may seem
+Crazy, as they may seem  
 
-Here's to the hearts that break
+Here's to the hearts that break  
 
-Here's to the mess we make
+Here's to the mess we make  
 
 
