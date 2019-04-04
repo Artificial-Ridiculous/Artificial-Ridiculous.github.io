@@ -4,20 +4,23 @@ title:  "排序算法"
 date:   2019-03-31 21:37:25 +0800
 categories: codes
 ---
- 
 
 给定一个整数列表，对列表进行排序。  
 
 示例：  
 
-### 输入：  
+### 输入：
+
 ```python  
 [73, -22, 93, -43, 55, -14, 28, -22, 65, -39, 0]  
 ```
+
 ### 输出：
+
 ```python  
 [-43, -39, -22, -22, -14, 0, 28, 55, 65, 73, 93]  
 ```
+
 ### 解答：  
 
 #### **1. 选择排序**
@@ -26,7 +29,7 @@ categories: codes
 每一轮扫描找出无序数组中最小的元素，将其与无序数组中的第一个元素对调。  
 下一轮开始时，有序数组长度`+1`，无序数组长度`-1`。直到`len(有序) == len(nums)`。  
 
-```python 
+```python
 def chooseSort(self,l,start = 0):  # start为无序数组的起始下标  
     if l is None or len(l) in [0, 1]: return l
     if start+1 == len(l) : return l
@@ -41,14 +44,15 @@ def chooseSort(self,l,start = 0):  # start为无序数组的起始下标
     l[start],l[minIndex] = l[minIndex],l[start]
     self.chooseSort(l,start+1)
     return l
-``` 
-
+```
 
 #### **2. 插入排序**
+
 将列表看成前面的有序数组和后面的无序数组（初始时将第一个元素默认视为有序数组）。  
 每一轮将无序数组的第一个元素插入有序数组的恰当位置。  
 下一轮开始时，有序数组长度`+1`，无序数组长度`-1`。直到`len(有序) == len(nums)`。
-```python  
+
+```python
 def insertSort(self,l,start = 1):  # start为无序数组的第一位 第0位默认有序
     if l is None or len(l) in [0, 1]: return l
     if start == len(l): return l
@@ -64,12 +68,15 @@ def insertSort(self,l,start = 1):  # start为无序数组的第一位 第0位默
     self.insertSort(l,start+1)
     return l
 ```
+
 #### **3. 冒泡排序**  
-将列表看成前面的无序数组和后面的有序数组（初始时`len(无序) = len(nums) , len(有序) = 0 `）
+
+将列表看成前面的无序数组和后面的有序数组（初始时`len(无序) = len(nums) ,len(有序) = 0`）
 每一轮从前往后遍历整个无序数组，只有当后一个元素比自己大时，才对调两个元素的位置，  
 当遍历至无序数组的最后一个元素时，该元素一定是无序数组中最大的那个元素，该轮遍历结束。
-这样，每一轮遍历的结果都是将当前无序数组的最大元素放至无序数组的最后一位，`len（nums）-1`轮之后，排序完毕。  
-```python  
+这样，每一轮遍历的结果都是将当前无序数组的最大元素放至无序数组的最后一位，`len（nums）-1`轮之后，排序完毕。
+
+```python
 def bubbleSort(self,l,end = None):
     if l is None or len(l) in [0, 1]: return l
     end = len(l)-1 if end == None else end  # 假如调用有缺省，但是递归又要用到一个参数
@@ -82,17 +89,18 @@ def bubbleSort(self,l,end = None):
     self.bubbleSort(l,end-1)
     return l
 ```
+
 #### **4. 归并排序**  
+
 采用分治思想，将待排序数组分为两个数组，对其中的每一个数组递归地调用该排序算法，直到数组长度为1的递归出口。  
 最后，对两个排序完毕的有序数组进行两两合并，得到最后整个有序数组。
-```python  
 
+```python
 def mergeSort(self,l):  # 递归调用归并排序
     if l is None or len(l) in [0,1] : return l
     #if len(l) in [0,1] : return l
     return self.merge2SortedList(self.mergeSort(l[:len(l) // 2]) , self.mergeSort(l[len(l) // 2:]))
-    
-    
+
 def merge2SortedList(self,l1,l2,result = None):  # 对两个排序完毕的有序数组进行两两合并
     result = [] if result is None else result
     if l1 is None and l2 is None: return None
@@ -112,12 +120,12 @@ def merge2SortedList(self,l1,l2,result = None):  # 对两个排序完毕的有�
     return result
 
 ```
-#### **5. 快速排序**  
+
+#### **5. 快速排序**
+
 也是采用分治思想，每一轮排序后，用一个中间数将数组分为了左右两个部分，  
 其中左边部分全部比中间数小，右边部分全部比中间数大。
 再递归的对左右两个数组调用快速排序，直到递归出口，此时整个数组有序。
-
-
 
 ```python
 def fastSort(self,l,start = None,end = None):
@@ -143,7 +151,8 @@ def fastSort(self,l,start = None,end = None):
     return l
 ```
 
-#### **6. 希尔排序**  
+#### **6. 希尔排序**
+
 插入排序的变种，依次按照从大到小的步长对待排数组的子序列进行插入排序，
 最后以`1`的步长对整个大致有序数组进行一次插入排序，得到有序数组。
 
@@ -162,10 +171,13 @@ def shellSort(self,l,step = None):
         self.shellSort(l,step//2)
     return l
 ```
+
 #### **7. 堆排序**
+
 最大**堆**定义：满足**父结点比左右两个子结点都大**这一条件的完全二叉树。
-将待排数组视为一棵完全二叉树，对其作调整，使其满足（最大）堆定义， 
+将待排数组视为一棵完全二叉树，对其作调整，使其满足（最大）堆定义，
 然后每一轮将堆顶结点与堆尾结点对调（相当于将最大值放在数组最后），并将堆的长度`-1` 。
+
 ```python  
 def heapSort(self,l):  # 建立堆，每轮遍历将堆顶节点（最大）
     if l is None or len(l) in [0, 1]: return l
@@ -194,13 +206,15 @@ def buildHeap(self,l):  # 建立一个堆
         self.adjustHeap(l,i,len(l))  # 进行堆的调整，使其满足堆定义
 
 ```
+
 #### **8. 基数排序**  
+
 堆排序的思想是将各个元素从低位到高位依次作比较。
 具体实现是在从低位到高位的每一位分别设置10个桶，每个元素的该位数字是几就放入哪个桶。
 最后将所有桶中的元素依次取出，再进行下一次装桶，直到最高位。
 此时整个数组有序。
 
-```python 
+```python
 def radixSort(self,l):
     if l is None or len(l) in [0,1] : return l
     posList, negList = self.sliceListToPosAndNeg(l)
