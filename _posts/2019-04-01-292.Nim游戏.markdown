@@ -2,7 +2,7 @@
 layout: post
 title:  "292. Nim游戏"
 date:   2019-04-01 21:57:25 +0800
-categories: codes
+categories: leetcode-cn
 ---
 
 
