@@ -31,13 +31,13 @@ categories: codes
 
 ```python
 def permute(self, nums):
-        if nums is None or len(nums) == 0 : return nums
-        if len(nums) == 1 : return [nums]
-        result = []
-        for i in range(len(nums)):
-            nums[0],nums[i] = nums[i],nums[0]
-            for j in self.permute(nums[1:]):
-                result.append([nums[0]]+j)
-            nums[0],nums[i] = nums[i],nums[0]
-        return result
+    if nums is None or len(nums) == 0 : return nums
+    if len(nums) == 1 : return [nums]
+    result = []
+    for i in range(len(nums)):
+        nums[0],nums[i] = nums[i],nums[0]
+        for j in self.permute(nums[1:]):
+            result.append([nums[0]]+j)
+        nums[0],nums[i] = nums[i],nums[0]
+    return result
 ```
