@@ -30,8 +30,8 @@ def fab(max):
 其他用法：
 
 ```python
->>>my_generator = (x*x for x in range(7))
->>>for i in my_generator: print(i)
+>>> my_generator = (x*x for x in range(7))
+>>> for i in my_generator: print(i)
 0
 1
 4
