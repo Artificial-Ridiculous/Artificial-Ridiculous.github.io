@@ -1,0 +1,68 @@
+---
+layout: post
+title:  "迭代器和生成器"
+date:   2019-04-10 16:05:00 +0800
+categories: python
+---
+生成器(generator)是迭代器(iterator)的一种，不同于列表解析`[x for x in iterator]`会直接在内存中生成整个列表；generator保存的是算法，并用`()`代替`[]`，直接打印会显示类似`<generator object <genexpr> at 0x000001CF97AFDB10>`的输出，并且用`next()`函数获得generator的下一个返回值。  
+
+生成器有两种方法产生：  
+
+一种是`()`括起来的generator表达式：  
+
+```python
+>>> (x for x in range(1,10))
+<generator object <genexpr> at 0x000001CF97AFDB10>
+```
+
+一种是含有yield的函数：
+
+```python
+def fab(max):
+    n, a, b = 0, 0, 1
+    while n < max:
+        yield b
+        # print b
+        a, b = b, a + b
+        n = n + 1
+```
+
+```python
+>>> fab(3)
+<generator object fab at 0x000001CF97DD5CF0>
+```
+
+这里额外做一个小总结：  
+
+- 实现了`iter()`方法的对象是**可迭代的(Iterable)**，可用于`for()`循环
+- 实现了`next()`方法的对象是**迭代器(Iterator)**，可用`next()`迭代。  
+
+python中可以直接作用于`for`循环的有两类：
+
+- 集合数据类型 (`list`、`tuple`、`dict`、`set`、`str`)
+- generator (包括以上介绍的enerator表达式和含有yield的函数)
+
+集合数据类型(`list`、`tuple`、`dict`、`set`、`str`)，是Iterable(可迭代)但不是Iterator(迭代器)：
+
+```python
+>>> from collections.abc import Iterable
+>>> from collections.abc import Iterator
+>>> isinstance('abc',Iterable)
+True
+>>> isinstance('abc',Iterator)
+False
+```
+
+这是因为python的Iterator对象表示的是一个数据流，Iterator对象可以被`next()`函数调用并不断返回下一个数据，直到没有数据时抛出`StopIteration`错误。可以把这个数据流看做是一个有序序列，但我们却不能提前知道序列的长度，只能不断通过`next()`函数实现按需计算下一个数据，所以Iterator的计算是惰性的，只有在需要返回下一个数据时它才会计算。  
+Iterator甚至可以表示一个无限大的数据流，例如全体自然数。而使用`list`等是永远不可能存储全体自然数的。
+
+generator既是Iterable(可迭代)也是是Iterator(迭代器)：
+
+```python
+>>> from collections.abc import Iterable
+>>> from collections.abc import Iterator
+>>> isinstance(fab(3),Iterable)
+True
+>>> isinstance(fab(3),Iterator)
+True
+```
