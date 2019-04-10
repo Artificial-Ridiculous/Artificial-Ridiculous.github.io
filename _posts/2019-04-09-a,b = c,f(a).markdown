@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "a,b = b,f(a)"
+title:  "a,b = c,f(a)"
 date:   2019-04-09 11:05:00 +0800
 categories: python
 ---
