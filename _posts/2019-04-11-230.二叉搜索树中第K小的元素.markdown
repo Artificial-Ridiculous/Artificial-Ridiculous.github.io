@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "230.二叉搜索树中第K小的元素"
+title:  "230. 二叉搜索树中第K小的元素"
 date:   2019-04-11 10:07:00 +0800
 categories: leetcode-cn
 ---
