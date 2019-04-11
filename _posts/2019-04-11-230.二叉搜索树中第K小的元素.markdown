@@ -1,0 +1,63 @@
+---
+layout: post
+title:  "230.二叉搜索树中第K小的元素"
+date:   2019-04-11 10:07:00 +0800
+categories: leetcode-cn
+---
+给定一个二叉搜索树，编写一个函数 `kthSmallest` 来查找其中第 `k` 个最小的元素。  
+你可以假设 `k` 总是有效的，`1 <= k <= 二叉搜索树元素个数`。
+
+示例：  
+
+### 输入1：
+
+```python
+root = [3,1,4,null,2], k = 1
+
+   3
+  / \
+ 1   4
+  \
+   2
+```
+
+### 输出1：
+
+```python
+1
+```
+
+### 输入2：
+
+```python
+root = [5,3,6,2,4,null,null,1], k = 3
+
+       5
+      / \
+     3   6
+    / \
+   2   4
+  /
+ 1
+```
+
+### 输出2：
+
+```python
+3
+```
+
+### 解答：  
+
+```python
+def kthSmallest(self, root: TreeNode, k: int) -> int:
+    def gen(root):
+        if root is not None:
+            yield from gen(root.left)
+            yield root.val
+            yield from gen(root.right)
+    it = gen(root)
+    for i in range(k):
+        res = next(it)
+    return res
+```

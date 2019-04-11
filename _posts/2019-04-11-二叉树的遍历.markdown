@@ -1,0 +1,169 @@
+---
+layout: post
+title:  "二叉树的遍历"
+date:   2019-04-11 16:34:00 +0800
+categories: python
+---
+`Node`的数据结构：
+
+```python
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+```
+
+前序遍历-非递归：
+
+```python
+def preorder_loop(self,root:TreeNode):  # 前序遍历  top->left->right
+    p = root
+    stack = []
+    res = []
+    while(stack or p):
+        while(p): # 指向一个结点
+            res.append(p.val)  # 直接访问
+            stack.append(p)  # 自己入栈（为了后续找到右孩子）
+            p = p.left  # 指向左孩子
+
+        p = stack.pop()  # 出栈
+        p = p.right  # 指向右孩子
+    return res
+```
+
+中序遍历-非递归：
+
+```python
+def inorder_loop(self,root:TreeNode):  # 中序遍历  left->top->right
+    p = root
+    stack = []
+    res = []
+    while(stack or p):
+        while(p):  # 指向一个结点
+            stack.append(p)  # 自己入栈
+            p = p.left  # 指向左孩子
+
+        p = stack.pop()  # 出栈
+        res.append(p.val)  # 访问
+        p = p.right  # 指向右孩子
+    return res
+```
+
+后序遍历-非递归：
+
+```python
+def postorder_loop(self,root:TreeNode):  # 后序遍历  left->right->top
+    p = root
+    stack = []
+    res = []
+    last = None  # 标记上一个被打印的节点
+    while(stack or p):
+        while(p):
+            stack.append(p)
+            p = p.left
+
+        p = stack.pop()
+
+        if p.right == last or p.right is None:  # 只有右孩子为None或者右孩子已访问才访问自己
+            res.append(p.val)
+            last = p
+            p = None  # 防止p再次入栈造成死循环 或者重复访问
+        else:
+            stack.append(p)  # 再次把自己入栈
+            p = p.right  # 指向右孩子
+    return res
+```
+
+前序遍历-递归：
+
+```python
+def preorder_recur(self,root:TreeNode):
+    if root is None : return []
+    p = root
+    res = []
+    res.append(p.val)
+    res += self.preorder_recur(p.left)
+    res += self.preorder_recur(p.right)
+    return res
+```
+
+中序遍历-递归：
+
+```python
+def inorder_recur(self,root:TreeNode):
+    if root is None : return []
+    p = root
+    res = []
+    res += self.inorder_recur(p.left)
+    res.append(p.val)
+    res += self.inorder_recur(p.right)
+    return res
+```
+
+后序遍历-递归：
+
+```python
+def postorder_recur(self,root:TreeNode):
+    if root is None : return []
+    p = root
+    res = []
+    res += self.postorder_recur(p.left)
+    res += self.postorder_recur(p.right)
+    res.append(p.val)
+    return res
+```
+
+测试用二叉树示意图：
+
+```python
+       5
+      / \
+     3   6
+    / \
+   2   4
+  /
+ 1
+```
+
+测试代码：
+
+```python
+n5 = TreeNode(5)
+n3 = TreeNode(3)
+n6 = TreeNode(6)
+n2 = TreeNode(2)
+n4 = TreeNode(4)
+n1 = TreeNode(1)
+
+n5.left = n3
+n5.right = n6
+n3.left = n2
+n3.right = n4
+n2.left = n1
+
+preorder_loop = solution.preorder_loop(n5)
+preorder_recur = solution.preorder_recur(n5)
+inorder_loop = solution.inorder_loop(n5)
+inorder_recur = solution.inorder_recur(n5)
+postorder_loop = solution.postorder_loop(n5)
+postorder_recur = solution.postorder_recur(n5)
+
+print("前序遍历-非递归:",preorder_loop)
+print("中序遍历-非递归:",preorder_recur)
+print("后序遍历-非递归:",inorder_loop)
+print("前序遍历-递归  :",inorder_recur)
+print("中序遍历-递归  :",postorder_loop)
+print("后序遍历-递归  :",postorder_recur)
+```
+
+输出：
+
+```python
+前序遍历-非递归: [5, 3, 2, 1, 4, 6]
+中序遍历-非递归: [5, 3, 2, 1, 4, 6]
+后序遍历-非递归: [1, 2, 3, 4, 5, 6]
+前序遍历-递归  : [1, 2, 3, 4, 5, 6]
+中序遍历-递归  : [1, 2, 4, 3, 6, 5]
+后序遍历-递归  : [1, 2, 4, 3, 6, 5]
+```
