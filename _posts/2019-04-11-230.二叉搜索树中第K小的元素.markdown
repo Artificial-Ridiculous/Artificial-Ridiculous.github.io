@@ -67,6 +67,7 @@ def kthSmallest(self, root: TreeNode, k: int) -> int:
 非递归解法：
 
 ```python
+# 中序遍历法，二叉搜索树的中序遍历正好是从小到大排序。
 def kthSmallest(self, root: TreeNode, k: int) -> int:
     count = 0
     p = root
