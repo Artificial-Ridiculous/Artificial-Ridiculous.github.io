@@ -226,3 +226,32 @@ def isAncester(self,t1:TreeNode,t2:TreeNode):
         p1 = p1.right
     return False
 ```
+
+测试用二叉树示意图：
+
+```python
+       5
+      / \
+     3   6
+    / \
+   2   4
+  /
+ 1
+```
+
+测试代码：
+
+```python
+n5 = TreeNode(5)
+n3 = TreeNode(3)
+n6 = TreeNode(6)
+n2 = TreeNode(2)
+n4 = TreeNode(4)
+n1 = TreeNode(1)
+
+n5.left = n3
+n5.right = n6
+n3.left = n2
+n3.right = n4
+n2.left = n1
+```
