@@ -1,0 +1,228 @@
+---
+layout: post
+title:  "二叉树的进阶操作"
+date:   2019-04-15 18:22:00 +0800
+categories: python
+---
+`Node`的数据结构：
+
+```python
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+```
+
+求二叉树的最大深度：
+
+```python
+def maxDepth_recur(self,root:TreeNode):
+    # 求二叉树的最大深度
+    p = root
+    if p is None : return 0
+    left = self.maxDepth_recur(p.left)
+    right = self.maxDepth_recur(p.right)
+    return right + 1 if right > left else left + 1
+```
+
+求二叉树的最小深度：
+
+```python
+def minDepth_recur(self,root:TreeNode):
+    # 求二叉树的最小深度
+    p = root
+    if p is None : return 0
+    left = self.maxDepth_recur(p.left)
+    right = self.maxDepth_recur(p.right)
+    return right + 1 if right < left else left + 1
+```
+
+求二叉树的节点数：
+
+```python
+def num_of_TreeNode(self,root:TreeNode):
+    # 求二叉树的节点数
+    # 前序遍历法
+    p = root
+    stack = []
+    num = 0
+    while(p or stack):
+        while(p):
+            num += 1  # 前序的固定套路，此时visit
+            stack.append(p)
+            p = p.left
+        p = stack.pop()
+        p = p.right
+    return num
+   ```
+
+求二叉树的叶子节点数：
+
+```python
+def num_of_leafNode(self,root:TreeNode):
+    # 求二叉树的叶子节点数
+    # 前序遍历法
+    p = root
+    stack = []
+    num = 0
+    while(p or stack):
+        while(p):
+            if p.left is p.right is None :
+                num += 1  # 加一个简单判断而已
+            stack.append(p)
+            p = p.left
+        p = stack.pop()
+        p = p.right
+    return num
+```
+
+求二叉树第k层有多少个节点：
+
+```python
+def nums_of_kLevel_TreeNode(self,root:TreeNode,k:int):
+    # 第k层有多少个节点
+    p = root
+    if p is None : return 0  # 如果p为None返回0
+    if k == 1 : return 1  #如果k为1，说明此层即第k层，返回1
+    left = self.nums_of_kLevel_TreeNode(p.left,k-1)
+    right = self.nums_of_kLevel_TreeNode(p.right,k-1)
+    return left + right
+```
+
+判断是否平衡二叉树：
+
+```python
+def isBanlanced(self,root:TreeNode):
+    # 判断是否平衡二叉树
+    # 感觉有很多重复计算
+    p = root
+    if p is None : return True
+    maxDepth = self.maxDepth_recur(p)
+    minDepth = self.minDepth_recur(p)
+    if maxDepth - minDepth not in [0 ,1] : return False
+    return self.isBanlanced(p.left) and self.isBanlanced(p.right)
+```
+
+判断是否完全二叉树：
+
+```python
+def isComplete(self,root:TreeNode):
+    p = root
+    queue = []
+    queue.append(p)
+    shouldnot_have_child = False  # 标志，表明是否到了完全二叉树的末尾
+    res = True
+    while(queue):
+        p = queue.pop(0)
+        if (shouldnot_have_child) :
+            # 如果flag为True，不应该还有节点有子节点
+            if (p.left or p.right) : 
+                res = False
+                break
+        else :
+            # python没有else if语句，只有elif，如果一定要写else if，要写成else: if
+            if (p.left is not None and p.right is not None):
+                # 同时有左右孩子，全部入队
+                queue.append(p.left)
+                queue.append(p.right)
+            elif (p.left is None and p.right is not None):
+                # 无左孩子有右孩子，一票否决
+                res = False
+                break
+            elif (p.left is not None and p.right is None):
+                # 有左孩子无右孩子，表明如果是完全二叉树
+                # 这个左孩子就应该是最后一个节点了
+                queue.append(p.left)
+                shouldnot_have_child = True
+            else :
+                # 无左孩子无右孩子 
+                shouldnot_have_child = True
+    return res
+```
+
+判断两棵二叉树是否equal：
+
+```python
+def isEqualTree(self,root1:TreeNode,root2:TreeNode):
+    p1 = root1
+    p2 = root2
+    if p1 is p2 is None : 
+        # 都为空
+        return True
+    elif (p1 is None and p2 is not None) or (p2 is None and p1 is not None):
+        # 一个为空一个不为空
+        return False
+    else:
+        # 都不空，则比较val及左右两颗子树
+        return p1.val == p2.val and self.isEqualTree(p1.left,p2.left) and self.isEqualTree(p1.right,p2.right)
+```
+
+判断两棵二叉树是否互为镜像：
+
+```python
+def isMirrorTree(self,root1:TreeNode,root2:TreeNode):
+    p1 = root1
+    p2 = root2
+    if p1 is p2 is None : 
+        # 都为空
+        return True
+    elif (p1 is None and p2 is not None) or (p2 is None and p1 is not None):
+        # 一个为空一个不为空
+        return False
+    else:
+        return p1.val == p2.val and self.isMirrorTree(p1.left,p2.right) and self.isMirrorTree(p1.right,p2.left)
+```
+
+就地镜像翻转二叉树：
+
+```python
+def reverseTree(self,root:TreeNode):
+    # 就地镜像翻转二叉树
+    p = root
+    if p is None: return p
+    p.left,p.right = p.right,p.left
+    self.reverseTree(p.left)
+    self.reverseTree(p.right)
+    return p
+```
+
+两棵二叉树的最近公共祖先：
+
+```python
+def getNerestAncester(self,root:TreeNode,t1:TreeNode,t2:TreeNode):
+    p = root
+    p1 = t1
+    p2 = t2
+    queue = []
+    res = None
+    if p is not None : queue.append(p)
+    while(queue):
+        p = queue.pop(0)
+        if (self.isAncester(p,p1) and self.isAncester(p,p2)):  # p是其共同祖先
+            if (not self.isAncester(p.left,p1) or not self.isAncester(p.left,p2)) and (not self.isAncester(p.right,p1) or not self.isAncester(p.right,p2)):
+                # 但是无论p的左孩子还是右孩子都不是其共同祖先
+                res = p  # 此时p即为所求
+                break
+        if p.left is not None : queue.append(p.left)
+        if p.right is not None : queue.append(p.right) 
+    return res
+```
+
+判断t1是否是t2的祖先：
+
+```python
+def isAncester(self,t1:TreeNode,t2:TreeNode):
+    p1 = t1
+    p2 = t2
+    stack = []
+    while(stack or p1):
+        while(p1):
+            # p1 is p2不算
+            if p1.left is p2 or p1.right is p2 : return True
+            stack.append(p1)
+            p1 = p1.left
+        p1 = stack.pop()
+        p1 = p1.right
+    return False
+```

@@ -60,10 +60,10 @@ def postorder_loop(self,root:TreeNode):  # 后序遍历  left->right->top
     last = None  # 标记上一个被打印的节点
     while(stack or p):
         while(p):
-            stack.append(p)
-            p = p.left
+            stack.append(p)  # 自己入栈
+            p = p.left  # 指向左孩子
 
-        p = stack.pop()
+        p = stack.pop()  # 出栈
 
         if p.right == last or p.right is None:  # 只有右孩子为None或者右孩子已访问才访问自己
             res.append(p.val)
@@ -72,6 +72,22 @@ def postorder_loop(self,root:TreeNode):  # 后序遍历  left->right->top
         else:
             stack.append(p)  # 再次把自己入栈
             p = p.right  # 指向右孩子
+    return res
+```
+
+层序遍历-非递归：
+
+```python
+def levelorder_loop(self,root:TreeNode):
+    p = root
+    res = []
+    queue = []
+    if p is not None : queue.append(p)  # 不为空则入队列
+    while(queue):  # 队列不空则循环继续
+        p = queue.pop(0)  # 队首出队
+        res.append(p.val)  # visit
+        if p.left is not None : queue.append(p.left)
+        if p.right is not None : queue.append(p.right)
     return res
 ```
 
@@ -148,22 +164,25 @@ inorder_loop = solution.inorder_loop(n5)
 inorder_recur = solution.inorder_recur(n5)
 postorder_loop = solution.postorder_loop(n5)
 postorder_recur = solution.postorder_recur(n5)
+levelorder_loop = solution.levelorder_loop(n5)
 
 print("前序遍历-非递归:",preorder_loop)
-print("中序遍历-非递归:",preorder_recur)
-print("后序遍历-非递归:",inorder_loop)
-print("前序遍历-递归  :",inorder_recur)
-print("中序遍历-递归  :",postorder_loop)
+print("前序遍历-递归  :",preorder_recur)
+print("中序遍历-非递归:",inorder_loop)
+print("中序遍历-递归  :",inorder_recur)
+print("后序遍历-非递归:",postorder_loop)
 print("后序遍历-递归  :",postorder_recur)
+print("层序遍历-非递归:",levelorder_loop)
 ```
 
 输出：
 
 ```
 前序遍历-非递归: [5, 3, 2, 1, 4, 6]
-中序遍历-非递归: [5, 3, 2, 1, 4, 6]
-后序遍历-非递归: [1, 2, 3, 4, 5, 6]
-前序遍历-递归 : [1, 2, 3, 4, 5, 6]
-中序遍历-递归 : [1, 2, 4, 3, 6, 5]
-后序遍历-递归 : [1, 2, 4, 3, 6, 5]
+前序遍历-递归  : [5, 3, 2, 1, 4, 6]
+中序遍历-非递归: [1, 2, 3, 4, 5, 6]
+中序遍历-递归  : [1, 2, 3, 4, 5, 6]
+后序遍历-非递归: [1, 2, 4, 3, 6, 5]
+后序遍历-递归  : [1, 2, 4, 3, 6, 5]
+层序遍历-非递归: [5, 3, 6, 2, 4, 1]
 ```
