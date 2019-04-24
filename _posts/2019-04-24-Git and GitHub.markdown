@@ -31,3 +31,17 @@ Enter same passphrase again:
 
 接下来登陆GitHub，鼠标右上角
 
+```shell
+$ ssh -T git@github.com
+```
+
+```
+Hi Artificial-Ridiculous! You've successfully authenticated, but GitHub does not provide shell access.
+```
+
+```
+$ cd ~
+$ mkdir Cloud
+$ cd Cloud
+$ sudo git clone git@github.com:Artificial-Ridiculous/Codes.git 
+```
