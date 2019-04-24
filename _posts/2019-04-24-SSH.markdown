@@ -1,0 +1,121 @@
+---
+layout: post
+title:  "SSH"
+date:   2019-04-24 20:41:00 +0800
+categories: linux
+---
+***所有操作默认非root用户，本文中用 `lz` 用户。***
+
+ssh 为 secure shell。
+
+查看ssh服务是否开启：
+
+```shell
+$ ps -e | grep ssh
+```
+返回信息：
+
+```shell
+pid ?        00:00:00 ssh-agent  
+# ssh服务的客户端，用于该ubuntu远程连接其它Linux主机。
+pid ?        00:00:00 sshd  
+# ssh服务的服务端，用于其它主机通过ssh服务连接该主机。
+```
+
+安装ssh客户端：
+
+```shell
+$ apt-get install openssh-client  # Ubuntu默认安装
+```
+
+安装ssh服务端：
+
+```shell
+$ apt-get install openssh-server  # Ubuntu默认未安装
+```
+
+开启ssh服务：
+
+```shell
+$ service ssh start
+```
+
+现假设有3台主机：
+
+主机A：
+
+```
+ip = 172.17.0.2  
+user = root  
+password = root   
+```
+
+主机B：
+
+```
+ip = 172.17.0.3  
+user = root  
+password = root    
+```
+
+主机C：
+
+```
+ip = 172.17.0.4  
+user = root  
+password = root   
+```
+
+欲从A通过 ssh 访问B和C：  
+
+修改hostname（不同节点不同）：
+
+```shell
+$ vi /etc/hostname
+```
+
+节点A：
+
+```
+master
+``` 
+
+节点B：
+
+```
+slave1
+``` 
+
+节点C：
+
+```
+slave2
+```
+
+
+修改hosts（所有节点相同）：
+
+```shell
+$ vi /etc/hosts
+```
+
+```
+172.17.0.2   master 
+172.17.0.3   slave1
+172.17.0.4   slave2
+```
+
+在节点A中生成`ssh key`：
+
+```shell
+$ ssh-keygen -t rsa -C "master"
+```
+
+配置免密ssh：
+
+```shell
+$ cd /root/.ssh
+$ cat ./id_rsa.pub > ./authorized_keys  # 此时可以无密码ssh localhost
+$ scp ./id_rsa.pub root@slave1:/root/.ssh/authorized_keys  # 此时需要输入slave1的root密码，此后可无密码ssh slave1
+$ scp ./id_rsa.pub root@slave2:/root/.ssh/authorized_keys  # 此时需要输入slave2的root密码，此后可无密码ssh slave2
+```

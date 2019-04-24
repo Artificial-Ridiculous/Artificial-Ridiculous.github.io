@@ -4,7 +4,7 @@ title:  "Git and GitHub"
 date:   2019-04-24 16:05:00 +0800
 categories: linux
 ---
-所有操作默认非root用户，本文中用`lz`用户。
+***所有操作默认非root用户，本文中用 `lz` 用户。***
 
 Ubuntu安装git:
 ```shell
