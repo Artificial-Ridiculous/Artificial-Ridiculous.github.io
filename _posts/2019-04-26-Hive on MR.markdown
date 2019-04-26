@@ -1,0 +1,170 @@
+---
+layout: post
+title:  "Hive on MR"
+date:   2019-04-26 15:35:00 +0800
+categories: linux
+---
+***所有操作默认非root用户，本文中用 `lz` 用户。***
+
+版本：
+
+```
+jdk     1.8.0_77
+hadoop  2.7.2
+spark   2.3.3_without
+hbase   1.4.9
+kafka   2.11-2.1.1
+flink   1.6.4-scala_2.11
+hive    2.3.4
+```
+
+安装hive：
+
+```shell
+$ sudo tar -zxvf ~/下载/apache-hive-2.3.4-bin.tar.gz -C /usr/local  # 解压至/usr/local
+$ cd /usr/local
+$ sudo mv ./apache-hive-2.3.4-bin ./hive  # 重命名为hive
+$ sudo chown -R lz ./hive  # 修改hive文件夹所有者为hive用户 避免后续操作权限问题
+```
+
+`tar`命令小知识：
+
+```
+-z  表示压缩包被gzip压缩过，先用gzip解压
+-x  将文件从tar包中提取出来
+-v  显示详细信息
+-f  后跟要解压的文件路径
+-C  后跟解压后的文件（夹）存放路径
+```
+
+下载jdbc包并复制至hive安装目录下的`lib`目录：
+
+```shell
+$ cp ~/下载/mysql-connector-java-5.1.47.jar /usr/local/hive/lib
+```
+
+配置环境变量：
+
+```shell
+$ vim ~/.bashrc
+```
+
+在文件开头添加：
+
+```conf
+export HIVE_HOME=/usr/local/hive
+export PATH=$PATH:$HIVE_HOME/bin
+```
+
+使之生效：
+
+```shell
+$ source ~/.bashrc
+```
+
+因为推荐使用Mysql作为hive的元数据库（而非默认的derby），所以需要安装Mysql。
+
+安装Mysql：
+
+```shell
+$ sudo apt-get update  #更新软件源
+$ sudo apt-get install mysql-server  #安装mysql
+```
+
+启动Mysql服务：
+
+```shell
+$ service mysql start
+```
+
+进入Mysql shell 界面：
+
+```shell
+$ mysql -u root -p
+```
+
+若出现`Access denied`可参考[Mysql出现Access denied for user root@localhost的解决办法](https://www.cocobolo.top/linux/2019/04/25/Mysql%E5%87%BA%E7%8E%B0Access-denied-for-user-root@localhost%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95.html)
+
+配置mysql使之允许hive接入：
+```SQL
+mysql> grant all on *.* to hive@localhost identified by 'hive';  # 授权数据库所有表的所有权限给hive用户，@前的hive指hive用户，by后面的'hive'指hive-site.xml中配置的jdbc连接密码
+mysql> flush privileges;  # 刷新mysql系统权限关系表
+```
+
+退出Mysql：
+```SQL
+mysql> exit;
+```
+
+配置hive：
+
+```shell
+$ cd /usr/local/hive/conf
+$ vim hive-site.xml
+```
+
+添加如下配置项：
+
+```XML
+<configuration>
+  <property>
+    <name>javax.jdo.option.ConnectionURL</name>
+    <value>jdbc:mysql://localhost:3306/myhive?createDatabaseIfNotExist=true&amp;useSSL=true</value>
+    <description>JDBC connect string for a JDBC metastore</description>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionDriverName</name>
+    <value>com.mysql.jdbc.Driver</value>
+    <description>Driver class name for a JDBC metastore</description>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionUserName</name>
+    <value>hive</value>
+    <description>username to use against metastore database</description>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionPassword</name>
+    <value>hive</value>
+    <description>password to use against metastore database</description>
+  </property>
+</configuration>
+```
+
+配置项说明：  
+
+`javax.jdo.option.ConnectionURL`是连接mysql中hive元数据库的URL。如果mysql和hive在同一个节点，推荐使用localhost而非主机名，避免某些时候通信出错。`mysql://`是协议，`localhost`是主机名，`3306是端口号`，`myhive`是hive的元数据库，`?createDatabaseIfNotExist=true`意为若元数据库不存在则创建，设置`&amp;useSSL=true`是因为高版本jdbc连接时需要显示指定是否使用SSL，否则会有警告。  
+
+`javax.jdo.option.ConnectionDriverName`是配置Mysql驱动。  
+
+`javax.jdo.option.ConnectionUserName`为连接Mysql的用户名。
+
+`javax.jdo.option.ConnectionPassword`为连接Mysql的密码，此处和前面的`grant all on *.* to hive@localhost identified by 'hive';`中的`'hive'`语句对应。
+
+初始化元数据库：
+
+```shell
+$ cd /usr/local/hive/bin
+$ ./schematool -dbType mysql -initSchema
+```
+
+启动hive-on-MR：
+
+```shell
+$ hive
+```
+
+显示：
+
+```SQL
+hive> 
+```
+
+退出hive：
+
+```SQL
+hive> exit;
+```
+
+
+
+
