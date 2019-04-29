@@ -187,6 +187,12 @@ $ # 将容器的可读写层转换为一个只读层，这样就把一个容器�
 $ # 省略tag默认为'latest'
 ```
 
+Build Dockerfile：
+
+```shell
+$ docker build -t <用户名>/<镜像名>[:<tag>] <Dockerfile路径>
+```
+
 查看json格式镜像详细信息：
 
 ```shell
