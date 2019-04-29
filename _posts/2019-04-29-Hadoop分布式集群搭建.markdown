@@ -8,12 +8,12 @@ categories: linux
 
 环境：
 
-软件 | 版本   
--|-
-ubuntu|18.04
-openjdk|1.8.0_191
-hadoop|2.7.7
-(docker)|18.09.5
+软件|版本|备注
+-|-|-
+ubuntu|18.04|
+openjdk|1.8.0_191|$JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+hadoop|2.7.7|$HADOOP_HOME=/usr/local/hadoop
+(docker)|18.09.5|
 
 节点：
 
