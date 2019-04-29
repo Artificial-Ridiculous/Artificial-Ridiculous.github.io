@@ -66,7 +66,7 @@ worker4
 
 `core-site.xml`：
 
-```XML
+```xml
 <configuration>
     <property>
         <!-- 设置默认文件系统为hdfs即分布式文件系统 -->
@@ -84,7 +84,7 @@ worker4
 
 `hdfs-site.xml`：
 
-```XML
+```xml
 <configuration>
     <property>
         <!-- 设置secondary namenode和namenode同在dblab-lz上 -->
@@ -109,7 +109,7 @@ worker4
 
 `mapred-site.xml`：
 
-```XML
+```xml
 <configuration>
     <property>
         <!-- 设置mr任务调度管理器为yarn -->
@@ -129,7 +129,7 @@ worker4
 
 `yarn-site.xml`：
 
-```XML
+```xml
 <configuration>
     <property>
         <!-- 设置yarn资源管理器主机为dblab-lz（也即namenode） -->
