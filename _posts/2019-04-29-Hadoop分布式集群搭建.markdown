@@ -1,0 +1,231 @@
+---
+layout: post
+title:  "Hadoop分布式集群搭建"
+date:   2019-04-29 10:05:00 +0800
+categories: linux
+---
+***所有操作默认非root用户，本文中用 `lz` 用户。***
+
+环境：
+
+软件 | 版本   
+-|-
+ubuntu|18.04
+openjdk|1.8.0_191
+hadoop|2.7.7
+(docker)|18.09.5
+
+节点：
+
+主机 | 主机名 | 角色 |IP 
+-|-|-|-
+物理机|dblab-lz|namenode|172.17.0.1
+docker1|worker1|datanode|172.17.0.2
+docker2|worker2|datanode|172.17.0.3
+docker3|worker3|datanode|172.17.0.4
+docker4|worker4|datanode|172.17.0.5
+
+所有主机同时设置hosts：
+
+```shell
+$ sudo vim /etc/hosts
+```
+
+修改为：
+
+```text
+172.17.0.1  dblab-lz
+172.17.0.2  worker1
+172.17.0.3  worker2
+172.17.0.4  worker3
+172.17.0.5  worker4
+```
+
+将dblab-lz的`id_rsa.pub`追加到所有5台主机中的`~/.ssh/authorized_keys`中去，这样各个节点可以互相免密ssh访问：
+
+```shell
+$ ssh-keygen -t rsa -C 'namenode'
+$ cd ~/.ssh
+$ cat ./id_rsa.pub > authorized_keys
+$ scp ./id_rsa.pub > worker1:/home/lz/.ssh/authorized_keys
+$ scp ./id_rsa.pub > worker2:/home/lz/.ssh/authorized_keys
+$ scp ./id_rsa.pub > worker3:/home/lz/.ssh/authorized_keys
+$ scp ./id_rsa.pub > worker4:/home/lz/.ssh/authorized_keys
+```
+
+在物理机上配置`$HADOOP_HOME/etc/hadoop`目录下的5个配置文件(若没有则新建)，分别是：
+
+`slaves`：
+
+```text
+worker1
+worker2
+worker3
+worker4
+```
+
+`core-site.xml`：
+
+```XML
+<configuration>
+    <property>
+        <!-- 设置默认文件系统为hdfs即分布式文件系统 -->
+        <name>fs.defaultFS</name>
+        <value>hdfs://Master:9000</value>
+    </property>
+    <property>
+        <!-- 设置tmp文件夹为止，防止使用系统默认tmp文件夹而被清除 -->
+        <name>hadoop.tmp.dir</name>
+        <value>file:/usr/local/hadoop/tmp</value>
+        <description>Abase for other temporary directories.</description>
+    </property>
+</configuration>
+```
+
+`hdfs-site.xml`：
+
+```XML
+<configuration>
+    <property>
+        <!-- 设置secondary namenode和namenode同在dblab-lz上 -->
+        <name>dfs.namenode.secondary.http-address</name>
+        <value>dblab-lz:50090</value>
+    </property>
+    <property>
+        <!-- 设置文件备份数，4个datanode故设置为4 -->
+        <name>dfs.replication</name>
+        <value>4</value>
+    </property>
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>file:/usr/local/hadoop/tmp/dfs/name</value>
+    </property>
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>file:/usr/local/hadoop/tmp/dfs/data</value>
+    </property>
+</configuration>
+```
+
+`mapred-site.xml`：
+
+```XML
+<configuration>
+    <property>
+        <!-- 设置mr任务调度管理器为yarn -->
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+    <property>
+        <name>mapreduce.jobhistory.address</name>
+        <value>dblab-lz:10020</value>
+    </property>
+    <property>
+        <name>mapreduce.jobhistory.webapp.address</name>
+        <value>dblab-lz:19888</value>
+    </property>
+</configuration>
+```
+
+`yarn-site.xml`：
+
+```XML
+<configuration>
+    <property>
+        <!-- 设置yarn资源管理器主机为dblab-lz（也即namenode） -->
+        <name>yarn.resourcemanager.hostname</name>
+        <value>dblab-lz</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+</configuration>
+```
+
+将配置文件分发到所有worker节点上：
+
+```shell
+$ scp -r /usr/local/hadoop/etc/hadoop/* worker1:/usr/local/hadoop/etc/hadoop
+$ scp -r /usr/local/hadoop/etc/hadoop/* worker2:/usr/local/hadoop/etc/hadoop
+$ scp -r /usr/local/hadoop/etc/hadoop/* worker3:/usr/local/hadoop/etc/hadoop
+$ scp -r /usr/local/hadoop/etc/hadoop/* worker4:/usr/local/hadoop/etc/hadoop
+```
+
+在物理机上格式化namenode：
+
+```shell
+$ hdfs namenode -format
+```
+
+应该可以看到类似如下信息：
+
+```
+...
+...
+19/04/29 10:03:35 INFO common.Storage: Storage directory /usr/local/hadoop/tmp/dfs/name has been successfully formatted.
+...
+...
+/************************************************************
+SHUTDOWN_MSG: Shutting down NameNode at dblab-lz/172.17.0.1
+************************************************************/
+```
+
+启动hadoop：
+
+```shell
+$ start-dfs.sh
+$ # 可在浏览器输入localhost:50070访问web页面
+```
+
+对应jps进程：
+
+进程名|节点|
+-|-
+NameNode|namenode
+SecondaryNameNode|namenode
+DataNode|datanode
+
+启动yarn：
+
+```shell
+$ start-yarn.sh
+```
+
+对应jps进程：
+
+进程名|节点|
+-|-
+NodeManager|namenode
+ResourceManager|namenode
+NodeManager|datanode
+
+启动JobHistoryServer
+
+```shell
+$ mr-jobhistory-daemon.sh start historyserver
+```
+
+对应jps进程：
+
+进程名|节点|
+-|-
+JobHistoryServer|namenode
+
+关闭JobHistoryServer：
+
+```shell
+$ mr-jobhistory-daemon.sh stop historyserver
+```
+
+关闭yarn：
+
+```shell
+$ stop-yarn.sh
+```
+
+关闭hdfs：
+
+```shell
+$ stop-dfs.sh
+```
