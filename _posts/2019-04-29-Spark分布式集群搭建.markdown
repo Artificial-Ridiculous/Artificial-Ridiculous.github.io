@@ -112,6 +112,6 @@ $ stop-slaves.sh
 关闭spark master节点：
 
 ```shell
-$ start-master.sh
+$ stop-master.sh
 ```
 
