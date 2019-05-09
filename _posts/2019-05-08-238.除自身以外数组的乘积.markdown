@@ -41,3 +41,5 @@ def productExceptSelf(self, nums):
         res[j] = l[j-1]*r[j+1]  # 其余元素l[j-1]*r[j+1]即可得到
     return res
 ```
+
+??
