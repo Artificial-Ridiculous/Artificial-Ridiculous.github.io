@@ -1,0 +1,44 @@
+---
+layout: post
+title:  "238. 除自身以外数组的乘积"
+date:   2019-05-08 10:53:00 +0800
+categories: leetcode-cn
+---
+
+给定长度为 `n` 的整数数组 `nums`，其中 `n > 1`，返回输出数组 `output` ，其中 `output[i]` 等于 `nums` 中除 `nums[i]` 之外其余各元素的乘积。
+
+示例：  
+
+### 输入:   
+```python
+[1,2,3,4]
+```
+
+### 输出:  
+
+```python
+[24,12,8,6]
+``` 
+
+### 说明:
+
+请**不要使用除法**，且在 O(n) 时间复杂度内完成此题。
+
+### 解答：  
+
+```python
+def productExceptSelf(self, nums):
+    lennums = len(nums)
+    res = [None] * lennums
+    l = [nums[0]] * lennums
+    r = [nums[-1]] * lennums
+    for i in range(1,lennums-1):
+        l[i] = l[i-1] * nums[i]  # 存放从左往右累乘结果
+        r[-i-1] = r[-i] * nums[-i-1]  # 存放从右往左累乘结果
+    res[0] = r[1]  # 首尾元素
+    res[-1] = l[-2]  # 单独对待
+    for j in range(1,lennums-1):
+        res[j] = l[j-1]*r[j+1]  # 其余元素l[j-1]*r[j+1]即可得到
+    return res
+```
+
