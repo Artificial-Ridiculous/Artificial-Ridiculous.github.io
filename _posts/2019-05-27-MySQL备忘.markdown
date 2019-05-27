@@ -81,7 +81,7 @@ select * from a join b where a.id = b.id
 |    1 | alice  |    1 | alice  |
 |    2 | bob    |    2 | bob    |
 |    5 | edard  |    5 | edard  |
-+------+
++------+--------+------+--------+
 ```
 
 ---
