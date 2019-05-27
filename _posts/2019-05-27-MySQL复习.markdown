@@ -1,0 +1,233 @@
+---
+layout: post
+title:  "MySQL复习"
+date:   2019-05-27 09:58:00 +0800
+categories: MySQL
+---
+
+连接操作及支持的条件运算符：
+
+连接操作 | where |  on  
+-|-|-
+,|o|x
+join |o|o
+inner join |o|o
+left join|x|o
+right join|x|o
+
+---
+
+连接操作效果示例：
+
+原表：
+
+`a`：
+
+```
++------+--------+
+|   id | name   |
+|------+--------|
+|    1 | alice  |
+|    2 | bob    |
+|    3 | cissy  |
+|    5 | edard  |
++------+--------+
+```
+
+`b`：
+
+```
++------+--------+
+|   id | name   |
+|------+--------|
+|    1 | alice  |
+|    2 | bob    |
+|    4 | david  |
+|    5 | edard  |
+|    9 | iris   |
++------+--------+
+```
+
+---
+
+逗号内连接
+
+```sql
+select * from a ,b where a.id = b.id
+```
+
+```
++------+--------+------+--------+
+|   id | name   |   id | name   |
+|------+--------+------+--------|
+|    1 | alice  |    1 | alice  |
+|    2 | bob    |    2 | bob    |
+|    5 | edard  |    5 | edard  |
++------+--------+------+--------+
+3 rows in set
+```
+
+---
+
+join内连接
+
+```sql
+select * from a join b where a.id = b.id
+```
+
+```
++------+--------+------+--------+
+|   id | name   |   id | name   |
+|------+--------+------+--------|
+|    1 | alice  |    1 | alice  |
+|    2 | bob    |    2 | bob    |
+|    5 | edard  |    5 | edard  |
++------+--------+------+--------+
+3 rows in set
+```
+
+---
+
+left join 左连接
+
+```sql
+select * from a left join b on a.id = b.id
+```
+
+```
++------+--------+--------+--------+
+|   id | name   |     id | name   |
+|------+--------+--------+--------|
+|    1 | alice  |      1 | alice  |
+|    2 | bob    |      2 | bob    |
+|    3 | cissy  | <null> | <null> |
+|    5 | edard  |      5 | edard  |
++------+--------+--------+--------+
+4 rows in set
+```
+
+---
+
+right join 右连接
+
+```sql
+select * from a right join b on a.id = b.id
+```
+
+```
++--------+--------+------+--------+
+|     id | name   |   id | name   |
+|--------+--------+------+--------|
+|      1 | alice  |    1 | alice  |
+|      2 | bob    |    2 | bob    |
+|      5 | edard  |    5 | edard  |
+| <null> | <null> |    4 | david  |
+| <null> | <null> |    9 | iris   |
++--------+--------+------+--------+
+5 rows in set
+```
+
+---
+
+full join(跟不带on/where的join一样做笛卡尔积？)
+
+```sql
+select * from a full join b
+```
+
+```
++------+--------+------+--------+
+|   id | name   |   id | name   |
+|------+--------+------+--------|
+|    1 | alice  |    1 | alice  |
+|    2 | bob    |    1 | alice  |
+|    3 | cissy  |    1 | alice  |
+|    5 | edard  |    1 | alice  |
+|    1 | alice  |    2 | bob    |
+|    2 | bob    |    2 | bob    |
+|    3 | cissy  |    2 | bob    |
+|    5 | edard  |    2 | bob    |
+|    1 | alice  |    4 | david  |
+|    2 | bob    |    4 | david  |
+|    3 | cissy  |    4 | david  |
+|    5 | edard  |    4 | david  |
+|    1 | alice  |    5 | edard  |
+|    2 | bob    |    5 | edard  |
+|    3 | cissy  |    5 | edard  |
+|    5 | edard  |    5 | edard  |
+|    1 | alice  |    9 | iris   |
+|    2 | bob    |    9 | iris   |
+|    3 | cissy  |    9 | iris   |
+|    5 | edard  |    9 | iris   |
++------+--------+------+--------+
+
+```
+20 rows in set
+---
+
+左连接union右连接
+
+```sql
+select * from a left join b on a.id=b.id 
+union 
+select * from a right join b on a.id=b.id
+```
+
+```
++--------+--------+--------+--------+
+|     id | name   |     id | name   |
+|--------+--------+--------+--------|
+|      1 | alice  |      1 | alice  |
+|      2 | bob    |      2 | bob    |
+|      3 | cissy  | <null> | <null> |
+|      5 | edard  |      5 | edard  |
+| <null> | <null> |      4 | david  |
+| <null> | <null> |      9 | iris   |
++--------+--------+--------+--------+
+6 rows in set
+```
+
+---
+
+注意MySQL并不支持SQL的`select into`语句，如果要将查询结果追加到现有的表可使用`insert into xxx select ...`：
+
+```sql
+create table c(id int,name varchar(20))  -- 新建表c
+insert into c select * from a  --将查询结果追加到c
+```
+
+c表：
+
+```
++------+--------+
+|   id | name   |
+|------+--------|
+|    1 | alice  |
+|    2 | bob    |
+|    3 | cissy  |
+|    5 | edard  |
++------+--------+
+4 rows in set
+```
+
+---
+
+若果要将查询结果写入新表（当前并不存在），可以使用`create table xxx(select ...)`：
+
+```sql
+create table d(select * from c)  -- 将c表复制到新创建d表中
+```
+
+d表：
+
+```
++------+--------+
+|   id | name   |
+|------+--------|
+|    1 | alice  |
+|    2 | bob    |
+|    3 | cissy  |
+|    5 | edard  |
++------+--------+
+4 rows in set
+```
