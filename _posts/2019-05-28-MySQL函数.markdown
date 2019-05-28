@@ -1,0 +1,219 @@
+---
+layout: post
+title:  "MySQL函数"
+date:   2019-05-28 11:03:00 +0800
+categories: MySQL
+---
+
+基表a：
+
+```
++------+--------+
+|   id | name   |
+|------+--------|
+|    0 | <null> |
+|  777 | 777    |
+|    1 | alice  |
+|    2 | bob    |
+|    3 | cissy  |
+|    5 | edard  |
+|  999 | test   |
++------+--------+
+7 rows in set
+```
+
+```sql
+Describe a
+```
+
+```
++---------+-------------+--------+-------+-----------+---------+
+| Field   | Type        | Null   | Key   |   Default | Extra   |
+|---------+-------------+--------+-------+-----------+---------|
+| id      | int(11)     | NO     | PRI   |    <null> |         |
+| name    | varchar(20) | YES    | UNI   |    <null> |         |
++---------+-------------+--------+-------+-----------+---------+
+2 rows in set
+```
+
+基表b：
+
+```
++------+--------+
+|   id | name   |
+|------+--------|
+|    1 | alice  |
+|    2 | bob    |
+|    4 | david  |
+|    5 | edard  |
+|    9 | iris   |
+|   11 | alice  |
++------+--------+
+6 rows in set
+```
+
+```sql
+Describe b
+```
+
+```
++---------+-------------+--------+-------+-----------+---------+
+| Field   | Type        | Null   | Key   |   Default | Extra   |
+|---------+-------------+--------+-------+-----------+---------|
+| id      | int(11)     | NO     | PRI   |    <null> |         |
+| name    | varchar(20) | YES    |       |    <null> |         |
++---------+-------------+--------+-------+-----------+---------+
+2 rows in set
+```
+
+基表Orders：
+
+```
++------+------------+---------+--------+
+|   id | orderdate   |   price | name   |
+|------+------------+---------+--------|
+|    1 | 2008-12-29 |    1000 | Bush   |
+|    2 | 2008-11-23 |    1600 | Carter |
+|    3 | 2008-10-05 |     700 | Bush   |
+|    4 | 2008-10-05 |     300 | Bush   |
+|    5 | 2008-08-06 |    2000 | Adams  |
+|    6 | 2008-07-21 |     100 | Carter |
++------+------------+---------+--------+
+6 rows in set
+```
+
+```sql
+Describe Orders
+```
+
+```
++-----------+--------------+--------+-------+-----------+---------+
+| Field     | Type         | Null   | Key   |   Default | Extra   |
+|-----------+--------------+--------+-------+-----------+---------|
+| id        | int(11)      | YES    |       |    <null> |         |
+| orderdate | date         | YES    |       |    <null> |         |
+| price     | int(11)      | YES    |       |    <null> |         |
+| name      | varchar(200) | YES    |       |    <null> |         |
++-----------+--------------+--------+-------+-----------+---------+
+4 rows in set
+```
+
+---
+
+`COUNT(column_name)` 函数返回指定列的值的数目（`NULL` 不计入）：
+
+```sql
+select count(name) from a
+```
+
+```
++---------------+
+|   count(name) |
+|---------------|
+|             6 |
++---------------+
+1 row in set
+```
+
+---
+
+`COUNT(*)` 函数返回表中的记录数（`NULL` 也计入）：
+
+```sql
+select count(*) from a
+```
+
+```
++------------+
+|   count(*) |
+|------------|
+|          7 |
++------------+
+1 row in set
+```
+
+---
+
+`COUNT(DISTINCT column_name)`函数返回指定列的不同值的数目：
+
+```sql
+select count(DISTINCT name) from b
+```
+
+```
++------------------------+
+|   count(DISTINCT name) |
+|------------------------|
+|                      5 |
++------------------------+
+1 row in set
+```
+
+---
+
+`Having`子句：
+添加`Having`子句的原因是`where`无法和`Aggregate`函数一起使用：
+
+```sql
+SELECT column_name, aggregate_function(column_name)
+FROM table_name
+WHERE column_name operator value
+GROUP BY column_name
+HAVING aggregate_function(column_name) operator value
+```
+
+实例：
+
+```sql
+select 
+    sum(price) as price, name 
+from 
+    `Orders` 
+group by 
+    oderdate, name 
+having 
+    sum(price) > 1000
+```
+
+```
++---------+--------+
+| price   | name   |
+|---------+--------|
+| 2000    | Adams  |
+| 1600    | Carter |
++---------+--------+
+2 rows in set
+```
+
+---
+
+`length()`函数：
+
+```sql
+select LENGTH(name) as len , name from `Orders`
+```
+
+```
++-------+--------+
+|   len | name   |
+|-------+--------|
+|     4 | Bush   |
+|     6 | Carter |
+|     4 | Bush   |
+|     4 | Bush   |
+|     5 | Adams  |
+|     6 | Carter |
++-------+--------+
+6 rows in set
+```
+
+---
+
+`ROUND()`函数：将数值舍入为最接近的整数，若一样近，则向正无穷方向舍入。
+
+---
+
+
+
+
+
