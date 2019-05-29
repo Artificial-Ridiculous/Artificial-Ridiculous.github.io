@@ -213,6 +213,66 @@ select LENGTH(name) as len , name from `Orders`
 
 ---
 
+`ISNULL()`和`IFNULL`
+
+`ISNULL(a)`用于判定`a`是否为`NULL`，若是则返回`1`，若不是则返回`0`：
+
+```sql
+select isnull(null)
+```
+
+```
++----------------+
+|   isnull(null) |
+|----------------|
+|              1 |
++----------------+
+1 row in set
+```
+
+```sql
+select isnull(2)
+```
+
+```
++----------------+
+|   isnull(2) |
+|----------------|
+|              0 |
++----------------+
+1 row in set
+```
+
+---
+
+`IFNULL(expr1,expr2)`用于对`NULL`值的处理，若`expr1`的判定值为`NULL`,则返回`expr2`,否则返回`expr1`：
+
+```sql
+select ifnull(null,6)
+```
+
+```
++------------------+
+|   ifnull(null,6) |
+|------------------|
+|                6 |
++------------------+
+1 row in set
+```
+
+```sql
+select ifnull(7,6)
+```
+
+```
++---------------+
+|   ifnull(7,6) |
+|---------------|
+|             7 |
++---------------+
+1 row in set
+```
+
 
 
 
