@@ -7,11 +7,11 @@ categories: MySQL
 
 condition|1NF|2NF|3NF|备注
 -|-|-|-|-
-主键|<font color=green>o</font>|<font color=green>o</font>|<font color=green>o</font>|没有完全重复的元组，若有则需加上唯一标识符
-无重复组|<font color=green>o</font>|<font color=green>o</font>|<font color=green>o</font>|一个方框中只有一条记录，否则需要拆分为2个元组
-字段原子性|<font color=green>o</font>|<font color=green>o</font>|<font color=green>o</font>|字段不可再分
-没有部份依赖函数|<font color=red>x</font>|<font color=green>o</font>|<font color=green>o</font>|数据表里的所有数据都要和该数据表的键（主键与候选键）有完全依赖关系
-没有传递函数依赖|<font color=red>x</font>|<font color=red>x</font>|<font color=green>o</font>|
+主键|o|o|o|没有完全重复的元组，若有则需加上唯一标识符
+无重复组|o|o|o|一个方框中只有一条记录，否则需要拆分为2个元组
+字段原子性|o|o|o|字段不可再分
+没有部份依赖函数|x|o|o|数据表里的所有数据都要和该数据表的键（主键与候选键）有完全依赖关系
+没有传递函数依赖|x|x|o|
 
 ---
 
@@ -115,35 +115,15 @@ Sarah|Friday|-40.00
 
 令：
 
-- **R** 表一个关系
-- **F**表维持**R**所需的一组依赖函数
-- **X**表**R**属性的子集合
-- **A**表**R**的一个属性
+- $R$ 表一个关系
+- $F$表维持$R$所需的一组**函数依赖**
+- $X$表$R$属性的*子集合*
+- $A$表$R$的一个属性
 
-如果对于 **X** -> **A** 这种型式的函数依赖而言，下列叙述任一为真的话，则可以称  **R** 匹配第三范式：
+如果对于 $X -> A$ 这种型式的函数依赖而言，下列叙述任一为真的话，则可以称  $R$ 匹配第三范式：
 
-`\( LaTax 公式内容 \)`
+- $A \in X$；也就是说$A$是*明显函数依赖*
+- $X$是**超键**
+- $A$是$R$的**候选键**的一部分
 
-$\frac{\partial x}{\partial y}$
-
-- A
-- 
-- 
-
-$$
-        \begin{pmatrix}
-        1 & a_1 & a_1^2 & \cdots & a_1^n \\
-        1 & a_2 & a_2^2 & \cdots & a_2^n \\
-        \vdots & \vdots & \vdots & \ddots & \vdots \\
-        1 & a_m & a_m^2 & \cdots & a_m^n \\
-        \end{pmatrix}
-$$
-
-<b>
-<font color=#4285f4 size=8 face="Google Sans">G</font>
-<font color=#ea4335 size=8 face="Google Sans">o</font>
-<font color=#fbbc05 size=8 face="Google Sans">o</font>
-<font color=#4285f4 size=8 face="Google Sans">g</font>
-<font color=#34a853 size=8 face="Google Sans">l</font>
-<font color=#ea4335 size=8 face="Google Sans">e</font>
-<b>
+任何一个具有*部分相依性*或是*转移相依性*的关系都违反了第三范式。
