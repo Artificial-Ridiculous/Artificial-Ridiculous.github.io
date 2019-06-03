@@ -273,7 +273,28 @@ select ifnull(7,6)
 1 row in set
 ```
 
+---
 
+`case when else`语句：
 
+1. 当column 与condition 条件相等时结果为result
 
+```sql
+case column
+    when condition then result
+    when condition then result
+    when condition then result
+else result
+end
+```
 
+1. 当满足某一条件时，执行某一result
+
+```sql
+case  
+    when condition then result
+    when condition then result
+    when condition then result
+else result
+end
+```
