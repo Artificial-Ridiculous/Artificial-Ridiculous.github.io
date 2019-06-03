@@ -120,7 +120,7 @@ Sarah|Friday|-40.00
 - **X**表**R**属性的子集合
 - **A**表**R**的一个属性
 
-如果对于 **X** -> *A* 这种型式的函数依赖而言，下列叙述任一为真的话，则可以称  **R** 匹配第三范式：
+如果对于 **X** -> **A** 这种型式的函数依赖而言，下列叙述任一为真的话，则可以称  **R** 匹配第三范式：
 
 $\frac{\partial x}{\partial y}$
 
@@ -136,3 +136,12 @@ $$
         1 & a_m & a_m^2 & \cdots & a_m^n \\
         \end{pmatrix}
 $$
+
+<b>
+<font color=#4285f4 size=8 face="Google Sans">G</font>
+<font color=#ea4335 size=8 face="Google Sans">o</font>
+<font color=#fbbc05 size=8 face="Google Sans">o</font>
+<font color=#4285f4 size=8 face="Google Sans">g</font>
+<font color=#34a853 size=8 face="Google Sans">l</font>
+<font color=#ea4335 size=8 face="Google Sans">e</font>
+<b>
