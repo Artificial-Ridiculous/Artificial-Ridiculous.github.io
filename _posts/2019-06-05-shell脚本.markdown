@@ -7,7 +7,7 @@ categories: linux
 
 ***所有操作默认非root用户，本文中用 `lz` 用户。***
 
-首先明白一点，linux系统中的文件不存在类似windows系统里的扩展名（也即后缀，如.txt, .mkv等等），linux将所有文件等同看待，视为文本文件。
+首先明白一点，linux系统中的文件不存在类似windows系统里的扩展名（也即后缀，如`.txt`, `.mkv`等等），linux将所有文件等同看待，视为文本文件。
 
 举个例子，现在在linux系统下有一个文件，比如说文件名为`word`。linux会把它当作一个文本文件；假如把`word`重命名为`word.txt`，linux依然会把它当作一个文本文件，而且它的名字就是`word.txt`，并不会像windows那样：看作文件名是`word`，扩展名（文件类型）是`txt`。
 
