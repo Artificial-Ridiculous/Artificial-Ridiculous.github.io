@@ -51,7 +51,7 @@ mkdir newDir
 该方法 **需要** 该文件有可执行权限，而且需要在文件前加`./`告诉shell这是在执行可执行文件，否则shell会在`PATH`中寻找名字是`mkdir.sh`的命令，显然找不到：
 
 ```sh
-~$ cd ~/
+~$ cd test
 ~/test$ ./mkdir.sh
 ```
 
@@ -64,7 +64,6 @@ mkdir newDir
 该方法 **需要** 该文件有可执行权限：
 
 ```sh
-~$ cd ~
 ~$ /home/lz/test/mkdir.sh
 ```
 
@@ -77,7 +76,7 @@ mkdir newDir
 该方法 **不需要** 该文件有可执行权限：
 
 ```sh
-~$ cd ~/
+~$ cd test
 ~/test$ sh mkdir.sh
 ```
 
@@ -90,8 +89,7 @@ mkdir newDir
 该方法 **不需要** 该文件有可执行权限：
 
 ```sh
-~$ cd ~/
-~/test$ sh /home/lz/test/mkdir.sh
+~$ sh /home/lz/test/mkdir.sh
 ```
 
 该方法会在运行该命令时所在目录下生成一个`newDir`文件夹。
