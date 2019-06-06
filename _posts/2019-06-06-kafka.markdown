@@ -12,14 +12,27 @@ kafka自带zookeeper，运行顺序是先zookeeper再kafka：
 
 ```sh
 ~$ cd /usr/local/kafka
-/usr/local/kafka$ bin/zookeeper-server-start.sh config/zookeeper.properties
+/usr/local/kafka$ bin/zookeeper-server-start.sh config/zookeeper.properties  # 运行zookeeper
 ```
 
+新建终端
+
+```sh
+~$ cd /usr/local/kafka
+/usr/local/kafka$ bin/kafka-server-start.sh config/server.properties  # 运行kafka
 ```
+
+假如zookeeper后台没了，所有kafka的broker都会一直报错`INFO Socket error occurred`如下,直到重新将zookeeper运行起来：
+
+```log
 [2019-06-05 23:48:27,418] INFO Socket error occurred: localhost/127.0.0.1:2181: Connection refused (org.apache.zookeeper.ClientCnxn)
 [2019-06-05 23:48:29,079] INFO Opening socket connection to server localhost/127.0.0.1:2181. Will not attempt to authenticate using SASL (unknown error) (org.apache.zookeeper.ClientCnxn)
 [2019-06-05 23:48:29,079] INFO Socket error occurred: localhost/127.0.0.1:2181: Connection refused (org.apache.zookeeper.ClientCnxn)
 [2019-06-05 23:48:30,641] INFO Opening socket connection to server localhost/127.0.0.1:2181. Will not attempt to authenticate using SASL (unknown error) (org.apache.zookeeper.ClientCnxn)
+...
+
+# 重新将zookeeper跑起来
+
 [2019-06-05 23:48:30,641] INFO Socket connection established to localhost/127.0.0.1:2181, initiating session (org.apache.zookeeper.ClientCnxn)
 [2019-06-05 23:48:30,644] INFO Session establishment complete on server localhost/127.0.0.1:2181, sessionid = 0x1000001acd80014, negotiated timeout = 6000 (org.apache.zookeeper.ClientCnxn)
 [2019-06-05 23:48:30,644] INFO [ZooKeeperClient] Connected. (kafka.zookeeper.ZooKeeperClient)
