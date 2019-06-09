@@ -6,7 +6,7 @@
   @extend %vertical-rhythm;
 
   .highlighter-rouge & {
-    font-family: monospace;
+    font-family: "Menlo", "Monaco", "Consolas" !important;
     background: #eef;
   }
 
