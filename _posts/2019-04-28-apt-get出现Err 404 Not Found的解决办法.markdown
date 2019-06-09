@@ -79,10 +79,21 @@ Ubuntu历代版本及其代号：
 下面的方法通过切换到旧版本的源来解决“404 Not Found”错误：
 
 ```shell
+$ cd /etc/apt && sudo cp sources.list sources.list.bak && sudo vim sources.list  # 备份原始文件
 $ sudo sed -i -r 's/([a-z]{2}\.)?archive.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
 $ sudo sed -i -r 's/security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
 ```
+$ sudo apt-get update
+---
 
+对于还在支持期内的ubuntu版本（如18.04LTS或16.04LTS），如果境外的源更新缓慢，可以将其替换为阿里云的源：
+
+```sh
+$ cd /etc/apt && sudo cp sources.list sources.list.bak && sudo vim sources.list  # 备份原始文件
+$ sudo sed -i -r 's/([a-z]{2}\.)?archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list
+$ sudo sed -i -r 's/security.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list
+$ sudo apt-get update
+```
 
 
 
