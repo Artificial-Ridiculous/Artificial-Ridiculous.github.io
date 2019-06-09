@@ -10,7 +10,8 @@ categories: linux
 
 如果你所使用的Ubuntu系统已经被结束生命周期，你就会从apt-get或aptitude得到以下404错误，因为它的仓库已经被遗弃了：
 
-```shell
+```sh
+$ sudo apt-get update
 Err http://archive.ubuntu.com vivid/main amd64 Packages
   404  Not Found [IP: 91.189.88.149 80]
 Err http://archive.ubuntu.com vivid/restricted amd64 Packages
@@ -26,19 +27,14 @@ E: Some index files failed to download. They have been ignored, or old ones used
 
 查看当前环境Ubuntu版本及代号：
 
-```shell
+```sh
 $ lsb_release -a
-```
-
-运行结果示例：
-
-```shelll
 sb_release -a
 No LSB modules are available.
-Distributor ID:	Ubuntu
-Description:	Ubuntu 18.04.2 LTS
-Release:	18.04
-Codename:	bionic
+Distributor ID: Ubuntu
+Description:  Ubuntu 18.04.2 LTS
+Release:  18.04
+Codename: bionic
 ```
 
 Ubuntu历代版本及其代号：
@@ -78,11 +74,11 @@ Ubuntu历代版本及其代号：
 
 下面的方法通过切换到旧版本的源来解决“404 Not Found”错误：
 
-```shell
-$ cd /etc/apt && sudo cp sources.list sources.list.bak && sudo vim sources.list  # 备份原始文件
-$ sudo sed -i -r 's/([a-z]{2}\.)?archive.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
-$ sudo sed -i -r 's/security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
-$ sudo apt-get update
+```sh
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak  # 备份原始文件
+sudo sed -i -r 's/([a-z]{2}\.)?archive.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
+sudo sed -i -r 's/security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
+sudo apt-get update
 ```
 
 ---
@@ -90,8 +86,8 @@ $ sudo apt-get update
 对于还在支持期内的ubuntu版本（如18.04LTS或16.04LTS），如果境外的源更新缓慢，可以将其替换为阿里云的源：
 
 ```sh
-$ cd /etc/apt && sudo cp sources.list sources.list.bak && sudo vim sources.list  # 备份原始文件
-$ sudo sed -i -r 's/([a-z]{2}\.)?archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list
-$ sudo sed -i -r 's/security.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list
-$ sudo apt-get update
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak  # 备份原始文件
+sudo sed -i -r 's/([a-z]{2}\.)?archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list
+sudo sed -i -r 's/security.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list
+sudo apt-get update
 ```

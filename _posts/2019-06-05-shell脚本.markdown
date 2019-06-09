@@ -18,25 +18,32 @@ categories: linux
 假设我们在~/test/下新建一个脚本文件叫`mkdir.sh`：
 
 ```sh
+cd ~/test
+vim mkdir.sh
+```
+
+```sh
 #! /bin/bash
 mkdir newDir
 ```
 
 现在我们`ll`一下查看文件属性：
 
-```
+```sh
+$ ll
 -rw-rw-r--  1 lz lz   26 Jun  4 18:46 mkdir.sh
 ```
 
 可以看到所有的`x`位都是`-`，也就是说该文件还没有被赋予任何可执行权限，我们现在赋予其可执行权限：
 
 ```sh
-~/test$ chmod a+x mkdir.sh
+chmod a+x mkdir.sh
 ```
 
 再运行`ll`：
 
-```
+```sh
+$ ll
 -rwxrwxr-x  1 lz lz   26 Jun  4 18:46 mkdir.sh*
 ```
 
@@ -51,11 +58,11 @@ mkdir newDir
 该方法 **需要** 该文件有可执行权限，而且需要在文件前加`./`告诉shell这是在执行可执行文件，否则shell会在`PATH`中寻找名字是`mkdir.sh`的命令，显然找不到：
 
 ```sh
-~$ cd test
-~/test$ ./mkdir.sh
+cd test
+./mkdir.sh
 ```
 
-该方法会在脚本文件目录下生成一个`newDir`文件夹。
+该方法会在**脚本文件目录**下生成一个`newDir`文件夹。
 
 ---
 
@@ -64,10 +71,11 @@ mkdir newDir
 该方法 **需要** 该文件有可执行权限：
 
 ```sh
-~$ /home/lz/test/mkdir.sh
+cd <any directory>
+/home/lz/test/mkdir.sh
 ```
 
-该方法会在运行该命令时所在目录下生成一个`newDir`文件夹。
+该方法会在**运行该命令时所在目录**下生成一个`newDir`文件夹。
 
 ---
 
@@ -76,11 +84,11 @@ mkdir newDir
 该方法 **不需要** 该文件有可执行权限：
 
 ```sh
-~$ cd test
-~/test$ sh mkdir.sh
+cd test
+sh mkdir.sh
 ```
 
-该方法会在脚本文件目录下生成一个`newDir`文件夹。
+该方法会在**脚本文件目录**下生成一个`newDir`文件夹。
 
 ---
 
@@ -89,7 +97,8 @@ mkdir newDir
 该方法 **不需要** 该文件有可执行权限：
 
 ```sh
-~$ sh /home/lz/test/mkdir.sh
+cd <any directory>
+sh /home/lz/test/mkdir.sh
 ```
 
-该方法会在运行该命令时所在目录下生成一个`newDir`文件夹。
+该方法会在**运行该命令时所在目录**下生成一个`newDir`文件夹。
