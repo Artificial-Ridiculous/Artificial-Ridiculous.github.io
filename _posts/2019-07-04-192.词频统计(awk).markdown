@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "192. 词频统计"
+title:  "192. 词频统计(awk)"
 date:   2019-07-04 15:26:00 +0800
 category: linux
 ---
