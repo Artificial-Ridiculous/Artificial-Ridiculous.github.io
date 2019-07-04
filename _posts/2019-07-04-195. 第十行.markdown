@@ -1,0 +1,90 @@
+---
+layout: post
+title:  "195. 第十行"
+date:   2019-07-04 09:08:00 +0800
+categories: linux
+---
+
+给定一个文本文件 `file.txt`，请只打印这个文件中的第10行。
+
+示例：  
+
+假设`file.txt`有如下内容：
+
+```text
+Line 1
+Line 2
+Line 3
+Line 4
+Line 5
+Line 6
+Line 7
+Line 8
+Line 9
+Line 10
+```
+
+你的脚本应该显示第10行:  
+
+```text
+Line 10
+```
+
+---
+
+`tail`命令：
+
+```text
+-n, --lines=[+]NUM
+            output  the last NUM lines, instead of the last 10; or use -n +NUM to out‐put starting with line NUM
+
+
+-f, --follow[={name|descriptor}]
+            output appended data as the file grows;
+
+            an absent option argument means 'descriptor'
+
+-F
+            same as --follow=name --retry
+```
+
+常用命令展示：
+
+```sh
+tail file  # 显示file最后10行
+tail -10 file  # 同上
+tail -n 10 file  # 同上
+tail --lines=10 file  # 同上
+tail -f file  # 跟踪显示file文件的最后10行,若文件不存在则停止
+tail -F file  # 不断尝试跟踪显示file文件的最后10行
+tail -n +3  #显示文件从第3行起至末尾的内容（对应head用-3是显示文件除了最后面3行的所有内容）
+```
+
+---
+
+`head`命令：
+
+```text
+-n, --lines=[-]NUM
+            print the first NUM lines instead of the  first  10;
+            with  the  leading  '-',  print all but the last NUM
+            lines of each file
+```
+
+常用命令展示：
+
+```sh
+head -n 2 file  # 显示文件的前2行内容
+head -n -3 file  # 显示文件除了最后3行的所有内容（对应tail用+3是显示文件除了最前面3行的所有内容）
+```
+
+---
+
+解答：
+
+```sh
+tail -n +10 file.txt | head -1
+```
+
+解析：  
+本题如果先head在tail的话会导致[假如文件不到10行依然会显示某一个错误的行]。所以先`tail -n +10`选出**从第10行开始的所有行**（保证了假如文件不到10行时，不应该有任何输出），然后再用`head -1`输出筛选出的内容的第1行。
