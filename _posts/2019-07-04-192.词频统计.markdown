@@ -48,7 +48,7 @@ cat words.txt | awk '{ for(i=1;i<=NF;i++){count[$i]++} } END { for(k in count){p
 
 ### 解析
 
-有关`awk`命令的基础知识请参考![上一篇博文](https://www.cocobolo.top/linux/2019/07/04/194.-%E8%BD%AC%E7%BD%AE%E6%96%87%E4%BB%B6.html)。
+有关`awk`命令的基础知识请参考 [上一篇博文](https://www.cocobolo.top/linux/2019/07/04/194.-%E8%BD%AC%E7%BD%AE%E6%96%87%E4%BB%B6.html)。
 
 本题先用`cat`命令和管道命令`|`将文件内容传给`awk`。
 
