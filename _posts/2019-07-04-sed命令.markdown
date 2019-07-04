@@ -1,0 +1,42 @@
+---
+layout: post
+title:  "sed命令"
+date:   2019-07-04 15:57:00 +0800
+category: linux
+---
+***所有操作默认非root用户，本文中用 `lz` 用户。***
+
+有请Linux三剑客(`awk`,`sed`,`grep`)最后一剑客出厂：
+
+`sed`命令：
+
+`sed`命令可用于匹配、处理、编辑文本文件。
+
+```txt
+NAME
+       sed  -  stream  editor  for filtering and
+       transforming text
+
+SYNOPSIS
+       sed [OPTION]... {script-only-if-no-other-
+       script} [input-file]...
+
+DESCRIPTION
+       -i[SUFFIX], --in-place[=SUFFIX]
+
+              edit  files in place (makes backup
+              if SUFFIX supplied)
+
+       -E, -r, --regexp-extended
+
+              use  extended  regular expressions
+              in the script (for portability use
+              POSIX -E).
+
+```
+
+常用用法展示：
+
+```sh
+sed -i -r 's/categories/category/g' ./*  # 将当前文件夹下所有文件中的"categories"替换为"category"
+```
