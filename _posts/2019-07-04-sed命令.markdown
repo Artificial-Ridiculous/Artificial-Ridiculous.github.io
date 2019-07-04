@@ -38,5 +38,8 @@ DESCRIPTION
 常用用法展示：
 
 ```sh
-sed -i -r 's/categories/category/g' ./*  # 将当前文件夹下所有文件中的"categories"替换为"category"
+sed -i -r 's/categories/category/g' ./*
+# 将当前文件夹下所有文件中的"categories"替换为"category"
+sudo sed -i -r 's/([a-z]{2}\.)?archive.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list
+# 将/etc/apt/sources.list中所有"xx.archive.ubuntu.com"替换为"old-releases.ubuntu.com"
 ```
