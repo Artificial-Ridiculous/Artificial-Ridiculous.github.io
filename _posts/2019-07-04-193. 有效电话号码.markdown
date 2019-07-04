@@ -1,0 +1,139 @@
+---
+layout: post
+title:  "193. 有效电话号码"
+date:   2019-07-04 10:43:00 +0800
+categories: linux
+---
+
+给定一个包含电话号码列表（一行一个电话号码）的文本文件 `file.txt`，写一个 bash 脚本输出所有有效的电话号码。
+
+你可以假设一个有效的电话号码必须满足以下两种格式： `(xxx) xxx-xxxx` 或 `xxx-xxx-xxxx`。（`x` 表示一个数字）
+
+你也可以假设每行前后没有多余的空格字符。
+
+示例：  
+
+假设`file.txt`有如下内容：
+
+```text
+987-123-4567
+123 456 7890
+(123) 456-7890
+```
+
+你的脚本应该输出以下有效的电话号码:  
+
+```text
+987-123-4567
+(123) 456-7890
+```
+
+---
+
+有请Linux三剑客(`awk`,`sed`,`grep`)之一：
+
+`grep`命令：
+
+```text
+NAME
+       grep, egrep, fgrep, rgrep - print lines matching a pattern
+
+SYNOPSIS
+       grep [OPTIONS] PATTERN [FILE...]
+       grep [OPTIONS] -e PATTERN ... [FILE...]
+       grep [OPTIONS] -f FILE ... [FILE...]
+
+OPTIONS
+       -n, --line-number
+              Prefix each line of output with the 1-based line number within its
+              input file.
+       -r, --recursive
+              Read  all  files  under  each  directory,  recursively,  following
+              symbolic links only if they are on the command line.  Note that if
+              no file operand is given, grep  searches  the  working  directory.
+              This is equivalent to the -d recurse option.
+
+REGULAR EXPRESSIONS
+       The period . matches any single character.
+
+   Character Classes and Bracket Expressions
+       A bracket expression is a list of characters enclosed by [ and ].  It matches any single character in that list; if the first character of
+       the list is the caret ^ then it matches any character not in the list.  For example,  the  regular  expression  [0123456789]  matches  any
+       single digit.
+
+       Within  a  bracket  expression, a range expression consists of two characters separated by a hyphen.  It matches any single character that
+       sorts between the two characters, inclusive, using the locale's collating sequence and character set.   For  example,  in  the  default  C
+       locale,  [a-d]  is  equivalent  to  [abcd].  Many locales sort characters in dictionary order, and in these locales [a-d] is typically not
+       equivalent to [abcd]; it might be equivalent to [aBbCcDd], for example.  To obtain the traditional interpretation of bracket  expressions,
+       you can use the C locale by setting the LC_ALL environment variable to the value C.
+
+       Finally, certain named classes of characters are predefined within bracket expressions, as follows.  Their names are self explanatory, and
+       they are [:alnum:], [:alpha:], [:cntrl:], [:digit:], [:graph:], [:lower:], [:print:], [:punct:],  [:space:],  [:upper:],  and  [:xdigit:].
+       For  example, [[:alnum:]] means the character class of numbers and letters in the current locale.  In the C locale and ASCII character set
+       encoding, this is the same as [0-9A-Za-z].  (Note that the brackets in these class names are part of  the  symbolic  names,  and  must  be
+       included  in  addition to the brackets delimiting the bracket expression.)  Most meta-characters lose their special meaning inside bracket
+       expressions.  To include a literal ] place it first in the list.  Similarly, to include a literal ^ place it anywhere but first.  Finally,
+       to include a literal - place it last.
+
+   Anchoring
+       The caret ^ and the dollar sign $ are meta-characters that respectively match the empty string at the beginning and end of a line.
+
+   The Backslash Character and Special Expressions
+       The  symbols  \< and \> respectively match the empty string at the beginning and end of a word.  The symbol \b matches the empty string at
+       the edge of a word, and \B matches the empty string provided it's not at the edge of a word.  The symbol \w is a synonym for  [_[:alnum:]]
+       and \W is a synonym for [^_[:alnum:]].
+
+   Repetition
+       A regular expression may be followed by one of several repetition operators:       ?      The preceding item is optional and matched at most once.
+       *      The preceding item will be matched zero or more times.       +      The preceding item will be matched one or more times.
+       {n}    The preceding item is matched exactly n times.       {n,}   The preceding item is matched n or more times.
+       {,m}   The preceding item is matched at most m times.  This is a GNU extension.       {n,m}  The preceding item is matched at least n times, but not more than m times.
+
+   Concatenation
+       Two  regular  expressions  may be concatenated; the resulting regular expression matches any string formed by concatenating two substrings
+       that respectively match the concatenated expressions.
+
+   Alternation
+       Two regular expressions may be joined by the infix operator |; the  resulting  regular  expression  matches  any  string  matching  either
+       alternate expression.
+
+   Precedence
+       Repetition  takes  precedence  over concatenation, which in turn takes precedence over alternation.  A whole expression may be enclosed in
+       parentheses to override these precedence rules and form a subexpression.
+
+   Back References and Subexpressions
+       The back-reference \n, where n is a single digit, matches the substring previously matched by the nth parenthesized subexpression  of  the
+       regular expression.
+
+   Basic vs Extended Regular Expressions
+       In  basic regular expressions the meta-characters ?, +, {, |, (, and ) lose their special meaning; instead
+       use the backslashed versions \?, \+, \{, \|, \(, and \).
+
+```
+
+常用正则表达式：
+
+```txt
+
+```
+
+常用用法展示：
+
+```sh
+$ grep -rn 12  # -r表示在当前目录下递归匹配，-n显示行号
+file.txt:1:987-123-4567
+file.txt:2:123 456 7890
+file.txt:3:(123) 456-7890
+```
+
+---
+
+### 本题解答
+
+```sh
+grep -P "^(\d{3}-|\(\d{3}\)\s)\d{3}-\d{4}$" file.txt
+```
+
+### 解析
+
+`-P`后跟pattern字符串，注意到合法的电话号码尾部是一样的(`xxx-xxxx`)，只有开头有区别(`(xxx)空格`或`xxx-`两种),所以pattern就是`"^开头1|开头2尾部$"`。数字可以用`\d`来表达，注意`(`和`)`要用`\(`和`\)`来转义的。
