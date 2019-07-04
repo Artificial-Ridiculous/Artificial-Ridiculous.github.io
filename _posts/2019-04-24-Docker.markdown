@@ -2,7 +2,7 @@
 layout: post
 title:  "Docker"
 date:   2019-04-24 17:20:00 +0800
-categories: linux
+category: linux
 ---
 ***所有操作默认非root用户，本文中用 `lz` 用户。***
 

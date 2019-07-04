@@ -2,7 +2,7 @@
 layout: post
 title:  "194. 转置文件"
 date:   2019-07-04 12:41:00 +0800
-categories: linux
+category: linux
 ---
 
 给定一个文件 `file.txt`，转置它的内容。

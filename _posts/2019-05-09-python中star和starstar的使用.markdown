@@ -2,7 +2,7 @@
 layout: post
 title:  "python中*和**的使用"
 date:   2019-05-09 11:30:00 +0800
-categories: python
+category: python
 ---
 
 调用函数时用`*`：

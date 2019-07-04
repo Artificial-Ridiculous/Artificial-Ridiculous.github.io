@@ -2,7 +2,7 @@
 layout: post
 title:  "Here's to the ones who dream"
 date:   2019-03-31 20:42:25 +0800
-categories: life
+category: life
 ---
 
 Here's to the ones  

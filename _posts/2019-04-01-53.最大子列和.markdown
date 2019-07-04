@@ -2,7 +2,7 @@
 layout: post
 title:  "53. 最大子列和"
 date:   2019-04-01 22:19:25 +0800
-categories: leetcode-cn
+category: leetcode-cn
 ---
 
 给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。

@@ -2,7 +2,7 @@
 layout: post
 title:  "a,b = c,f(a)"
 date:   2019-04-09 11:05:00 +0800
-categories: python
+category: python
 ---
 当写形如`a,b = c,f(a)`时，注意，`b=f(a)`用的`a`依然是`a=c`之前的那个`a`，类似C语言的`a++`，而不是`++a`。  
 举例：

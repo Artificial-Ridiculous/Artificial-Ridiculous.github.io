@@ -2,7 +2,7 @@
 layout: post
 title:  "MySQL复习"
 date:   2019-05-27 09:58:00 +0800
-categories: MySQL
+category: MySQL
 ---
 
 连接操作及支持的条件运算符：

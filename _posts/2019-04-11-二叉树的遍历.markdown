@@ -2,7 +2,7 @@
 layout: post
 title:  "二叉树的遍历"
 date:   2019-04-11 16:34:00 +0800
-categories: python
+category: python
 ---
 `Node`的数据结构：
 

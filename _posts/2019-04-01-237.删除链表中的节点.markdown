@@ -2,7 +2,7 @@
 layout: post
 title:  "237. 删除链表中的节点"
 date:   2019-04-01 22:12:25 +0800
-categories: leetcode-cn
+category: leetcode-cn
 ---
 
 编写一个O(1)函数，使其可以删除某个链表中给定的（非末尾）节点，你将只被给定要求被删除的节点。  

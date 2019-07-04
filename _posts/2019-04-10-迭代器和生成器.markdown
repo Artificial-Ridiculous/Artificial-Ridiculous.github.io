@@ -2,7 +2,7 @@
 layout: post
 title:  "迭代器和生成器"
 date:   2019-04-10 16:05:00 +0800
-categories: python
+category: python
 ---
 生成器(generator)是迭代器(iterator)的一种，不同于列表解析`[x for x in iterator]`会直接在内存中生成整个列表；generator保存的是算法，并用`()`代替`[]`，直接打印会显示类似`<generator object <genexpr> at 0x000001CF97AFDB10>`的输出，并且用`next()`函数获得generator的下一个返回值。  
 

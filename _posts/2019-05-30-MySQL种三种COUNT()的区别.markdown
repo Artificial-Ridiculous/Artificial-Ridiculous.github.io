@@ -2,7 +2,7 @@
 layout: post
 title:  "MySQL种三种COUNT()的区别"
 date:   2019-05-30 15:31:00 +0800
-categories: MySQL
+category: MySQL
 ---
 
 `count(*)`对行的数目进行计算，包含`NULL`；  

@@ -2,7 +2,7 @@
 layout: post
 title:  "二叉树的进阶操作"
 date:   2019-04-15 18:22:00 +0800
-categories: python
+category: python
 ---
 `Node`的数据结构：
 

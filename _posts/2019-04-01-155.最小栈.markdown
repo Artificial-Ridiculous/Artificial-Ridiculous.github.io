@@ -2,7 +2,7 @@
 layout: post
 title:  "155. 最小栈"
 date:   2019-04-01 22:16:25 +0800
-categories: leetcode-cn
+category: leetcode-cn
 ---
 
 设计一个支持 push，pop，top 操作，并能在O(1)时间内检索到最小元素的栈。

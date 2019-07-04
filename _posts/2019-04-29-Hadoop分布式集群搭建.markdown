@@ -2,7 +2,7 @@
 layout: post
 title:  "Hadoop分布式集群搭建"
 date:   2019-04-29 10:05:00 +0800
-categories: linux
+category: linux
 ---
 ***所有操作默认非root用户，本文中用 `lz` 用户。***
 

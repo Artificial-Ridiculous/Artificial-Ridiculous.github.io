@@ -2,7 +2,7 @@
 layout: post
 title:  "apt-get出现Err 404 Not Found的解决办法"
 date:   2019-04-26 15:35:00 +0800
-categories: linux
+category: linux
 ---
 ***所有操作默认非root用户，本文中用 `lz` 用户。***
 

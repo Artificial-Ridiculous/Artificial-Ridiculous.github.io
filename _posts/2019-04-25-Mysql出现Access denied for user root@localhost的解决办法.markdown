@@ -2,7 +2,7 @@
 layout: post
 title:  "Mysql出现Access denied for user root@localhost的解决办法"
 date:   2019-04-25 16:59:00 +0800
-categories: linux
+category: linux
 ---
 ***所有操作默认非root用户，本文中用 `lz` 用户。***
 

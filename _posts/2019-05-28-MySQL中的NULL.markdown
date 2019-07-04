@@ -2,7 +2,7 @@
 layout: post
 title:  "MySQL中的NULL"
 date:   2019-05-28 16:58:00 +0800
-categories: MySQL
+category: MySQL
 ---
 
 # 标题
