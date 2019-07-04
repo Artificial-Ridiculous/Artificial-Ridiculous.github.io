@@ -2,7 +2,7 @@
 layout: post
 title:  "195. 第十行"
 date:   2019-07-04 09:08:00 +0800
-categories: linux
+categories: [linux,leetcode-cn]
 ---
 
 给定一个文本文件 `file.txt`，请只打印这个文件中的第10行。
