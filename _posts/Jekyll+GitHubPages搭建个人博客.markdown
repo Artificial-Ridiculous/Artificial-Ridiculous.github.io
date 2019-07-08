@@ -19,9 +19,9 @@ Jekyll是一个搭建个人博客的不错的选择，具有以下有点：
 需要：
 
 - PC一台(推荐Linux)
-- Python 2.x
+- Python 2.x (ubuntu自带)
+- Git (ubuntu自带)
 - GitHub 账号
-- Git
 
 ---
 
