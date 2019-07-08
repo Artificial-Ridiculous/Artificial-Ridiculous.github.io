@@ -134,7 +134,7 @@ $ rm 2019-07-08-welcome-to-jekyll.markdown
 然后新建文件：
 
 ```sh
-$ touch touch 2019-07-08-宏颜获水.markdown
+$ touch 2019-07-08-宏颜获水.markdown
 ```
 
 你可以选用自己熟悉的编辑器，比如`vim`、 `gedit`甚至`VS Code`来编辑该文本文件。
