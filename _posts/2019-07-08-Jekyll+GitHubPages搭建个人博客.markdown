@@ -125,10 +125,10 @@ $ rm 2019-07-08-welcome-to-jekyll.markdown
 此时在之前的`jekyll serve`窗口中可以看到追加了如下输出：
 
 ```text
-      Regenerating: 1 file(s) changed at 2019-07-08 12:22:33
-                    _posts/2019-07-08-welcome-to-jekyll.markdown
-       Jekyll Feed: Generating feed for posts
-                    ...done in 0.095358878 seconds.
+Regenerating: 1 file(s) changed at 2019-07-08 12:22:33
+              _posts/2019-07-08-welcome-to-jekyll.markdown
+  Jekyll Feed: Generating feed for posts
+              ...done in 0.095358878 seconds.
 ```
 
 然后新建文件：
@@ -164,10 +164,10 @@ category: life
 此时在之前的`jekyll serve`窗口中可以看到追加了如下输出：
 
 ```text
-      Regenerating: 1 file(s) changed at 2019-07-08 12:33:45
-                    _posts/2019-07-08-宏颜获水.markdown
-       Jekyll Feed: Generating feed for posts
-                    ...done in 0.118106864 seconds.
+Regenerating: 1 file(s) changed at 2019-07-08 12:33:45
+              _posts/2019-07-08-宏颜获水.markdown
+  Jekyll Feed: Generating feed for posts
+              ...done in 0.118106864 seconds.
 ```
 
 可能会有2个和上面十分相似的输出，这是因为`Jekyll`会一直跟踪`_post`文件夹，一旦有更新就会实时渲染新页面，所以这2次输出一次对应`touch`命令创建文件，一次对应编辑后的保存命令。
@@ -209,14 +209,14 @@ Initial commit
 Changes to be committed:
   (use "git rm --cached <file>..." to unstage)
 
-	new file:   .gitignore
-	new file:   404.html
-	new file:   Gemfile
-	new file:   Gemfile.lock
-	new file:   _config.yml
-	new file:   "_posts/2019-07-08-\345\256\217\351\242\234\350\216\267\346\260\264.markdown"
-	new file:   about.md
-	new file:   index.md
+new file:   .gitignore
+new file:   404.html
+new file:   Gemfile
+new file:   Gemfile.lock
+new file:   _config.yml
+new file:   "_posts/2019-07-08-\345\256\217\351\242\234\350\216\267\346\260\264.markdown"
+new file:   about.md
+new file:   index.md
 
 $ git commit -m "add a project to github"
 # 如果是第一次运行Git此时会报错，要求设置邮箱和用户名。按照提示设置后再运行一次commit即可。
