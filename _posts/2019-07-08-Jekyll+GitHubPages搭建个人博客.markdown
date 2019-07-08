@@ -247,7 +247,7 @@ Branch master set up to track remote branch master from origin.
 
 ![new_myblog]({{ "/PNG/new_myblog.png" | absolute_url }})
 
-此时可以浏览器输入[https://{你的GitHub用户名}.github.io](https://github.com/Artificial-Ridiculous/Artificial-Ridiculous.github.io)来访问博客。
+此时可以浏览器输入[https://{你的GitHub用户名}.github.io](https://Artificial-Ridiculous.github.io)来访问博客。
 
 ---
 
