@@ -6,7 +6,7 @@ category: linux
 ---
 ***所有操作默认非root用户，本文中用 `lz` 用户。***
 
-Jekyll是一个搭建个人博客的不错的选择，具有以下有点：
+`Jekyll`是一个搭建个人博客的不错的选择，具有以下有点：
 
 - 无需数据库、评论功能或频繁的版本更新—只需关注你的内容。
 - 只用 Markdown、Liquid、HTML & CSS 就可以构建可部署的静态网站。
@@ -14,7 +14,7 @@ Jekyll是一个搭建个人博客的不错的选择，具有以下有点：
 - 与GitHub Pages 天然兼容！
 - 学习成本低，基本不需要前端知识，只需要掌握基本markdown语法即可。
 
-接下来，我们从无到有，一步步构建一个部署在GitHub Pages上的基于Jekyll个人博客。
+接下来，我们从无到有，一步步构建一个部署在`GitHub Pages`上的基于`Jekyll`个人博客。
 
 需要：
 
@@ -27,7 +27,7 @@ Jekyll是一个搭建个人博客的不错的选择，具有以下有点：
 
 ## 本地构建Jekyll博客
 
-首先安装Jekyll，由于Jekyll是基于Ruby的，所以要先安装Ruby：
+首先安装`Jekyll`，由于`Jekyll`是基于`Ruby`的，所以要先安装`Ruby`：
 
 ```sh
 $ cd ~
@@ -59,9 +59,9 @@ Auto-regeneration: enabled for '/home/lz/myblog'
 
 ![Welcome_to_Jekyll]({{ "/PNG/Welcome_to_Jekyll.png" | absolute_url }})
 
-效果还不错~该有的都有--有标题，有日期，有正文，有单行代码，当然还有技术博客必不可少的代码块(with 代码高亮)；不该有的广告和杂七杂八的东西都没有(我真没有diss CSDN blog🐶)。而我们不需要关心这些html是如何生成的--我只需要关心markdown文稿即可。只需要知道，你给他markdown，他就会给你html页面。
+效果还不错~该有的都有--有标题，有日期，有正文，有单行代码，当然还有技术博客必不可少的代码块(with **代码高亮**)；不该有的广告和杂七杂八的东西都没有(我真没有diss CSDN blog🐶)。而我们不需要关心这些`html`是如何生成的--我只需要关心`markdown`文稿即可。只需要知道，你给他`markdown`，他就会给你html页面。
 
-以上所有命令安装了Ruby和Jekyll并用jekyll自带的new命令快速生成了一个minimum模板的博客。此时myblog目录下的文件结构应该如下：
+以上所有命令安装了`Ruby`和`Jekyll`并用`jekyll`自带的new命令快速生成了一个`minimum`模板的博客。此时`myblog`目录下的文件结构应该如下：
 
 ```sh
 $ ll
@@ -83,7 +83,7 @@ drwxrwxr-x 5 lz lz 4.0K Jul  8 10:06 _site
 # 运行serve命令时会实时生成的文件夹，不需要git同步
 ```
 
-最重要的就是`_posts`文件夹，我们所有的markdown博文都应该放置在此处，我们cd进去这个文件夹看看里面有什么：
+最重要的就是`_posts`文件夹，我们所有的`markdown`博文都应该放置在此处，我们`cd`进去这个文件夹看看里面有什么：
 
 ```sh
 $ cd _posts
@@ -93,7 +93,7 @@ $ ls
 
 我们可以从这里看出一点端倪，即标准的jekyll markdown博文的文件名应该是`YEAR-MONTH-DAY-title.MARKUP`格式，`MARKUP`可以是jekyll支持的标记语言，当然我们就写markdown即可，后缀名是`.md`或者`.markdown`都可以被jekyll正确识别，只要保证文件名是`年份-月份-日期-文章标题.markdown/md`这样既可。
 
-说完了合格的jekyll markdown文件名再来看看合格jekyll markdown 正文格式：
+说完了合格的`jekyll markdown`文件名再来看看合格`jekyll markdown` 正文格式：
 
 ```sh
 cat 2019-07-08-welcome-to-jekyll.markdown
@@ -114,7 +114,7 @@ You’ll find this post in your `_posts` directory.
 - date: `YYYY-MM-DD HH:MM:SS +/-TTTT`格式，指明年月日时分秒和时区，博文会严格按照此处给出的时间按照从新到旧的顺序显示在主页。
 - categories: 分类，此处既可以是categories(支持多分类)也可以是category(单分类)。
 
-在这之后就可以用标准markdown语法写博客正文了。
+在这之后就可以用标准`markdown`语法写博客正文了。
 
 我们将默认的`Welcome to Jekyll!`博文删掉，写一篇自己的博文：
 
@@ -170,7 +170,7 @@ category: life
                     ...done in 0.118106864 seconds.
 ```
 
-可能会有2个和上面十分相似的输出，这是因为Jekyll会一直跟踪_post文件夹，一旦有更新就会实时渲染新页面，所以这2次输出一次对应`touch`命令创建文件，一次对应编辑后的保存命令。
+可能会有2个和上面十分相似的输出，这是因为`Jekyll`会一直跟踪`_post`文件夹，一旦有更新就会实时渲染新页面，所以这2次输出一次对应`touch`命令创建文件，一次对应编辑后的保存命令。
 
 在浏览器访问[`127.0.0.1:4000`](http://127.0.0.1:4000/)，就可以看到我们刚才新建的博文宏颜获水了：
 
@@ -182,11 +182,11 @@ category: life
 
 ## 构建GitHub Pages
 
-首先登陆[GitHub](https://github.com/)，如果没有账号先注册账号，如果有账号点击右上角的`+`，选择`New repository`，在接下来的页面中填写博客项目的`Repository name`，前缀可以自定义，但是后缀必须是`.github.io`，这是GitHub Pages的规顶，只有这样GitHub 才会把这个repo当作一个GitHub Pages来构建。`Description`和`README`是可选的，可以不填写，直接点击下方的`Create repository`按钮，如下图所示：
+首先登陆[GitHub](https://github.com/)，如果没有账号先注册账号，如果有账号点击右上角的`+`，选择`New repository`，在接下来的页面中填写博客项目的`Repository name`，前缀可以自定义，但是后缀必须是`.github.io`，这是GitHub Pages的规顶，只有这样GitHub 才会把这个`repo`当作一个GitHub Pages来构建。`Description`和`README`是可选的，可以不填写，直接点击下方的*Create repository*按钮，如下图所示：
 
 ![Create_a_new_Repository]({{ "/PNG/Create_a_new_Repository.png" | absolute_url }})
 
-这样，一个名为`{你的GitHub用户名}/{你的repo名.github.io}`的repo就创建成功了。之后页面会自动跳转到刚刚创建的repo主页。此时这里是没有任何文件的(如果有那一定是README)。我们接下来要做的就是利用Git工具将本地的myblog文件夹push到GitHub的repo中。
+这样，一个名为`{你的GitHub用户名}/{你的repo名.github.io}`的`repo`就创建成功了。之后页面会自动跳转到刚刚创建的`repo`主页。此时这里是没有任何文件的(如果有那一定是`README`)。我们接下来要做的就是利用`Git`工具将本地的`myblog`文件夹`push`到GitHub的`repo`中。
 
 假定我们已经安装了`Git`工具，并且已经[将本机的公钥添加到了GitHub](https://www.cocobolo.top/linux/2019/04/24/Git-and-GitHub.html)中：
 
@@ -243,11 +243,11 @@ To git@github.com:Artificial-Ridiculous/myblog.github.io.git
 Branch master set up to track remote branch master from origin.
 ```
 
-我肯可以刷新GitHub的repo页面，可以看到本地的文件和文件夹都被成功上传了：
+刷新`GitHub`的`repo`页面，可以看到本地的文件和文件夹都被成功上传了：
 
 ![git_push_-u_origin_master]({{ "/PNG/git_push_-u_origin_master.png" | absolute_url }})
 
-我们可以浏览器输入[https://{你的GitHub用户名}.github.io](https://github.com/Artificial-Ridiculous/Artificial-Ridiculous.github.io)来访问博客。
+此时可以浏览器输入[https://{你的GitHub用户名}.github.io](https://github.com/Artificial-Ridiculous/Artificial-Ridiculous.github.io)来访问博客。
 
 ---
 
