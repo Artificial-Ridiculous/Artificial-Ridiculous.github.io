@@ -119,7 +119,7 @@ You’ll find this post in your `_posts` directory.
 我们将默认的`Welcome to Jekyll!`博文删掉，写一篇自己的博文：
 
 ```sh
-rm 2019-07-08-welcome-to-jekyll.markdown
+$ rm 2019-07-08-welcome-to-jekyll.markdown
 ```
 
 此时在之前的`jekyll serve`窗口中可以看到追加了如下输出：
@@ -134,7 +134,7 @@ rm 2019-07-08-welcome-to-jekyll.markdown
 然后新建文件：
 
 ```sh
-touch touch 2019-07-08-宏颜获水.markdown
+$ touch touch 2019-07-08-宏颜获水.markdown
 ```
 
 你可以选用自己熟悉的编辑器，比如`vim`、 `gedit`甚至`VS Code`来编辑该文本文件。
@@ -255,6 +255,6 @@ Branch master set up to track remote branch master from origin.
 
 将其设置为指向我们的GitHub Page页面地址，即`{你的GitHub用户名}.github.io`，我们将完整的Custom domain也就是`www.example.ncomet`填入Custom domain，并勾选下方的`Enforce HTTPS`选项开启HTTPS加密。
 
-至此，博客搭建完毕！
+至此，博客搭建完毕。
 
 写博客冰冻三尺非一日之寒，贵在坚持。加油！与你共勉。
