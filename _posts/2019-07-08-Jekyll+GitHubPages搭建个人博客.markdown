@@ -93,7 +93,7 @@ $ ls
 说完了合格的`jekyll markdown`文件名再来看看合格`jekyll markdown` 正文格式：
 
 ```sh
-cat 2019-07-08-welcome-to-jekyll.markdown
+$ cat 2019-07-08-welcome-to-jekyll.markdown
 ---
 layout: post
 title:  "Welcome to Jekyll!"
