@@ -80,7 +80,7 @@ Auto-regeneration: enabled for '/home/lz/myblog'
 └─index.html  # 运行serve命令时会实时生成的文件夹，不需要git同步
 ```
 
-最重要的就是`_posts`文件夹，我们所有的`markdown`博文都应wenjian处，我们`cd`进去这个文件夹看看里面有什么：
+最重要的就是`_posts`文件夹，所有写好的`markdown`博文都放在此处，我们`cd`进去这个文件夹看看里面有什么：
 
 ```sh
 $ cd _posts
