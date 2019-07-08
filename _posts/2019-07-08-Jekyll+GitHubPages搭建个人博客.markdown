@@ -245,7 +245,7 @@ Branch master set up to track remote branch master from origin.
 
 刷新`GitHub`的`repo`页面，可以看到本地的文件和文件夹都被成功上传了：
 
-![git_push_-u_origin_master]({{ "/PNG/git_push_-u_origin_master.png" | absolute_url }})
+![new_myblog]({{ "/PNG/new_myblog.png" | absolute_url }})
 
 此时可以浏览器输入[https://{你的GitHub用户名}.github.io](https://github.com/Artificial-Ridiculous/Artificial-Ridiculous.github.io)来访问博客。
 
@@ -257,7 +257,9 @@ Branch master set up to track remote branch master from origin.
 
 ![CNAME]({{ "/PNG/CNAME.png" | absolute_url }})
 
-将其设置为指向我们的GitHub Page页面地址，即`{你的GitHub用户名}.github.io`，我们将完整的Custom domain也就是`www.example.ncomet`填入Custom domain，并勾选下方的`Enforce HTTPS`选项开启HTTPS加密。
+将其设置为指向我们的GitHub Page页面地址，即`{你的GitHub用户名}.github.io`，我们将完整的Custom domain也就是`www.example.ncomet`填入Custom domain，并勾选下方的`Enforce HTTPS`选项开启HTTPS加密：
+
+![www_cocobolo_top]({{ "/PNG/www_cocobolo_top.png" | absolute_url }})
 
 至此，博客搭建完毕。
 
