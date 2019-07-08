@@ -255,14 +255,14 @@ Branch master set up to track remote branch master from origin.
 
 ## 添加个人域名&开启HTTPS加密
 
-在repo主页上方有一栏选项，最后一项是`setting`，我们点进去往下滑，而已看到一个名为`GitHub Pages`的选项，可以输入`Custom domain`，如果我们有自己的域名([阿里云](https://wanwang.aliyun.com/)可以购买，假如是`example.com`)，可以前往DNS 提供商页面 设置一个`CNAME`比如`www`：
+在repo主页上方有一栏选项，最后一项是`setting`，我们点进去往下滑，可以看到一个名为`GitHub Pages`的配置区域。如果我们有自己的域名([阿里云](https://wanwang.aliyun.com/)可以购买，假设是`example.com`)，可以前往DNS设置页面设置一个`CNAME`比如`www`：
 
 ![CNAME]({{ "/PNG/CNAME.png" | absolute_url }})
 
-将其设置为指向我们的GitHub Page页面地址，即`{你的GitHub用户名}.github.io`，我们将完整的Custom domain也就是`www.example.ncomet`填入Custom domain，并勾选下方的`Enforce HTTPS`选项开启HTTPS加密：
+将该`CNAME`设置为指向我们GitHub Page页面的地址，即`{你的GitHub用户名}.github.io`，我们将完整的Custom domain也就是`www.example.com`填入Custom domain，并勾选下方的`Enforce HTTPS`选项开启HTTPS加密：
 
 ![www_cocobolo_top]({{ "/PNG/www_cocobolo_top.png" | absolute_url }})
 
-至此，博客搭建完毕。
+至此，基本的博客框架搭建工作就已经全部结束。如果暂时不想玩出花来(内容价值大于花里胡哨价值)的话，基本上就可以开启`写markdown -> 扔_posts文件夹`的简单写作模式了。
 
 写博客冰冻三尺非一日之寒，贵在坚持。加油！与你共勉。
