@@ -32,9 +32,9 @@ Jekyll是一个搭建个人博客的不错的选择，具有以下有点：
 ```sh
 $ cd ~
 $ sudo apt-get install ruby-dev  
-# 深坑，如果安装ruby而不是ruby-dev
+# 深坑 一定要装ruby-dev而不是ruby
 $ sudo gem install bundler jekyll  
-# 这里会报Failed to build gem native extension.
+# 否则这里会报Failed to build gem native extension.
 Successfully installed jekyll-3.8.6
 $ jekyll new myblog  
 # myblog可以是任何其他自定义名称
