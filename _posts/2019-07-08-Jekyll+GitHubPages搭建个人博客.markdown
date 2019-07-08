@@ -78,7 +78,7 @@ $ ll
 -rw-r--r-- 1 lz lz  175 Jul  8 10:02 index.md  
 # 默认的主页markdown文本，会被jekyll解析成html
 drwxrwxr-x 2 lz lz 4.0K Jul  8 10:02 _posts  
-# 写好的markdown文件放在这里
+# 文件夹，写好的markdown文件放在这里
 drwxrwxr-x 5 lz lz 4.0K Jul  8 10:06 _site  
 # 运行serve命令时会实时生成的文件夹，不需要git同步
 ```
