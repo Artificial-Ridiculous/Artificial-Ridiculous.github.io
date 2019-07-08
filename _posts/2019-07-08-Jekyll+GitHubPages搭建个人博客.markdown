@@ -42,11 +42,15 @@ Running bundle install in /home/lz/myblog...
 ...
 New jekyll site installed in /home/lz/myblog.
 $ cd myblog  # 进入myblog文件夹
-$ bundler exec jekyll serve -w --host=0.0.0.0  
-# 如果不指定host为0.0.0.0则默认搭建在127.0.0.1导致只有本机可以访问此博客，若指定0.0.0.0则所有局域网（甚至如果有公网IP，外网）也可以访问到该页面。适用于aliyun等无图形界面的情况。
+$ bundler exec jekyll serve   
+# 如果不指定host则默认搭建在127.0.0.1
+# 此时只有本机可以访问该构建在本地的博客
+# 若希望局域网（甚至如果有公网IP，外网）也可以访问到该页面
+# 则可以跟上参数　-w --host=0.0.0.0
+# 该参数适用于aliyun等无图形界面的情况
 ...
 Auto-regeneration: enabled for '/home/lz/myblog'
-    Server address: http://0.0.0.0:4000/
+    Server address: http://127.0.0.1:4000/
   Server running... press ctrl-c to stop.
 # 保留这个终端不要关闭，否则jekyll不工作
 ```
@@ -64,26 +68,19 @@ Auto-regeneration: enabled for '/home/lz/myblog'
 以上所有命令安装了`Ruby`和`Jekyll`并用`jekyll`自带的new命令快速生成了一个`minimum`模板的博客。此时`myblog`目录下的文件结构应该如下：
 
 ```sh
-$ ll
--rw-r--r-- 1 lz lz  398 Jul  8 10:02 404.html  
-# 默认的404页面
--rw-r--r-- 1 lz lz  539 Jul  8 10:02 about.md  
-# 默认的about页面的markdown文本，会被jekyll解析成html
--rw-r--r-- 1 lz lz 1.7K Jul  8 10:02 _config.yml  
-# jekyll参数配置文件，可以在这里指定markdown解析引擎、代码高亮等等
--rw-rw-r-- 1 lz lz 1.1K Jul  8 10:02 Gemfile  
-# The Gemfile.lock file is where Bundler records the exact versions that were installed.
--rw-rw-r-- 1 lz lz 1.9K Jul  8 10:05 Gemfile.lock  
-# The Gemfile is where you specify which gems you want to use, and lets you specify which versions.
--rw-r--r-- 1 lz lz  175 Jul  8 10:02 index.md  
-# 默认的主页markdown文本，会被jekyll解析成html
-drwxrwxr-x 2 lz lz 4.0K Jul  8 10:02 _posts  
-# 文件夹，写好的markdown文件放在这里
-drwxrwxr-x 5 lz lz 4.0K Jul  8 10:06 _site  
-# 运行serve命令时会实时生成的文件夹，不需要git同步
+├─404.html  # 默认的404页面
+├─about.md  # 默认的about页面的markdown文本，会被jekyll解析成html
+├─_config.yml # 参数配置文件，可以指定markdown解析引擎、代码高亮等等
+├─Gemfile  # 可以指定使用的gems及其版本
+├─Gemfile.lock  # 记录已安装的版本，保证跨机器运行时的兼容性
+├─index.md  # 默认的主页markdown文本，会被jekyll解析成html
+├─_posts  # 文件夹，写好的markdown文件放在这里
+│    └─2019-07-08-welcome-to-jekyll.markdown  # markdown文件
+├─_site　　# 文件夹，写好的markdown文件放在这里
+└─index.html  # 运行serve命令时会实时生成的文件夹，不需要git同步
 ```
 
-最重要的就是`_posts`文件夹，我们所有的`markdown`博文都应该放置在此处，我们`cd`进去这个文件夹看看里面有什么：
+最重要的就是`_posts`文件夹，我们所有的`markdown`博文都应wenjian处，我们`cd`进去这个文件夹看看里面有什么：
 
 ```sh
 $ cd _posts
