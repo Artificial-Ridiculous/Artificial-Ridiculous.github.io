@@ -182,7 +182,7 @@ Regenerating: 1 file(s) changed at 2019-07-08 12:33:45
 
 ## 构建GitHub Pages
 
-首先登陆[GitHub](https://github.com/)，如果没有账号先注册账号，如果有账号点击右上角的`+`，选择`New repository`，在接下来的页面中填写博客项目的`Repository name`，前缀可以自定义，但是后缀必须是`.github.io`，这是GitHub Pages的规定，只有这样GitHub 才会把这个`repo`当作一个GitHub Pages来构建。`Description`和`README`是可选的，可以不填写，直接点击下方的*Create repository*按钮，如下图所示：
+首先登陆[GitHub](https://github.com/)，如果没有账号先注册账号，如果有账号点击右上角的`+`，选择`New repository`，在接下来的页面中填写博客项目的`Repository name`，前缀可以自定义，但是后缀必须是`.github.io`，这是GitHub Pages的规定，只有这样GitHub 才会把这个`repo`当作一个GitHub Pages来构建。`Description`和`README`是可选的，可以不填写，直接点击下方的 **Create repository** 按钮，如下图所示：
 
 ![Create_a_new_Repository]({{ "/PNG/Create_a_new_Repository.png" | absolute_url }})
 
