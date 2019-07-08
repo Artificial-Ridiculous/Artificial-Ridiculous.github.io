@@ -88,7 +88,7 @@ $ ls
 2019-07-08-welcome-to-jekyll.markdown
 ```
 
-我们可以从这里看出一点端倪，即标准的jekyll markdown博文的文件名应该是`YEAR-MONTH-DAY-title.MARKUP`格式，`MARKUP`可以是jekyll支持的标记语言，当然我们就写markdown即可，后缀名是`.md`或者`.markdown`都可以被jekyll正确识别，只要保证文件名是`年份-月份-日期-文章标题.markdown/md`这样既可。
+我们可以从这里看出一点端倪，即标准的jekyll markdown博文的文件名应该是`YEAR-MONTH-DAY-title.MARKUP`格式，`MARKUP`可以是jekyll支持的标记语言，当然我们写markdown格式即可。后缀名是`.md`或者`.markdown`都可以被jekyll正确识别，只要保证文件名是`年份-月份-日期-文章标题.markdown/md`这样既可。
 
 说完了合格的`jekyll markdown`文件名再来看看合格`jekyll markdown` 正文格式：
 
