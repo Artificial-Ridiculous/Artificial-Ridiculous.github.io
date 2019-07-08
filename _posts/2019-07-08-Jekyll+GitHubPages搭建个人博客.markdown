@@ -195,8 +195,10 @@ $ cd ~/myblog
 $ git init
 # 会在myblog下创建一个repo
 Initialized empty Git repository in /home/lz/myblog/.git/
+
 $ git remote add origin https://github.com/{你的GitHub用户名}/{你的repo名}.github.io
 # 添加远程GitHub repo
+
 $ git add .
 # 将myblog下所有文件都添加到本地repo中
 
@@ -219,7 +221,7 @@ new file:   about.md
 new file:   index.md
 
 $ git commit -m "add a project to github"
-# 如果是第一次运行Git此时会报错，要求设置邮箱和用户名。按照提示设置后再运行一次commit即可。
+# 如果是第一次运行git commit此时会报错，要求设置邮箱和用户名。按照提示设置后再运行一次commit即可。
 [master (root-commit) 87afcfc] add a project to github
  8 files changed, 225 insertions(+)
  create mode 100644 .gitignore
