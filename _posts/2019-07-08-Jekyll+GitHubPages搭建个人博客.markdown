@@ -76,7 +76,7 @@ Auto-regeneration: enabled for '/home/lz/myblog'
 ├─index.md  # 默认的主页markdown文本，会被jekyll解析成html
 ├─_posts  # 文件夹，写好的markdown文件放在这里
 │    └─2019-07-08-welcome-to-jekyll.markdown  # markdown文件
-├─_site　　# 文件夹，写好的markdown文件放在这里
+├─_site  # 文件夹，写好的markdown文件放在这里
 └─index.html  # 运行serve命令时会实时生成的文件夹，不需要git同步
 ```
 
