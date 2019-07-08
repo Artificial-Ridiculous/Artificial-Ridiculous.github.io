@@ -186,7 +186,7 @@ category: life
 
 ![Create_a_new_Repository]({{ "/PNG/Create_a_new_Repository.png" | absolute_url }})
 
-这样，一个名为`{你的GitHub用户名}/{你的repo名.github.io}`的`repo`就创建成功了。之后页面会自动跳转到刚刚创建的`repo`主页。此时这里是没有任何文件的(如果有那一定是`README`)。我们接下来要做的就是利用`Git`工具将本地的`myblog`文件夹`push`到GitHub的`repo`中。
+这样，一个名为`{你的GitHub用户名}/{你的repo}.github.io`的`repo`就创建成功了。之后页面会自动跳转到刚刚创建的`repo`主页。此时这里是没有任何文件的(如果有那一定是`README`)。我们接下来要做的就是利用`Git`工具将本地的`myblog`文件夹`push`到GitHub的`repo`中。
 
 假定我们已经安装了`Git`工具，并且已经[将本机的公钥添加到了GitHub](https://www.cocobolo.top/linux/2019/04/24/Git-and-GitHub.html)中：
 
@@ -195,7 +195,7 @@ $ cd ~/myblog
 $ git init
 # 会在myblog下创建一个repo
 Initialized empty Git repository in /home/lz/myblog/.git/
-$ git remote add origin https://github.com/{你的GitHub用户名}/{你的repo名.github.io}
+$ git remote add origin https://github.com/{你的GitHub用户名}/{你的repo名}.github.io
 # 添加远程GitHub repo
 $ git add .
 # 将myblog下所有文件都添加到本地repo中
