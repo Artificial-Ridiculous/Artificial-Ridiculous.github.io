@@ -11,7 +11,7 @@ category: java
 
 本文分为十九个模块，分别是： Java 基础、容器、多线程、反射、对象拷贝、Java Web 、异常、网络、设计模式、Spring/Spring MVC、Spring Boot/Spring Cloud、Hibernate、MyBatis、RabbitMQ、Kafka、Zookeeper、MySQL、Redis、JVM ，如下图所示：
 
-![Java面试题]({{ "/PNG/Java面试题.png" | absolute_url }})
+![Java面试题](/PNG/Java面试题.png)
 
 共包含 208 道面试题，本文的宗旨是为读者朋友们整理一份详实而又权威的面试清单，下面一起进入主题吧。
 
