@@ -183,7 +183,7 @@ Regenerating: 1 file(s) changed at 2019-07-08 12:33:45
 
 ![Create_a_new_Repository]({{ "/PNG/Create_a_new_Repository.png" | absolute_url }})
 
-这样，一个名为`{你的GitHub用户名}/{你的repo}.github.io`的`repo`就创建成功了。之后页面会自动跳转到刚刚创建的`repo`主页。此时这里是没有任何文件的(如果有那一定是`README`)。我们接下来要做的就是利用`Git`工具将本地的`myblog`文件夹`push`到GitHub的`repo`中。
+这样，一个名为`{GitHub用户名}/{repo名}.github.io`的`repo`就创建成功了。之后页面会自动跳转到刚刚创建的`repo`主页。此时这里是没有任何文件的(如果有那一定是`README`)。我们接下来要做的就是利用`Git`工具将本地的`myblog`文件夹`push`到GitHub的`repo`中。
 
 假定我们已经安装了`Git`工具，并且已经[将本机的公钥添加到了GitHub](https://www.cocobolo.top/linux/2019/04/24/Git-and-GitHub.html)中：
 
@@ -193,7 +193,7 @@ $ git init
 # 会在myblog下创建一个repo
 Initialized empty Git repository in /home/lz/myblog/.git/
 
-$ git remote add origin https://github.com/{你的GitHub用户名}/{你的repo名}.github.io
+$ git remote add origin https://github.com/{GitHub用户名}/{repo名}.github.io
 # 添加远程GitHub repo
 
 $ git add .
@@ -246,20 +246,24 @@ Branch master set up to track remote branch master from origin.
 
 ![new_myblog]({{ "/PNG/new_myblog.png" | absolute_url }})
 
-此时可以浏览器输入[https://{你的GitHub用户名}.github.io](https://Artificial-Ridiculous.github.io)来访问博客。
+此时可以浏览器输入[https://{GitHub用户名}.github.io](https://Artificial-Ridiculous.github.io)来访问博客。
+
+如果你对固定的`github.io`域名不满意，下一节将介绍添加自定义域名，将允许通过自定义域名访问你的GitHub Pages博客。
 
 ---
 
 ## 添加个人域名&开启HTTPS加密
 
-在repo主页上方有一栏选项，最后一项是`setting`，我们点进去往下滑，可以看到一个名为`GitHub Pages`的配置区域。如果我们有自己的域名([阿里云](https://wanwang.aliyun.com/)可以购买，假设是`example.com`)，可以前往DNS设置页面设置一个`CNAME`比如`www`：
+在repo主页上方有一栏选项，最后一项是`setting`，我们点进去往下滑，可以看到一个名为`GitHub Pages`的配置区域。如果我们有自己的域名([阿里云](https://wanwang.aliyun.com/)可以购买，假设是`example.com`)，可以前往DNS设置页面设置一个`CNAME`比如`www`(GitHub强烈推荐使用www子域名)指向`{GitHub用户名}.github.io`：
 
 ![CNAME]({{ "/PNG/CNAME.png" | absolute_url }})
 
-将该`CNAME`设置为指向我们GitHub Page页面的地址，即`{你的GitHub用户名}.github.io`，我们将完整的Custom domain也就是`www.example.com`填入Custom domain，并勾选下方的`Enforce HTTPS`选项开启HTTPS加密：
+然后我们将完整的Custom domain也就是`www.example.com`填入GitHub setting页面的Custom domain输入框，并勾选下方的`Enforce HTTPS`选项开启HTTPS加密：
 
 ![www_cocobolo_top]({{ "/PNG/www_cocobolo_top.png" | absolute_url }})
 
+现在就可以通过[https://www.example.com](https://Artificial-Ridiculous.github.io)来访问你的个人博客了，与直接访问[https://{GitHub用户名}.github.io](https://Artificial-Ridiculous.github.io)效果是一样的。
+
 至此，基本的博客框架搭建工作就已经全部结束。如果暂时不想玩出花来(内容价值大于花里胡哨价值)的话，基本上就可以开启`写markdown -> 扔_posts文件夹`的简单写作模式了。
 
-写博客冰冻三尺非一日之寒，贵在坚持。加油！与你共勉。
+写博客**冰冻三尺非一日之寒**，贵在坚持。加油！与你共勉。
