@@ -1576,13 +1576,14 @@ Java 基础
     jconsole：用于对 JVM 中的内存、线程和类等进行监控；
     jvisualvm：JDK 自带的全能分析工具，可以分析：内存快照、线程快照、程序死锁、监控内存的变化、gc 变化等。
 1. 常用的 JVM 调优的参数都有哪些？
-
-    -Xms2g：初始化推大小为 2g；
-    -Xmx2g：堆最大内存为 2g；
-    -XX:NewRatio=4：设置年轻的和老年代的内存比例为 1:4；
-    -XX:SurvivorRatio=8：设置新生代 Eden 和 Survivor 比例为 8:2；
-    –XX:+UseParNewGC：指定使用 ParNew + Serial Old 垃圾回收器组合；
-    -XX:+UseParallelOldGC：指定使用 ParNew + ParNew Old 垃圾回收器组合；
-    -XX:+UseConcMarkSweepGC：指定使用 CMS + Serial Old 垃圾回收器组合；
-    -XX:+PrintGC：开启打印 gc 信息；
-    -XX:+PrintGCDetails：打印 gc 详细信息。
+    ```java
+    -Xms2g:  // 初始化推大小为 2g；  
+    -Xmx2g:  // 堆最大内存为 2g；  
+    -XX:NewRatio=4:  // 设置年轻的和老年代的内存比例为 1:4；  
+    -XX:SurvivorRatio=8:  // 设置新生代 Eden 和 Survivor 比例为 8:2；  
+    -XX:+UseParNewGC:  // 指定使用 ParNew + Serial Old 垃圾回收器组合；  
+    -XX:+UseParallelOldGC:  // 指定使用 ParNew + ParNew Old 垃圾回收器组合；  
+    -XX:+UseConcMarkSweepGC:  // 指定使用 CMS + Serial Old 垃圾回收器组合；  
+    -XX:+PrintGC:  // 开启打印 gc 信息；  
+    -XX:+PrintGCDetails:  // 打印 gc 详细信息。
+    ```  

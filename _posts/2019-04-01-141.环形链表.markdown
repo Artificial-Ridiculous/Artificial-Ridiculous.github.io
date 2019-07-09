@@ -10,7 +10,7 @@ category: leetcode-cn
 示例：  
 
 ### 输入1: 
-![ListNode]({{ "/PNG/141_circularlinkedlist_test1.png" | absolute_url }})  
+![ListNode](/PNG/141_circularlinkedlist_test1.png)  
 
 ### 输出1:  
 ```python
@@ -18,7 +18,7 @@ True
 ```
 
 ### 输入2:   
-![ListNode]({{ "/PNG/141_circularlinkedlist_test3.png" | absolute_url }})
+![ListNode](/PNG/141_circularlinkedlist_test3.png)
 
 ### 输出2:  
 ```python

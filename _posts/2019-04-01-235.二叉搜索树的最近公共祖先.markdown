@@ -12,7 +12,7 @@ category: leetcode-cn
 示例：  
 
 ### 输入1:   
-![TreeNode]({{ "/PNG/235_binarysearchtree_improved.png" | absolute_url }})
+![TreeNode](/PNG/235_binarysearchtree_improved.png)
 ```python
 p=2
 q=8
