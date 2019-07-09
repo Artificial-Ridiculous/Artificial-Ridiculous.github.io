@@ -35,10 +35,10 @@ Java 基础
     String x = "string";
     String y = "string";
     String z = new String("string");
-    System.out.println(x==y); // true
-    System.out.println(x==z); // false
-    System.out.println(x.equals(y)); // true
-    System.out.println(x.equals(z)); // true
+    System.out.println(x==y);  // true
+    System.out.println(x==z);  // false
+    System.out.println(x.equals(y));  // true
+    System.out.println(x.equals(z));  // true
     ```
 
     代码解读：因为 x 和 y 指向的是同一个引用，所以 == 也是 true，而 new String()方法则重写开辟了内存空间，所以 == 结果为 false，而 equals 比较的一直是值，所以结果都为 true。
@@ -189,7 +189,7 @@ Java 基础
     trim():  // 去除字符串两端空白。
     split():  // 分割字符串，返回一个分割后的字符串数组。
     getBytes():  // 返回字符串的 byte 类型数组。
-    length():返回字符串长度。
+    length():  // 返回字符串长度。
     toLowerCase():  // 将字符串转成小写字母。
     toUpperCase():  // 将字符串转成大写字符。
     substring():  // 截取字符串。
