@@ -11,7 +11,7 @@ category: java
 
 本文分为十九个模块，分别是： Java 基础、容器、多线程、反射、对象拷贝、Java Web 、异常、网络、设计模式、Spring/Spring MVC、Spring Boot/Spring Cloud、Hibernate、MyBatis、RabbitMQ、Kafka、Zookeeper、MySQL、Redis、JVM ，如下图所示：
 
-![JAVA面试题]({{ "/PNG/JAVA面试题.png" | absolute_url }})
+![Java面试题]({{ "/PNG/Java面试题.png" | absolute_url }})
 
 共包含 208 道面试题，本文的宗旨是为读者朋友们整理一份详实而又权威的面试清单，下面一起进入主题吧。
 
@@ -134,7 +134,7 @@ Java 基础
     执行的结果：
 
     ```java
-    str1：1179395 | str2：1179395
+    str1:1179395 | str2:1179395
 
     false
     ```
@@ -183,17 +183,17 @@ Java 基础
 1. `String` 类的常用方法都有那些？  
 
     ```java
-    indexOf()：     返回指定字符的索引。
-    charAt()：返回指定索引处的字符。
-    replace()：字符串替换。
-    trim()：去除字符串两端空白。
-    split()：分割字符串，返回一个分割后的字符串数组。
-    getBytes()：返回字符串的 byte 类型数组。
-    length()：返回字符串长度。
-    toLowerCase()：将字符串转成小写字母。
-    toUpperCase()：将字符串转成大写字符。
-    substring()：截取字符串。
-    equals()：字符串比较。
+    indexOf():  // 返回指定字符的索引。
+    charAt():  // 返回指定索引处的字符。
+    replace():  // 字符串替换。
+    trim():  // 去除字符串两端空白。
+    split():  // 分割字符串，返回一个分割后的字符串数组。
+    getBytes():  // 返回字符串的 byte 类型数组。
+    length():返回字符串长度。
+    toLowerCase():  // 将字符串转成小写字母。
+    toUpperCase():  // 将字符串转成大写字符。
+    substring():  // 截取字符串。
+    equals():  // 字符串比较。
     ```
 
 1. 抽象类必须要有抽象方法吗？  
@@ -244,15 +244,15 @@ Java 基础
 1. Files的常用方法都有哪些？
 
     ```java
-    Files. exists()：检测文件路径是否存在。
-    Files. createFile()：创建文件。
-    Files. createDirectory()：创建文件夹。
-    Files. delete()：删除一个文件或目录。
-    Files. copy()：复制文件。
-    Files. move()：移动文件。
-    Files. size()：查看文件个数。
-    Files. read()：读取文件。
-    Files. write()：写入文件。
+    Files.exists():  // 检测文件路径是否存在。
+    Files.createFile():  // 创建文件。
+    Files.createDirectory():  // 创建文件夹。
+    Files.delete():  // 删除一个文件或目录。
+    Files.copy():  // 复制文件。
+    Files.move():  // 移动文件。
+    Files.size():  // 查看文件个数。
+    Files.read():  // 读取文件。
+    Files.write():  // 写入文件。
     ```
 
     容器
@@ -610,15 +610,15 @@ Java 基础
     JSP 有 9 大内置对象：
 
     ```java
-    request：封装客户端的请求，其中包含来自 get 或 post 请求的参数；
-    response：封装服务器对客户端的响应；
-    pageContext：通过该对象可以获取其他对象；
-    session：封装用户会话的对象；
-    application：封装服务器运行环境的对象；
-    out：输出服务器响应的输出流对象；
-    config：Web 应用的配置对象；
-    page：JSP 页面本身（相当于 Java 程序中的 this）；
-    exception：封装页面抛出异常的对象。
+    request:  // 封装客户端的请求，其中包含来自 get 或 post 请求的参数；
+    response:  // 封装服务器对客户端的响应；
+    pageContext:  // 通过该对象可以获取其他对象；
+    session:  // 封装用户会话的对象；
+    application:  // 封装服务器运行环境的对象；
+    out:  // 输出服务器响应的输出流对象；
+    config:  // Web 应用的配置对象；
+    page:  // JSP 页面本身（相当于 Java 程序中的 this）；
+    exception:  // 封装页面抛出异常的对象。
     ```
 
 1. 说一下 JSP 的 4 种作用域？
