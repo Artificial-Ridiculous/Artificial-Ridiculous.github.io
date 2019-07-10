@@ -152,22 +152,25 @@ code {
   @include relative-font-size(1);
   border: 1px solid $grey-color-light;
   border-radius: 3px;
-  // background-color: #eef;
+  //background-color: #eef;
   font-family: menlo,monaco,consolas,monospace,Microsoft Yahei !important;
 }
 
 code {
   padding: 1px 5px;
+  //background-color: #eef;
 }
 
 pre {
   padding: 8px 12px;
   overflow-x: auto;
+  //background-color: #272822;
 
   > code {
     border: 0;
     padding-right: 0;
     padding-left: 0;
+    //background-color: #eef;
   }
 }
 
