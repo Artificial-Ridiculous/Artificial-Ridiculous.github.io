@@ -63,7 +63,7 @@ Auto-regeneration: enabled for '/home/lz/myblog'
 
 ![Welcome_to_Jekyll]({{ "/PNG/Welcome_to_Jekyll.png" | absolute_url }})
 
-效果还不错~该有的都有--有标题，有日期，有正文，有单行代码，当然还有技术博客必不可少的代码块(with **代码高亮**)；不该有的广告和杂七杂八的东西都没有 ~~(我真没有diss CSDN blog🐶)~~ 。而我们不需要关心这些`html`是如何生成的--我只需要关心`markdown`文稿即可。只需要知道，你给他`markdown`，他就会给你html页面。
+效果还不错~该有的都有--有标题，有日期，有正文，有单行代码，当然还有技术博客必不可少的代码块(with **代码高亮**)；不该有的广告和杂七杂八的东西都没有 ~~(我真没有diss CSDN blog🐶)~~ 。最重要的是，我们不需要关心这些`html`是如何生成的--只需要专注于`markdown`文稿的撰写即可。“你给他markdwon，他还你html”，就这么简单。
 
 以上所有命令安装了`Ruby`和`Jekyll`并用`jekyll`自带的new命令快速生成了一个`minimum`模板的博客。此时`myblog`目录下的文件结构应该如下：
 
