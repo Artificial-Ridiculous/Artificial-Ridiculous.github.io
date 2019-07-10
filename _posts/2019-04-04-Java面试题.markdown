@@ -11,7 +11,7 @@ category: java
 
 本文分为十九个模块，分别是： Java 基础、容器、多线程、反射、对象拷贝、Java Web 、异常、网络、设计模式、Spring/Spring MVC、Spring Boot/Spring Cloud、Hibernate、MyBatis、RabbitMQ、Kafka、Zookeeper、MySQL、Redis、JVM ，如下图所示：
 
-![Java面试题]({{ "/PNG/Java面试题.png" | absolute_url }})
+![Java面试题](/PNG/Java面试题.png)
 
 共包含 208 道面试题，本文的宗旨是为读者朋友们整理一份详实而又权威的面试清单，下面一起进入主题吧。
 
@@ -1442,17 +1442,17 @@ Java 基础
 
 1. Redis 淘汰策略有哪些？
 
-    volatile-lru：从已设置过期时间的数据集（server. db[i]. expires）中挑选最近最少使用的数据淘汰。
+    - volatile-lru：从已设置过期时间的数据集（server. db[i]. expires）中挑选最近最少使用的数据淘汰。
 
-    volatile-ttl：从已设置过期时间的数据集（server. db[i]. expires）中挑选将要过期的数据淘汰。
+    - volatile-ttl：从已设置过期时间的数据集（server. db[i]. expires）中挑选将要过期的数据淘汰。
 
-    volatile-random：从已设置过期时间的数据集（server. db[i]. expires）中任意选择数据淘汰。
+    - volatile-random：从已设置过期时间的数据集（server. db[i]. expires）中任意选择数据淘汰。
 
-    allkeys-lru：从数据集（server. db[i]. dict）中挑选最近最少使用的数据淘汰。
+    - allkeys-lru：从数据集（server. db[i]. dict）中挑选最近最少使用的数据淘汰。
 
-    allkeys-random：从数据集（server. db[i]. dict）中任意选择数据淘汰。
+    - allkeys-random：从数据集（server. db[i]. dict）中任意选择数据淘汰。
 
-    no-enviction（驱逐）：禁止驱逐数据。
+    - no-enviction（驱逐）：禁止驱逐数据。
 
 1. Redis 常见的性能问题有哪些？该如何解决？
 
@@ -1576,13 +1576,14 @@ Java 基础
     jconsole：用于对 JVM 中的内存、线程和类等进行监控；
     jvisualvm：JDK 自带的全能分析工具，可以分析：内存快照、线程快照、程序死锁、监控内存的变化、gc 变化等。
 1. 常用的 JVM 调优的参数都有哪些？
-
-    -Xms2g：初始化推大小为 2g；
-    -Xmx2g：堆最大内存为 2g；
-    -XX:NewRatio=4：设置年轻的和老年代的内存比例为 1:4；
-    -XX:SurvivorRatio=8：设置新生代 Eden 和 Survivor 比例为 8:2；
-    –XX:+UseParNewGC：指定使用 ParNew + Serial Old 垃圾回收器组合；
-    -XX:+UseParallelOldGC：指定使用 ParNew + ParNew Old 垃圾回收器组合；
-    -XX:+UseConcMarkSweepGC：指定使用 CMS + Serial Old 垃圾回收器组合；
-    -XX:+PrintGC：开启打印 gc 信息；
-    -XX:+PrintGCDetails：打印 gc 详细信息。
+    ```java
+    -Xms2g:  // 初始化推大小为 2g；  
+    -Xmx2g:  // 堆最大内存为 2g；  
+    -XX:NewRatio=4:  // 设置年轻的和老年代的内存比例为 1:4；  
+    -XX:SurvivorRatio=8:  // 设置新生代 Eden 和 Survivor 比例为 8:2；  
+    -XX:+UseParNewGC:  // 指定使用 ParNew + Serial Old 垃圾回收器组合；  
+    -XX:+UseParallelOldGC:  // 指定使用 ParNew + ParNew Old 垃圾回收器组合；  
+    -XX:+UseConcMarkSweepGC:  // 指定使用 CMS + Serial Old 垃圾回收器组合；  
+    -XX:+PrintGC:  // 开启打印 gc 信息；  
+    -XX:+PrintGCDetails:  // 打印 gc 详细信息。
+    ```  

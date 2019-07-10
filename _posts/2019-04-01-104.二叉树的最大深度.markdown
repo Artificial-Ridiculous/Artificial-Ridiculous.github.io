@@ -11,7 +11,7 @@ category: leetcode-cn
 示例：  
 
 ### 输入1:   
-![TreeNode]({{ "/PNG/104_BinaryTree.png" | absolute_url }})  
+![TreeNode](/PNG/104_BinaryTree.png)  
 
 ### 输出1:  
 ```python

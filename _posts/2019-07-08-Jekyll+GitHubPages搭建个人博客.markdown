@@ -57,11 +57,11 @@ Auto-regeneration: enabled for '/home/lz/myblog'
 
 我们在浏览器访问[`127.0.0.1:4000`](http://127.0.0.1:4000/)，就可以看到我们刚才新建的博客的主页了：
 
-![Your_awesome_title]({{ "/PNG/Your_awesome_title.png" | absolute_url }})
+![Your_awesome_title](/PNG/Your_awesome_title.png)
 
 此时只有默认生成的一篇post，名为`Welcome_to_Jekyll`，我们可以点进去看看效果：
 
-![Welcome_to_Jekyll]({{ "/PNG/Welcome_to_Jekyll.png" | absolute_url }})
+![Welcome_to_Jekyll](/PNG/Welcome_to_Jekyll.png)
 
 效果还不错~该有的都有--有标题，有日期，有正文，有单行代码，当然还有技术博客必不可少的代码块(with **代码高亮**)；不该有的广告和杂七杂八的东西都没有 ~~(我真没有diss CSDN blog🐶)~~ 。最重要的是，我们不需要关心这些`html`是如何生成的--只需要专注于`markdown`文稿的撰写即可。“你给他markdwon，他还你html”，就这么简单。
 
@@ -171,7 +171,7 @@ Regenerating: 1 file(s) changed at 2019-07-08 12:33:45
 
 在浏览器访问[`127.0.0.1:4000`](http://127.0.0.1:4000/)，就可以看到我们刚才新建的宏颜获水了：
 
-![宏颜获水]({{ "/PNG/宏颜获水.png" | absolute_url }})
+![宏颜获水](/PNG/宏颜获水.png)
 
 关于`markdown`语法后续博客会有较为详细的介绍，这里先不展开讲。到这里本地的博客已经搭建完毕，接下来要做的就是将其构建在`GitHub Pages`上，这样可以`DDNS`，而且从任何地方都能访问。
 
@@ -181,7 +181,7 @@ Regenerating: 1 file(s) changed at 2019-07-08 12:33:45
 
 首先登陆[GitHub](https://github.com/)，如果没有账号先注册账号，如果有账号点击右上角的`+`，选择`New repository`，在接下来的页面中填写博客项目的`Repository name`，前缀可以自定义，但是后缀必须是`.github.io`，这是GitHub Pages的规定，只有这样GitHub 才会把这个`repo`当作一个GitHub Pages来构建。`Description`和`README`是可选的，可以不填写，直接点击下方的 **Create repository** 按钮，如下图所示：
 
-![Create_a_new_Repository]({{ "/PNG/Create_a_new_Repository.png" | absolute_url }})
+![Create_a_new_Repository](/PNG/Create_a_new_Repository.png)
 
 这样，一个名为`{GitHub用户名}/{repo名}.github.io`的`repo`就创建成功了。之后页面会自动跳转到刚刚创建的`repo`主页。此时这里是没有任何文件的(如果有那一定是`README`)。我们接下来要做的就是利用`Git`工具将本地的`myblog`文件夹`push`到GitHub的`repo`中。
 
@@ -244,7 +244,7 @@ Branch master set up to track remote branch master from origin.
 
 刷新`GitHub`的`repo`页面，可以看到本地的文件和文件夹都被成功上传了：
 
-![new_myblog]({{ "/PNG/new_myblog.png" | absolute_url }})
+![new_myblog](/PNG/new_myblog.png)
 
 此时可以浏览器输入[https://{GitHub用户名}.github.io](https://Artificial-Ridiculous.github.io)来访问博客。
 
@@ -256,14 +256,15 @@ Branch master set up to track remote branch master from origin.
 
 在repo主页上方有一栏选项，最后一项是`setting`，我们点进去往下滑，可以看到一个名为`GitHub Pages`的配置区域。如果我们有自己的域名([阿里云](https://wanwang.aliyun.com/)可以购买，假设是`example.com`)，可以前往DNS设置页面设置一个`CNAME`比如`www`(GitHub强烈推荐使用www子域名)指向`{GitHub用户名}.github.io`：
 
-![CNAME]({{ "/PNG/CNAME.png" | absolute_url }})
+![CNAME](/PNG/CNAME.png)
 
 然后我们将完整的Custom domain也就是`www.example.com`填入GitHub setting页面的Custom domain输入框，并勾选下方的`Enforce HTTPS`选项开启HTTPS加密：
 
-![www_cocobolo_top]({{ "/PNG/www_cocobolo_top.png" | absolute_url }})
+![www_cocobolo_top](/PNG/www_cocobolo_top.png)
 
 现在就可以通过[https://www.example.com](https://Artificial-Ridiculous.github.io)来访问你的个人博客了，与直接访问[https://{GitHub用户名}.github.io](https://Artificial-Ridiculous.github.io)效果是一样的。
 
 至此，基本的博客框架搭建工作就已经全部结束。如果暂时不想玩出花来(内容价值大于花里胡哨价值)的话，基本上就可以开启`写markdown -> 扔_posts文件夹`的简单写作模式了。
 
 写博客**冰冻三尺非一日之寒**，贵在坚持。加油！与你共勉。
+
