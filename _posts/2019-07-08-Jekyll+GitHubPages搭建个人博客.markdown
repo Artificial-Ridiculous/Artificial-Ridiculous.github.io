@@ -42,7 +42,7 @@ Running bundle install in /home/lz/myblog...
 ...
 New jekyll site installed in /home/lz/myblog.
 $ cd myblog  # 进入myblog文件夹
-$ bundler exec jekyll serve   
+$ bundler exec jekyll serve
 # 如果不指定host则默认搭建在127.0.0.1
 # 此时只有本机可以访问该构建在本地的博客
 # 若希望局域网（甚至如果有公网IP，外网）也可以访问到该页面
