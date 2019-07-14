@@ -27,7 +27,7 @@ kramdown:
    input: GFM
    hard_wrap: falseS
    syntax_highlighter: rouge
-theme: minima
+theme: jekyll-theme-cayman
 highlighter: rouge
 plugins:
   - jekyll-feed
