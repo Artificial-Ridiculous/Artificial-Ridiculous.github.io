@@ -161,7 +161,7 @@ public class Transaction {
         TransactionType = transactionType;
         Amount = amount;
     }
-    
+
     @Override
     public String toString() {
         return "Transaction{" +
@@ -241,10 +241,12 @@ public class Transaction {
 ```java
 package top.cocobolo;
 
-import top.cocobolo.Transaction;
 import com.alibaba.fastjson.JSON;
-import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import java.sql.Date;
+import java.sql.Time;
+import java.util.Properties;
+import java.util.Random;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -301,7 +303,6 @@ public class KafkaProduce {
 ```java
 package top.cocobolo;
 
-import top.cocobolo.Transaction;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
 import java.sql.Connection;
@@ -376,12 +377,11 @@ public class MysqlSink extends RichSinkFunction<Transaction>{
 ```java
 package top.cocobolo;
 
-import top.cocobolo.Transaction;
-import org.apache.flink.configuration.Configuration;
-import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import com.alibaba.fastjson.JSON;
+import org.apache.flink.api.common.serialization.SimpleStringSchema;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
+import java.util.Properties;
 
 
 public class MysqlSink extends RichSinkFunction<Transaction>{

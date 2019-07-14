@@ -267,4 +267,3 @@ Branch master set up to track remote branch master from origin.
 至此，基本的博客框架搭建工作就已经全部结束。如果暂时不想玩出花来(内容价值大于花里胡哨价值)的话，基本上就可以开启`写markdown -> 扔_posts文件夹`的简单写作模式了。
 
 写博客**冰冻三尺非一日之寒**，贵在坚持。加油！与你共勉。
-
