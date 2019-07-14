@@ -1,0 +1,121 @@
+---
+layout: post
+title:  "Idea常用模板"
+date:   2019-07-14 20:54:00 +0800
+category: java
+---
+
+```java
+import java.util.ArrayList;
+
+/**
+ * @auther lz
+ * @create 2019-07-14 16:53
+ */
+public class Templates {
+
+    // prsf -> Tab👇
+    // private static final 单例模式或者私有常量
+
+    // psf -> Tab👇
+    // public static final
+
+    // psfi -> Tab👇
+    //public static final int
+
+    // psfs -> Tab👇
+    //public static final String
+
+    // psvm or main -> Tab👇
+    public static void main(String[] args) {
+
+        // sout -> Tab👇标准输出
+        System.out.println("hello");
+
+        // soutp -> Tab👇打印方法的parameter
+        System.out.println("args = [" + args + "]");
+
+        // soutm -> Tab👇打印method
+        System.out.println("Hello.main");
+
+        // soutv -> Tab👇打印variable
+        int num = 1;
+        System.out.println("num = " + num);
+    }
+
+    public void loop() {
+
+        String[] arr = new String[]{"abc","def","ghi"};
+
+        // fori -> Tab👇
+        for (int i = 0; i <arr.length ; i++) {
+            // i.sout
+            System.out.println(i);
+        }
+
+        // iter -> Tab👇
+        for (String s : arr) {
+            // s.sout -> Tab👇
+            System.out.println(s);
+        }
+
+        // itar -> Tab👇
+        for (int i = 0; i < arr.length; i++) {
+            String s = arr[i];
+            // s.sout -> Tab👇
+            System.out.println(s);
+        }
+
+        // new Arraylist(); -> Alt+Enter👇
+        ArrayList list = new ArrayList();
+        list.add(3);
+        list.add(4);
+        list.add(5);
+
+        // list.for -> Tab👇
+        for (Object o : list) {
+            // 没有添加泛型 默认object
+        }
+
+        // list.fori -> Tab👇
+        for (int i = 0; i < list.size(); i++) {
+            // 普通for循环
+        }
+
+        // list.forr -> Tab👇
+        for (int i = list.size() - 1; i >= 0; i--) {
+            // 从后向前遍历
+        }
+
+    }
+
+    public void method(){
+        ArrayList list = new ArrayList();
+        list.add(3);
+        list.add(4);
+        list.add(5);
+
+        // ifn -> Tab👇
+        if (list == null) {
+            //list需手动选择
+        }
+
+        // inn -> Tab👇
+        if (list != null) {
+            //list需手动选择
+        }
+
+        // list.null -> Tab👇
+        if (list == null) {
+
+        }
+
+        // list.nn -> Tab👇
+        if (list != null) {
+
+        }
+
+    }
+}
+
+```
