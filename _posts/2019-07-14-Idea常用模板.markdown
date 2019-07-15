@@ -5,7 +5,7 @@ date:   2019-07-14 20:54:00 +0800
 category: java
 ---
 
-Idea中有许多代码模板可以有效提高我们的键入速度，比如输入`main`回车就会自动生成`public static void main(String args[]){}`的模板，这些模板分为Idea原生内置的`Postfix completion`和可以自定义的`Live templates`,如下图所示：
+Idea中有许多代码模板可以有效提高我们的键入速度，比如输入`main`并按Tab就会自动生成`public static void main(String args[]){}`的模板，这些模板分为Idea原生内置的`Postfix completion`和可以自定义的`Live templates`,如下图所示：
 
 ![Idea-templates](/PNG/Idea-templates.png)
 
