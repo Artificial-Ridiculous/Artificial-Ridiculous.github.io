@@ -1,27 +1,22 @@
 ---
 layout: post
-title:  "Flink自定义Sink(MySQL)"
-date:   2019-07-12 14:09:00 +0800
+title:  "Flink自定义Sink(Hive)"
+date:   2019-07-15 17:16:00 +0800
 category: linux
 ---
 ***所有操作默认非root用户，本文中用 `lz` 用户。***
 
-本文中我们需要使用到流计算引擎flink，以kafka作为source，以自定义的MySQL作为sink，完成将kafka种实时产生的数据写入MySQL数据库保存的任务。
+本文中我们需要使用到流计算引擎flink，以kafka作为source，以自定义的 Hive 作为sink，完成将kafka种实时产生的数据写入 Hive 数据库保存的任务。
 
-假设在MySQL的数据库test种有一张transactions表：
+假设在 Hive 的数据库test种有一张transactions表：
 
 ```text
-+-----------------+------------+------+-----+---------+-------+
-| Field           | Type       | Null | Key | Default | Extra |
-+-----------------+------------+------+-----+---------+-------+
-| TransactionID   | bigint(20) | NO   | PRI | NULL    |       |
-| CardNumber      | bigint(20) | YES  |     | NULL    |       |
-| TerminalID      | int(11)    | YES  |     | NULL    |       |
-| TransactionDate | date       | YES  |     | NULL    |       |
-| TransactionTime | time       | YES  |     | NULL    |       |
-| TransactionType | tinyint(4) | YES  |     | NULL    |       |
-| Amount          | float      | YES  |     | NULL    |       |
-+-----------------+------------+------+-----+---------+-------+
+transaction_id          int
+card_number             int
+terminal_id             int
+transaction_time        timestamp
+transaction_type        int
+amount                  float
 ```
 
 打开idea新建maven项目，在`pom.xml`中添加如下依赖：
@@ -34,7 +29,7 @@ category: linux
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>top.cocobolo</groupId>
-    <artifactId>MysqlSink</artifactId>
+    <artifactId>hive</artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
         <plugins>
@@ -65,25 +60,25 @@ category: linux
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-core</artifactId>
             <version>1.8.0</version>
-<!--            <scope>provided</scope>-->
+            <!--            <scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-java</artifactId>
             <version>1.8.0</version>
-<!--            <scope>provided</scope>-->
+            <!--            <scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-streaming-java_2.11</artifactId>
             <version>1.8.0</version>
-<!--            <scope>provided</scope>-->
+            <!--            <scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-clients_2.11</artifactId>
             <version>1.8.0</version>
-<!--            <scope>provided</scope>-->
+            <!--            <scope>provided</scope>-->
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-connector-kafka -->
@@ -130,7 +125,16 @@ category: linux
             <artifactId>flink-connector-redis_2.11</artifactId>
             <version>1.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+            <version>2.6.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hive</groupId>
+            <artifactId>hive-jdbc</artifactId>
+            <version>1.2.2</version>
+        </dependency>
     </dependencies>
 </project>
 ```
@@ -140,100 +144,85 @@ category: linux
 ```java
 package top.cocobolo;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.sql.Timestamp;
 
 public class Transaction {
-    private long TransactionID;
-    private long CardNumber;
-    private long TerminalID;
-    private Date TransactionDate;
-    private Time TransactionTime;
-    private int TransactionType;
-    private Double Amount;
+    private Integer transaction_id;
+    private Integer card_number;
+    private Integer terminal_id;
+    private Timestamp transaction_time;
+    private Integer transaction_type;
+    private Float amount;
 
-    public Transaction(long transactionID, long cardNumber, long terminalID, Date transactionDate, Time transactionTime, int transactionType, Double amount) {
-        TransactionID = transactionID;
-        CardNumber = cardNumber;
-        TerminalID = terminalID;
-        TransactionDate = transactionDate;
-        TransactionTime = transactionTime;
-        TransactionType = transactionType;
-        Amount = amount;
+    public Transaction(Integer transaction_id, Integer card_number, Integer terminal_id, Timestamp transaction_time, Integer transaction_type, Float amount) {
+        this.transaction_id = transaction_id;
+        this.card_number = card_number;
+        this.terminal_id = terminal_id;
+        this.transaction_time = transaction_time;
+        this.transaction_type = transaction_type;
+        this.amount = amount;
     }
 
     @Override
     public String toString() {
         return "Transaction{" +
-                "TransactionID=" + TransactionID +
-                ", CardNumber=" + CardNumber +
-                ", TerminalID=" + TerminalID +
-                ", TransactionDate=" + TransactionDate +
-                ", TransactionTime=" + TransactionTime +
-                ", TransactionType=" + TransactionType +
-                ", Amount=" + Amount +
+                "transaction_id=" + transaction_id +
+                ", card_number=" + card_number +
+                ", terminal_id=" + terminal_id +
+                ", transaction_time=" + transaction_time +
+                ", transaction_type=" + transaction_type +
+                ", amount=" + amount +
                 '}';
     }
 
-    public long getTransactionID() {
-        return TransactionID;
+    public Integer getTransaction_id() {
+        return transaction_id;
     }
 
-
-    public long getCardNumber() {
-        return CardNumber;
+    public void setTransaction_id(Integer transaction_id) {
+        this.transaction_id = transaction_id;
     }
 
-    public long getTerminalID() {
-        return TerminalID;
+    public Integer getCard_number() {
+        return card_number;
     }
 
-    public Date getTransactionDate() {
-        return TransactionDate;
+    public void setCard_number(Integer card_number) {
+        this.card_number = card_number;
     }
 
-    public Time getTransactionTime() {
-        return TransactionTime;
+    public Integer getTerminal_id() {
+        return terminal_id;
     }
 
-    public int getTransactionType() {
-        return TransactionType;
+    public void setTerminal_id(Integer terminal_id) {
+        this.terminal_id = terminal_id;
     }
 
-    public Double getAmount() {
-        return Amount;
+    public Timestamp getTransaction_time() {
+        return transaction_time;
     }
 
-    public void setTransactionID(long transactionID) {
-        TransactionID = transactionID;
+    public void setTransaction_time(Timestamp transaction_time) {
+        this.transaction_time = transaction_time;
     }
 
-    public void setCardNumber(long cardNumber) {
-        CardNumber = cardNumber;
+    public Integer getTransaction_type() {
+        return transaction_type;
     }
 
-    public void setTerminalID(long terminalID) {
-        TerminalID = terminalID;
+    public void setTransaction_type(Integer transaction_type) {
+        this.transaction_type = transaction_type;
     }
 
-    public void setTransactionDate(Date transactionDate) {
-        TransactionDate = transactionDate;
+    public Float getAmount() {
+        return amount;
     }
 
-    public void setTransactionTime(Time transactionTime) {
-        TransactionTime = transactionTime;
+    public void setAmount(Float amount) {
+        this.amount = amount;
     }
-
-    public void setTransactionType(int transactionType) {
-        TransactionType = transactionType;
-    }
-
-    public void setAmount(Double amount) {
-        Amount = amount;
-    }
-
 }
-
 ```
 
 我们还需要一个`KafkaProduce.java`来生向kafka的transaction topic里实时写入数据：
@@ -242,14 +231,9 @@ public class Transaction {
 package top.cocobolo;
 
 import com.alibaba.fastjson.JSON;
+import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import java.sql.Date;
-import java.sql.Time;
-import java.util.Properties;
-import java.util.Random;
-
-import java.sql.Date;
-import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.Random;
 
@@ -267,20 +251,17 @@ public class KafkaProduce {
         props.put("bootstrap.servers", broker_list);
         props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        org.apache.kafka.clients.producer.KafkaProducer producer = new org.apache.kafka.clients.producer.KafkaProducer<String, String>(props);
+        KafkaProducer producer = new KafkaProducer<String, String>(props);
 
         while(true) {
-            int rand8 = (int)(1+Math.random()*(100000000-1+1));
-            int rand7 = (int)(1+Math.random()*(100000000-1+1));
-            int rand6 = (int)(1+Math.random()*(100000000-1+1));
-            Date currentDate = new Date(System.currentTimeMillis());
-            System.out.println("currentDate = "+ currentDate);
-            Time currentTime = new Time(System.currentTimeMillis());
-            System.out.println("currentTime = "+ currentTime);
-            int rand1 = (int)(1+Math.random()*(10-1+1));
-            double generatorDouble = new Random().nextDouble()*1000;
+            Integer transaction_id = (int)(1+Math.random()*(1000000000-1+1));
+            Integer card_number = (int)(1+Math.random()*(100000000-1+1));
+            Integer terminal_id = (int)(1+Math.random()*(10000000-1+1));
+            Timestamp transaction_time = new Timestamp(System.nanoTime());
+            Integer transaction_type = (int)(1+Math.random()*(8-1+1));
+            Float amount = new Random().nextFloat()*10000;
 
-            Transaction transaction = new Transaction(rand8,rand7,rand6,currentDate,currentTime,rand1,generatorDouble);
+            Transaction transaction = new Transaction(transaction_id,card_number,terminal_id,transaction_time,transaction_type,amount);
 
             ProducerRecord record = new ProducerRecord<String, String>(topic, null, null, JSON.toJSONString(transaction));
             producer.send(record);
@@ -289,7 +270,6 @@ public class KafkaProduce {
             Thread.sleep(5000);
             producer.flush();
         }
-//        producer.flush();
     }
 
     public static void main(String[] args) throws InterruptedException {
@@ -298,78 +278,80 @@ public class KafkaProduce {
 }
 ```
 
-接下来就是自定义`MysqlSink.java`了：
+接下来就是自定义`HiveSink.java`了：
 
 ```java
 package top.cocobolo;
 
+import java.sql.*;
+
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 
-public class MysqlSink extends RichSinkFunction<Transaction>{
+public class HiveSink extends RichSinkFunction<Transaction> {
     private PreparedStatement state ;
     private Connection conn ;
+    private String querySQL = "";
+//    private String sql;
 
     @Override
     public void open(Configuration parameters) throws Exception {
         super.open(parameters);
         conn = getConnection();
-        //System.out.println("conn=" + conn);
-        String sql = "insert into transactions(transactionID,cardNumber,terminalID,transactionDate,transactionTime,transactionType,amount) values(?, ?, ?, ?, ?, ?, ?);";
-        state = this.conn.prepareStatement(sql);
-        //System.out.println("state=" + state);
+
+        querySQL = "insert into transaction(transaction_id,card_number,terminal_id,transaction_time,transaction_type,amount) values(? ,?, ?, ?, ?, ?)";
+        state = conn.prepareStatement(querySQL);
+
     }
 
     @Override
     public void close() throws Exception {
         super.close();
-        if (conn != null) {
-            conn.close();
-        }
         if (state != null) {
             state.close();
         }
+        if (conn != null) {
+            conn.close();
+        }
+
     }
 
     @Override
     public void invoke(Transaction value, Context context) throws Exception {
-        state.setLong(1,value.getTransactionID());
-        state.setLong(2,value.getCardNumber());
-        state.setLong(3,value.getTerminalID());
-        state.setDate(4,value.getTransactionDate());
-        state.setTime(5,value.getTransactionTime());
-        state.setInt(6,value.getTransactionType());
-        state.setDouble(7,value.getAmount());
+        state.setLong(1,value.getTransaction_id());
+        state.setLong(2,value.getCard_number());
+        state.setLong(3,value.getTerminal_id());
+        state.setString(4,value.getTransaction_time().toString());
+        state.setInt(5,value.getTransaction_type());
+        state.setDouble(6,value.getAmount());
+
         state.executeUpdate();
     }
 
     private static Connection getConnection() {
         Connection conn = null;
         try {
-            String jdbc = "com.mysql.jdbc.Driver";
+            String jdbc = "org.apache.hive.jdbc.HiveDriver";
+            String url = "jdbc:hive2://192.168.229.129:10000/test";
+            String user = "lz";  // 重要！此处必须填入具有HDFS写入权限的用户名，比如hive文件夹的owner
+            String password = "";
             Class.forName(jdbc);
-            String url = "jdbc:mysql://router.cocobolo.top:33306/test";
-            String user = "root";
-            String password = "root";
-            conn = DriverManager.getConnection(url +
-                "?useUnicode=true" +
-                "&useSSL=false" +
-                "&characterEncoding=UTF-8" +
-                "&serverTimezone=UTC",
-                user,
-                password);
+            conn = DriverManager.getConnection(url, user, password);
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return conn;
     }
 
-}
 
+    public static void main(String[] args) {
+        getConnection();
+    }
+
+}
 ```
 
 最后写一个`Main.java`实现整个逻辑：
@@ -405,13 +387,12 @@ public class Main {
         )
                 .setParallelism(1)
                 .map(string -> JSON.parseObject(string, Transaction.class))
-                .addSink(new MysqlSink()); //数据 sink 到 mysql
+                .addSink(new HiveSink()); //数据 sink 到 mysql
 
         env.execute("Flink add sink");
     }
 
 }
-
 ```
 
-先运行`KafkaProduce`的`main()`方法，再运行`Main.java`的`main()`方法，实时刷新MySQL数据库，可以看到每过5s就有一条新的交易记录被写入。
+先运行`KafkaProduce`的`main()`方法，再运行`Main.java`的`main()`方法，实时刷新 Hive 数据库，可以看到每过5s就有一条新的交易记录被写入。
