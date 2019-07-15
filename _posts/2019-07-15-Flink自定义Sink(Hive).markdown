@@ -378,16 +378,16 @@ public class Main {
         props.put("auto.offset.reset", "latest");
 
         env.addSource(
-                new FlinkKafkaConsumer<>(
-                        "transaction"
-                        ,new SimpleStringSchema()
-                        , props
-                )
-                        .setStartFromLatest()
+            new FlinkKafkaConsumer<>(
+                "transaction"
+                ,new SimpleStringSchema()
+                , props
+            )
+                .setStartFromLatest()
         )
-                .setParallelism(1)
-                .map(string -> JSON.parseObject(string, Transaction.class))
-                .addSink(new HiveSink()); //数据 sink 到 mysql
+            .setParallelism(1)
+            .map(string -> JSON.parseObject(string, Transaction.class))
+            .addSink(new HiveSink()); //数据 sink 到 mysql
 
         env.execute("Flink add sink");
     }
