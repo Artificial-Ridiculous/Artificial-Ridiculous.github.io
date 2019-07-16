@@ -103,9 +103,9 @@ class FooBar {
 + lock 一个锁对象  
 保证任一时间内只能有一个线程在执行临界区代码.
 + isFooed 一个bool变量  
-一个bool值,用来指示`foo`是否已打印,只有当`foo`已经打印了才能打印`bar`.  
+用来指示`foo`是否已打印,只有当`foo`已经打印了才能打印`bar`.  
 
-其实可以把 `isFooed` 视为一个信号量(semaphore)上限为 `1` 的一个int信号量, 将 `foo()` 视为生产者,将 `bar()` 视为消费者.
+其实可以把 `isFooed` 视为一个上限为 `1` 的一个int信号量(semaphore), 将 `foo()` 视为生产者,将 `bar()` 视为消费者.
 
 初始状态信号量为 `0` (`isFooed == false`).
 
