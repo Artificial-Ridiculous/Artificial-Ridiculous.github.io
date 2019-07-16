@@ -9,17 +9,17 @@ category: java
 
 ```java
 class FooBar {
-  public void foo() {
-    for (int i = 0; i < n; i++) {
-      print("foo");
-    }
-  }
+    public void foo() {
+        for (int i = 0; i < n; i++) {
+            print("foo");
+        }
+    }
 
-  public void bar() {
-    for (int i = 0; i < n; i++) {
-      print("bar");
-    }
-  }
+    public void bar() {
+        for (int i = 0; i < n; i++) {
+            print("bar");
+        }
+    }
 }
 
 ```
