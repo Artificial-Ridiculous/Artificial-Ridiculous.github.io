@@ -1,0 +1,116 @@
+---
+layout: post
+title:  "1115.交替打印FooBar"
+date:   2019-07-17 00:17:00 +0800
+category: java
+---
+
+我们提供一个类：
+
+```java
+class FooBar {
+  public void foo() {
+    for (int i = 0; i < n; i++) {
+      print("foo");
+    }
+  }
+
+  public void bar() {
+    for (int i = 0; i < n; i++) {
+      print("bar");
+    }
+  }
+}
+
+```
+
+两个不同的线程将会共用一个 `FooBar` 实例。其中一个线程将会调用 `foo()` 方法，另一个线程将会调用 `bar()` 方法。
+
+请设计修改程序，以确保 `"foobar"` 被输出 `n` 次。
+
+---
+
+示例：  
+
+### 输入1
+
+`n = 1`
+
+### 输出1
+
+`"foobar"`
+
+---
+
+### 输入2
+
+`n = 3`
+
+### 输出2
+
+`"foobarfoobarfoobar"`
+
+---
+
+### 解答
+
+```java
+class FooBar {
+    private int n;
+    private boolean isFooed;
+    private Object lock;  // lock
+
+    public FooBar(int n) {
+        this.n = n;
+        this.isFooed = false;
+        this.lock = new Object();
+    }
+
+    public void foo(Runnable printFoo) throws InterruptedException {
+        for (int i = 0; i < n; i++) {
+            // printFoo.run() outputs "foo". Do not change or remove this line.
+            synchronized(lock){
+                while(isFooed){  // 重要! 否则超时
+                    lock.wait();
+                }
+                printFoo.run();
+                isFooed = true;
+                lock.notifyAll();
+            }
+        }
+    }
+
+    public void bar(Runnable printBar) throws InterruptedException {
+        for (int i = 0; i < n; i++) {
+            // printBar.run() outputs "bar". Do not change or remove this line.
+            synchronized(lock){
+                while(!isFooed){
+                    lock.wait();
+                }
+                printBar.run();
+                isFooed = false;
+                lock.notifyAll();
+            }
+        }
+    }
+}
+```
+
+### 解析
+
+2个变量/对象保多证线程按照要求正确执行:
+
++ lock 一个锁对象  
+保证任一时间内只能有一个线程在执行临界区代码.
++ isFooed 一个bool变量  
+一个bool值,用来指示`foo`是否已打印,只有当`foo`已经打印了才能打印`bar`.  
+
+其实可以把 `isFooed` 视为一个信号量(semaphore)上限为 `1` 的一个int信号量, 将 `foo()` 视为生产者,将 `bar()` 视为消费者.
+
+初始状态信号量为 `0` (`isFooed == false`).
+
+只有当 `isFooed == false` 时生产者 `foo()` 才能运行, 在输出 `"foo"` 后需要 `isFooed = true` (相当于 `semaphore += 1` ).
+
+由于信号量上限为1, 所以信号量为 `1` ( `isFooed == true` )时, 才能被消费者 `bar()` 所消费, 此时才能输出 `"bar"`, 然后 `isFooed = false` (相当于 `semaphore -= 1` ).
+
+这样可以解决 生产者/消费者 问题,避免死锁.
