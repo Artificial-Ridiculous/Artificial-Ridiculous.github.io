@@ -1,0 +1,101 @@
+---
+layout: post
+title:  "同步、异步、阻塞、非阻塞"
+date:   2019-07-16 09:48:00 +0800
+category: java
+---
+
+### 《操作系统概念（第九版）》
+
+Communication between process takes place through calls to send() and receive() primitives. There are different design options for implementing each primitive. Message passing may be either **blocking** or **nonbloking** -- also known as **synchronous** and **asynchronous**.
+
+- **Blocking send** The sending process is blocked until the message is received by the receiving process or by the mailbox.
+- **Nonblocking send** The sending process sends the message and resumes operation.
+- **Blocking receive** The receiver bloks until a message is available.
+- **Nonblocking receive** The receiver retrieves either a valid message or a null.
+
+Different combinations of send() and receive() are possible. When both send() and receive() are blocking, we have a **redezvous** between the sender and the receiver. The solution to the producer-consumer problem becomes trivial when we use blocking send() and receive() statements. The producer merely/just invokes the blocking send() call and waits until the message is delivered to either the receiver or the mailbox. Likewise, when the consumer invokes receive(), it blocks until a message is available.
+
+翻译：
+
+进程间的通信是通过 send() 和 receive() 两种基本操作完成的。具体如何实现这两种基础操作，存在着不同的设计。 消息的传递有可能是**阻塞**的或**非阻塞**的 – 也被称为**同步**或**异步**的：
+
+- 阻塞式发送 发送方进程会被一直阻塞， 直到消息被接受方进程收到。
+- 非阻塞式发送 发送方进程调用 send() 后， 立即就可以其他操作。
+- 阻塞式接收 接收方调用 receive() 后一直阻塞， 直到消息到达可用。
+- 非阻塞式接受 接收方调用 receive() 函数后， 要么得到一个有效的结果， 要么得到一个空值， 即不会被阻塞。
+
+**上述不同类型的发送方式和不同类型的接收方式，可以自由组合。**
+
+也就是说， 从进程级通信的维度讨论时， 阻塞和同步（非阻塞和异步）就是一对同义词， 且需要针对**发送方**和**接收方**作区分对待。
+
+---
+
+### 用户空间和内核空间
+
+操作系统为了支持多个应用同时运行，需要保证不同进程之间相对独立（一个进程的崩溃不会影响其他的进程 ， 恶意进程不能直接读取和修改其他进程运行时的代码和数据）。 因此操作系统内核**需要拥有高于普通进程的权限**， 以此来调度和管理用户的应用程序。  
+
+于是内存空间被划分为两部分，一部分为内核空间，一部分为用户空间，内核空间存储的代码和数据具有更高级别的权限。内存访问的**相关硬件**在程序执行期间会进行访问控制（ Access Control），使得用户空间的程序不能直接读写内核空间的内存。
+
+### 进程切换
+
+![进程切换](/PNG/process_switch.png)
+
+- 中断(interrupt)  
+CPU 微处理器有一个中断信号位， 在每个CPU时钟周期(时间片?)的末尾, CPU会去检测那个中断信号位是否有中断信号到达， 如果有， 则会根据中断优先级决定是否要暂停当前执行的指令， 转而去执行处理中断的指令。 （其实就是 CPU 层级的 while 轮询）
+
+- 时钟中断(Clock interrupt)  
+一个硬件时钟会每隔一段（很短）的时间就产生一个中断信号发送给 CPU，CPU 在响应这个中断时， 就会去执行操作系统内核的指令， 继而将 CPU 的控制权转移给了操作系统内核， 可以由操作系统内核决定下一个要被执行的指令。
+
+- 系统调用(System call)  
+system call 是操作系统提供给应用程序的接口。 用户通过调用 systemcall 来完成那些需要操作系统内核进行的操作， 例如硬盘， 网络接口设备的读写等。
+
+操作系统在进行进切换时，需要进行一系列的内存读写操作， 这带来了一定的开销：对于一个运行着 UNIX 系统的现代 PC 来说， 进程切换通常至少需要花费 300 us 的时间。
+
+![进程状态](/PNG/process_status.png)
+
++ New 进程正在被创建
++ Ready 就绪态 等待时间片
+    + 新进程创建完毕可以进入就绪态
+    + 等待的进程获得了所有等待的I/O或event
+    + 运行态被中断回到就绪态
++ Running 进程正在执行
+    + 缺少时间片回到就绪态
+    + 缺少I/O或者event回到等待态
++ Waiting 进程态
+    + 等待事件event
+    + 等待I/O
+    + **不包括**等待CPU时间片！
++ Terminated 进程执行完毕(包括强行终止)
+
+“阻塞”是指进程在发起了一个系统调用（System Call） 后， 由于该系统调用的操作不能立即完成，需要等待一段时间，于是内核将进程挂起为等待 （waiting）状态， 以确保它不会被调度执行， 占用 CPU 资源。
+
+在任意时刻，** 一个 CPU 核心上（processor）只可能运行一个进程** 。
+
+### I/O System Call 的阻塞/非阻塞， 同步/异步
+
+其实**阻塞**和**非阻塞**描述的是进程的一个操作是否会使得进程转变为“等待”的状态， 但是为什么总是把它和 I/O 连在一起讨论呢？
+
+原因是， 阻塞这个词是与系统调用 System Call 紧紧联系在一起的， 因为要让一个进程进入 等待（waiting） 的状态, 要么是它主动调用 wait() 或 sleep() 等挂起自己的操作， 另一种就是它调用 System Call, 而 System Call 因为涉及到了 I/O 操作， 不能立即完成， 于是内核就会先将该进程置为等待状态， 调度其他进程的运行， 等到 它所请求的 I/O 操作完成了以后， 再将其状态更改回 ready 。  
+操作系统内核在执行 System Call 时， CPU 需要与 IO 设备完成一系列物理通信上的交互， 其实再一次会涉及到阻塞和非阻塞的问题， 例如， 操作系统发起了一个读硬盘的请求后， 其实是向硬盘设备通过总线发出了一个请求，它即可以阻塞式地等待IO 设备的返回结果，也可以非阻塞式的继续其他的操作。 在现代计算机中，这些物理通信操作基本都是异步完成的， 即发出请求后， 等待 I/O 设备的中断信号后， 再来读取相应的设备缓冲区。 但是，大部分操作系统默认为用户级应用程序提供的都是阻塞式的系统调用 （blocking systemcall）接口， 因为阻塞式的调用，使得应用级代码的编写更容易（代码的执行顺序和编写顺序是一致的）。  
+但同样， 现在的大部分操作系统也会提供非阻塞I/O 系统调用接口（Nonblocking I/O system call）。 一个非阻塞调用不会挂起调用程序， 而是会立即返回一个值， 表示有多少bytes 的数据被成功读取（或写入）。  
+非阻塞I/O 系统调用( nonblocking system call )的另一个替代品是 **异步I/O系统调用 （asychronous system call）**。 与非阻塞 I/O 系统调用类似，asychronous system call 也是会立即返回， 不会等待 I/O 操作的完成， 应用程序可以继续执行其他的操作， 等到 I/O 操作完成了以后，操作系统会通知调用进程（设置一个用户空间特殊的变量值 或者 触发一个 signal 或者 产生一个软中断 或者 调用应用程序的回调函数）。  
+此处， **非阻塞I/O 系统调用( nonblocking system call )** 和 **异步I/O系统调用 （asychronous system call）**的区别是：  
++ 一个**非阻塞I/O 系统调用 read()** 操作立即返回的是任何可以立即拿到的数据， 可以是完整的结果， 也可以是不完整的结果， 还可以是一个空值。
++ 而**异步I/O系统调用 read（）**结果必须是完整的， 但是这个操作完成的通知可以延迟到将来的一个时间点。
+
+下图展示了synchronou 和 asynchronous的区别(非阻塞I/O未画出)：
+
+![synchronou_and_asynchronous](/PNG/synchronou_and_asynchronous.png)
+
+注意， 上面提到的 **非阻塞I/O 系统调用( nonblocking system call )** 和 **异步I/O系统调用** 都是非阻塞式的行为（non-blocking behavior）。 他们的差异仅仅是返回结果的方式和内容不同。
+
+### 总结
+
+1. 阻塞/非阻塞， 同步/异步的概念要注意讨论的上下文：
+    + 在进程通信层面， 阻塞/非阻塞， 同步/异步基本是同义词， 但是需要注意区分讨论的对象是发送方还是接收方。
+    + 发送方阻塞/非阻塞（同步/异步）和接收方的阻塞/非阻塞（同步/异步） 是互不影响的。
+    + 在 IO 系统调用层面（ IO system call ）层面， **非阻塞 IO 系统调用** 和 **异步 IO 系统调用**存在着一定的差别， 它们都不会阻塞进程， 但是返回结果的方式和内容有所差别， 但是都属于非阻塞系统调用（ non-blocing system call ）
+1. 非阻塞系统调用（non-blocking I/O system call 与 asynchronous I/O system call） 的存在可以用来实现线程级别的 I/O 并发， 与通过多进程实现的 I/O 并发相比可以减少内存消耗以及进程切换的开销。
+
+本文转自[知乎 @萧萧](https://www.zhihu.com/question/19732473/answer/241673170)
