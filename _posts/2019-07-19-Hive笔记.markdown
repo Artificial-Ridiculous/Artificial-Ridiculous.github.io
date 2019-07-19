@@ -50,7 +50,7 @@ Hive连接元数据(MySQL)的jdbc URL
 + `javax.jdo.option.ConnectionPassword`  
 指定Hive访问MySQL元数据库的用户密码
 
-Hive初始化元数据(`schematool -dbType mysql -initSchema`)后,可以在MySQL种看到有一个名为`hive`的数据库:
+Hive初始化元数据(`schematool -dbType mysql -initSchema`)后,中`hive`的数据库:
 
 ```sql
 mysql> show databases;
@@ -63,6 +63,7 @@ mysql> show databases;
 | performance_schema |
 | sys                |
 +--------------------+
+5 rows in set (0.03 sec)
 ```
 
 进去看看里面有哪些表:
@@ -172,8 +173,7 @@ SD_ID | CD_ID | INPUT_FORMAT                             | IS_COMPRESSED | IS_ST
 需要注意的是,假如在Hive初始化元数据后更改了HDFS中NameNode的访问地址(比如从`localhost`改成了本机IP`192.168.229.129`),在Hive中查询表会报错:
 
 ```text
-FAILED: SemanticException Unable to determine if hdfs://localhost:9000/user/hive/warehouse/test.db is encrypted:
-
+FAILED: SemanticException Unable to determine if hdfs://localhost:9000/user/hive/warehouse/test.db is encrypted:  
 java.lang.IllegalArgumentException: Wrong FS: hdfs://localhost:9000/user/hive/warehouse/test.db, expected: hdfs://192.168.229.129
 ```
 
@@ -184,7 +184,7 @@ update DBS set DB_LOCATION_URI=REPLACE (DB_LOCATION_URI,'localhost','192.168.229
 update SDS set LOCATION=REPLACE (LOCATION,'localhost','192.168.229.129');
 ```
 
-道理很简单因为`DBS`中的`DB_LOCATION_URI`字段是记录Hive中数据库在HDFS中保存位置的.比如test数据库,本来是保存在`hdfs://localhost:9000/user/hive/warehouse/test.db`,现在再按照这个URL去访问肯定找不到了,需要改成`hdfs://192.168.229.129:9000/user/hive/warehouse/test.db`.
+道理很简单因为`DBS`中的`DB_LOCATION_URI`字段是记录Hive中数据库在HDFS中保存位置的.比如test数据库,本来是保存在`hdfs://localhost:9000/user/hive/warehouse/test.db`,现在再按照这个URI去访问肯定找不到了,需要改成`hdfs://192.168.229.129:9000/user/hive/warehouse/test.db`.
 
 `SDS`表同理.
 
