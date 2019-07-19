@@ -1,0 +1,191 @@
+---
+layout: post
+title:  "Hive笔记"
+date:   2019-07-19 10:15:00 +0800
+category: java
+---
+
+先来看看hive表的配置
+
+```xml
+<configuration>
+  <property>
+    <name>javax.jdo.option.ConnectionURL</name>
+    <value>jdbc:mysql://localhost:3306/hive?createDatabaseIfNotExist=true&amp;useSSL=true</value>
+    <description>JDBC connect string for a JDBC metastore</description>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionDriverName</name>
+    <value>com.mysql.jdbc.Driver</value>
+    <description>Driver class name for a JDBC metastore</description>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionUserName</name>
+    <value>hive</value>
+    <description>username to use against metastore database</description>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionPassword</name>
+    <value>hive</value>
+    <description>password to use against metastore database</description>  
+  </property>
+</configuration>
+```
+
+分条解释
+
++ `javax.jdo.option.ConnectionURL`  
+Hive连接元数据(MySQL)的jdbc URL  
+  + `hive`  
+  指MySQL中的'hive'数据库是Hive的元数据库
+  + `createDatabaseIfNotExist=true`  
+  假如hive数据库不存在则创建
+  + `&amp;useSSL=true`  
+  高版本MySQL假如不显式指定SSL会一直有警告
+
++ `javax.jdo.option.ConnectionDriverName`  
+指定jdbc驱动名,此处是MySQL的`com.mysql.jdbc.Driver`
++ `javax.jdo.option.ConnectionUserName`  
+指定Hive访问MySQL元数据库的用户
++ `javax.jdo.option.ConnectionPassword`  
+指定Hive访问MySQL元数据库的用户密码
+
+Hive初始化元数据(`schematool -dbType mysql -initSchema`)后,可以在MySQL种看到有一个名为`hive`的数据库:
+
+```sql
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| hive               |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+```
+
+进去看看里面有哪些表:
+
+```sql
+mysql> use hive;
+Database changed
+mysql> show tables;
++---------------------------+
+| Tables_in_hive            |
++---------------------------+
+| BUCKETING_COLS            |
+| CDS                       |
+| COLUMNS_V2                |
+| COMPACTION_QUEUE          |
+| COMPLETED_TXN_COMPONENTS  |
+| DATABASE_PARAMS           |
+| DBS                       |
+| DB_PRIVS                  |
+| DELEGATION_TOKENS         |
+| FUNCS                     |
+| FUNC_RU                   |
+| GLOBAL_PRIVS              |
+| HIVE_LOCKS                |
+| IDXS                      |
+| INDEX_PARAMS              |
+| MASTER_KEYS               |
+| NEXT_COMPACTION_QUEUE_ID  |
+| NEXT_LOCK_ID              |
+| NEXT_TXN_ID               |
+| NOTIFICATION_LOG          |
+| NOTIFICATION_SEQUENCE     |
+| NUCLEUS_TABLES            |
+| PARTITIONS                |
+| PARTITION_EVENTS          |
+| PARTITION_KEYS            |
+| PARTITION_KEY_VALS        |
+| PARTITION_PARAMS          |
+| PART_COL_PRIVS            |
+| PART_COL_STATS            |
+| PART_PRIVS                |
+| ROLES                     |
+| ROLE_MAP                  |
+| SDS                       |
+| SD_PARAMS                 |
+| SEQUENCE_TABLE            |
+| SERDES                    |
+| SERDE_PARAMS              |
+| SKEWED_COL_NAMES          |
+| SKEWED_COL_VALUE_LOC_MAP  |
+| SKEWED_STRING_LIST        |
+| SKEWED_STRING_LIST_VALUES |
+| SKEWED_VALUES             |
+| SORT_COLS                 |
+| TABLE_PARAMS              |
+| TAB_COL_STATS             |
+| TBLS                      |
+| TBL_COL_PRIVS             |
+| TBL_PRIVS                 |
+| TXNS                      |
+| TXN_COMPONENTS            |
+| TYPES                     |
+| TYPE_FIELDS               |
+| VERSION                   |
++---------------------------+
+53 rows in set (0.06 sec)
+```
+
+其中比较重要的几个表分别是:
+
++ DBS  
+该表存储Hive中所有数据库的基本信息:
+
+DB_ID | DESC | DB_LOCATION_URI | NAME| OWNER_NAME | OWNER_TYPE
+- | - | - | - | - | -
+|     1 | Default Hive database | hdfs://192.168.229.129:9000/user/hive/warehouse         | default | public     | ROLE       |
+|     6 | NULL                  | hdfs://192.168.229.129:9000/user/hive/warehouse/test.db | test    | lz         | USER       |
+
+---
+
++ TBLS  
+该表中存储Hive表、视图、索引表的基本信息
+
+ TBL_ID | CREATE_TIME | DB_ID | LAST_ACCESS_TIME | OWNER | RETENTION | SD_ID | TBL_NAME                  | TBL_TYPE      | VIEW_EXPANDED_TEXT | VIEW_ORIGINAL_TEXT | LINK_TARGET_ID 
+- | - | - | - | - | - | - | -                  | -      | - | - | -
+|      1 |  1562919317 |     6 |                0 | lz    |         0 |     1 | table1                    | MANAGED_TABLE | NULL               | NULL               | NULL           |
+|      7 |  1562923399 |     6 |                0 | lz    |         0 |     7 | transactions              | MANAGED_TABLE | NULL               | NULL               | NULL           |
+|     12 |  1563176568 |     6 |                0 | lz    |         0 |    12 | transaction               | MANAGED_TABLE | NULL               | NULL               | NULL           |
+|     16 |  1563357463 |     6 |                0 | lz    |         0 |    16 | test                      | MANAGED_TABLE | NULL               | NULL               | NULL           |
+|     21 |  1563501663 |     1 |                0 | lz    |         0 |    21 | table_in_default_database | MANAGED_TABLE | NULL               | NULL               | NULL           |
+
+---
+
++ SDS  
+该表保存文件存储的基本信息，如INPUT_FORMAT、OUTPUT_FORMAT、是否压缩等。
+
+SD_ID | CD_ID | INPUT_FORMAT                             | IS_COMPRESSED | IS_STOREDASSUBDIRECTORIES | LOCATION                                                                  | NUM_BUCKETS | OUTPUT_FORMAT                                              | SERDE_ID 
+- | - | -                             | - | - | -                                                                  | - | -                                              | -
+|     1 |     1 | org.apache.hadoop.mapred.TextInputFormat | 0             | 0                         | hdfs://192.168.229.129:9000/user/hive/warehouse/test.db/table1            |          -1 | org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat |        1 |
+|     7 |     7 | org.apache.hadoop.mapred.TextInputFormat | 0             | 0                         | hdfs://192.168.229.129:9000/user/hive/warehouse/test.db/transactions      |          -1 | org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat |        7 |
+|    12 |    12 | org.apache.hadoop.mapred.TextInputFormat | 0             | 0                         | hdfs://192.168.229.129:9000/user/hive/warehouse/test.db/transaction       |          -1 | org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat |       12 |
+|    16 |    16 | org.apache.hadoop.mapred.TextInputFormat | 0             | 0                         | hdfs://192.168.229.129:9000/user/hive/warehouse/test.db/test              |          -1 | org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat |       16 |
+|    21 |    21 | org.apache.hadoop.mapred.TextInputFormat | 0             | 0                         | hdfs://192.168.229.129:9000/user/hive/warehouse/table_in_default_database |          -1 | org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat |       21 |
+
+---
+
+需要注意的是,假如在Hive初始化元数据后更改了HDFS中NameNode的访问地址(比如从`localhost`改成了本机IP`192.168.229.129`),在Hive中查询表会报错:
+
+```text
+FAILED: SemanticException Unable to determine if hdfs://localhost:9000/user/hive/warehouse/test.db is encrypted:
+
+java.lang.IllegalArgumentException: Wrong FS: hdfs://localhost:9000/user/hive/warehouse/test.db, expected: hdfs://192.168.229.129
+```
+
+这个时候就需要进到MySQL的元数据库去修改`DBS`和`SDS`两张表了:
+
+```sql
+update DBS set DB_LOCATION_URI=REPLACE (DB_LOCATION_URI,'localhost','192.168.229.129');
+update SDS set LOCATION=REPLACE (LOCATION,'localhost','192.168.229.129');
+```
+
+道理很简单因为`DBS`中的`DB_LOCATION_URI`字段是记录Hive中数据库在HDFS中保存位置的.比如test数据库,本来是保存在`hdfs://localhost:9000/user/hive/warehouse/test.db`,现在再按照这个URL去访问肯定找不到了,需要改成`hdfs://192.168.229.129:9000/user/hive/warehouse/test.db`.
+
+`SDS`表同理.
+
+修改后即可正常访问Hive中的数据库和表.

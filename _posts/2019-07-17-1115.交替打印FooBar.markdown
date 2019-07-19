@@ -68,7 +68,8 @@ class FooBar {
 
     public void foo(Runnable printFoo) throws InterruptedException {
         for (int i = 0; i < n; i++) {
-            // printFoo.run() outputs "foo". Do not change or remove this line.
+            // printFoo.run() outputs "foo". 
+            // Do not change or remove this line.
             synchronized(lock){
                 while(isFooed){  // 重要! 否则超时
                     lock.wait();
@@ -82,7 +83,8 @@ class FooBar {
 
     public void bar(Runnable printBar) throws InterruptedException {
         for (int i = 0; i < n; i++) {
-            // printBar.run() outputs "bar". Do not change or remove this line.
+            // printBar.run() outputs "bar". 
+            // Do not change or remove this line.
             synchronized(lock){
                 while(!isFooed){
                     lock.wait();
@@ -91,6 +93,59 @@ class FooBar {
                 isFooed = false;
                 lock.notifyAll();
             }
+        }
+    }
+
+    public static void main(String[] args) {
+        FooBar fb = new FooBar(5);
+        Thread t1 = new Thread(new printFoo(fb));
+        // 一个线程 参数是实现了Runnable的对象
+        Thread t2 = new Thread(new printBar(fb));
+        // 第二个线程 参数是实现了Runnable的对象
+        // 题目要求这个两个线程共享FooBar对象fb
+
+        t2.start();  // 注意不能是run()
+        t1.start();  // 注意不能是run()
+    }
+}
+
+class printFoo implements Runnable{
+
+    FooBar fb ;
+
+    public printFoo(FooBar fb) {
+        this.fb = fb;
+    }
+
+    @Override
+    // Runnable 必须override run()
+    public void run() {
+        try {
+            fb.foo(() -> System.out.print("Foo"));
+            // lambda表达式实现override run() 打印"Foo"
+            // due to 题目要求foo方法要传入一个Runnable printFoo
+            // 而且printFoo.run()是打印"Foo"
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class printBar implements Runnable{
+    FooBar fb;
+
+    public printBar(FooBar fb) {
+        this.fb = fb;
+    }
+
+    @Override
+    // 同上
+    public void run() {
+        try {
+            fb.bar(() -> System.out.print("Bar"));
+            // 同上
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
