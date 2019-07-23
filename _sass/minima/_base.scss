@@ -151,9 +151,13 @@ pre,
 code {
   @include relative-font-size(1);
   //border: 1px solid $grey-color-light;
-  border-radius: 3px;
+  // border-radius: 3px;
   //background-color: #eef;
   font-family: menlo,monaco,consolas,monospace,Microsoft Yahei !important;
+  border-width: 0.1rem;
+  border-style: solid;
+  border-image: initial;
+  border-color: lightgrey;
 }
 
 code {
