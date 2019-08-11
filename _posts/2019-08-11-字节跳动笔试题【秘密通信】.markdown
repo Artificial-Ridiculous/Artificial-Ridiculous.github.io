@@ -1,0 +1,75 @@
+---
+layout: post
+title:  "字节跳动笔试题【秘密通信】"
+date:   2019-08-11 21:52:00 +0800
+category: python
+---
+
+小明和安琪是好朋友，最近，他们的谈话被一家侦探公司监控，所以他们想将他们的谈话内容进行加密处理。于是，他们发明了一种新的加密方式，每条信息都被编译成二进制数B(明文)，其长度为N，每次向右移动`0,1,...,K-1`位。
+例如：`B=1001010,K=4`
+
+```python
+1001010
+ 1001010
+  1001010
+   1001010
+```
+
+然后对每一列进行异或操作，并且吧最终所得的结果记录下来，我们将该数称为`S`(密文)。例如上述例子的结果为：  
+`1110100110`  
+最后，将编码的信息`S`和`K`发送给安琪。
+小明已经实现了这种编码的加密过程，但他要求安琪去写一个程序去实现这种编码的解密过程，你能帮助安琪实现解密过程吗？
+
+---
+
+输入描述：
+
+第一行输入两个整数`N`和`K`  
+第二行输入一个二进制字符串`S`，长度是`N+K-1`
+
+输出描述：
+
+输出明文`B`
+
+---
+
+示例：  
+
+### 输入1
+
+```python
+7 4
+1110100110
+```
+
+### 输出1
+
+```python
+1001010
+```
+
+### 解答
+
+```python
+class Solution:
+    def key(self,n,k,num):
+        key = num
+        ans = [0 for i in range(n+k-1)]
+        for i in range(n+k-1):
+            ans[i] = key[i]
+            left = max(0,i-(k-1))
+            for j in range(left,i):
+                ans[i] ^= ans[j]
+        return ans[:n]
+
+import sys
+if __name__ == "__main__":
+    solution = Solution()
+
+    n,k = list(map(int,sys.stdin.readline().strip().split()))
+    num = list(map(int,sys.stdin.readline().strip()))
+
+    res = solution.key(n,k,num)
+    for bit in res:
+        print(bit,end='')
+```
