@@ -5,6 +5,8 @@ date:   2019-08-28 19:17:00 +0800
 category: java
 ---
 
+## 先上性能测试
+
 ```
 插入顺序为[2020083, 1380236, 593540, 4735175, 3866086, 4768997, 4042546, 6091851, 4107114, 5544658]省略以下7999990个数据..
 向空BST中插入随机的800万个int节点耗时6921ms
@@ -200,19 +202,20 @@ class BinarySearchTree {
         if (root == null) {
             root = node;
         } else {
-            if (node.getVal() < root.getVal()) {
-                if (root.getLeft() == null) {
-                    root.setLeft(node);
-                } else {
-                    root.getLeft().add(node);
-                }
-            } else {
-                if (root.getRight() == null) {
-                    root.setRight(node);
-                } else {
-                    root.getRight().add(node);
-                }
-            }
+            root.add(node);
+            // if (node.getVal() < root.getVal()) {
+            //     if (root.getLeft() == null) {
+            //         root.setLeft(node);
+            //     } else {
+            //         root.getLeft().add(node);
+            //     }
+            // } else {
+            //     if (root.getRight() == null) {
+            //         root.setRight(node);
+            //     } else {
+            //         root.getRight().add(node);
+            //     }
+            // }
         }
     }
 
