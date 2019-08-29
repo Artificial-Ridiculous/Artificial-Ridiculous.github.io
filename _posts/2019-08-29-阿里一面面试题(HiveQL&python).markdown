@@ -74,9 +74,9 @@ select pool_id,sum(1) from t group by pool_id
 
 ```python
 def fib(n):
-	res = [1,1]
+    res = [1,1]
     for i in range(2,n):
-		res.append(res[i-1]+res[i-2])
+        res.append(res[i-1]+res[i-2])
     print(res)
 ```
 
@@ -88,11 +88,11 @@ def fib(n):
 lenl = len(l)
 i = 0
 while(i+1 < lenl):
-	if l[i]==l[i+1]:
-		l.pop(i+1)
+    if l[i]==l[i+1]:
+        l.pop(i+1)
         lenl-=1
     else:
-		i+=1
+        i+=1
 ```
 
 
