@@ -12,7 +12,7 @@ category: java
 向空BST中插入随机的800万个int节点耗时6921ms
 ----------
 插入顺序为[4550297, 7468335, 5023455, 510970, 659394, 277607, 2929773, 7492435, 4148428, 1244599]省略以下7999990个数据..
-从含有800万个int节点的BST中随机逐个删除所有节点7609ms
+从含有800万个int节点的BST中随机逐个删除所有节点耗时7609ms
 
 Process finished with exit code 0
 ```
@@ -26,37 +26,13 @@ class BinaryNode {
     private BinaryNode left;
     private BinaryNode right;
 
-    public BinaryNode() {
-        ;
-    }
+    //省略无参构造器
 
     public BinaryNode(int val) {
         this.val = val;
     }
 
-    public int getVal() {
-        return val;
-    }
-
-    public BinaryNode getLeft() {
-        return left;
-    }
-
-    public BinaryNode getRight() {
-        return right;
-    }
-
-    public void setVal(int val) {
-        this.val = val;
-    }
-
-    public void setLeft(BinaryNode left) {
-        this.left = left;
-    }
-
-    public void setRight(BinaryNode right) {
-        this.right = right;
-    }
+    //省略getter和setter方法
 
     @Override
     public String toString() {
@@ -132,25 +108,6 @@ class BinaryNode {
         return res;
     }
 
-    //找到节点直接删除 不考虑其是否有子树
-    public void preOrderDelete(int val) {
-        if (this.left == null) {
-            ;
-        } else if (this.left.val == val) {
-            this.left = null;
-            return;
-        } else {
-            this.left.preOrderDelete(val);
-        }
-        if (this.right == null) {
-            ;
-        } else if (this.right.val == val) {
-            this.right = null;
-        } else {
-            this.right.preOrderDelete(val);
-        }
-    }
-
     //找到某个节点的父节点
     public BinaryNode findParent(int val) {
         if (val < this.val) {
@@ -202,20 +159,8 @@ class BinarySearchTree {
         if (root == null) {
             root = node;
         } else {
+            //让BinaryNode自己去add,否则触发旋转时会有遗漏
             root.add(node);
-            // if (node.getVal() < root.getVal()) {
-            //     if (root.getLeft() == null) {
-            //         root.setLeft(node);
-            //     } else {
-            //         root.getLeft().add(node);
-            //     }
-            // } else {
-            //     if (root.getRight() == null) {
-            //         root.setRight(node);
-            //     } else {
-            //         root.getRight().add(node);
-            //     }
-            // }
         }
     }
 
@@ -346,11 +291,11 @@ class BinarySearchTree {
                 deleteNode(tmp);
                 target.setVal(tmp);
             }
-
         }
         return null;
     }
 
+    //寻找给定节点的左子树的左子树的左子树.......
     public BinaryNode leftLeft(BinaryNode node){
         BinaryNode p = node;
         while(p.getLeft()!=null){
@@ -400,6 +345,6 @@ public static void main(String[] args) {
     endTime =  System.currentTimeMillis();
     
     usedTime = (endTime-startTime);
-    System.out.println("从含有800w个int节点的BST中随机逐个删除所有节点"+usedTime+"ms");
+    System.out.println("从含有800w个int节点的BST中随机逐个删除所有节点耗时"+usedTime+"ms");
 }
 ```
