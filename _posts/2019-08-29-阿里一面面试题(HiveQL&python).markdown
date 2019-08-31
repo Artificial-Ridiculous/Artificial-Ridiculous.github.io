@@ -30,6 +30,7 @@ on t.user_id=C.userid
 用SQL求出表A的 用户数，人均停留时长
 
 ```sql
+--???
 select count(distinct user_id),sum(stay_time)/count(distinct user_id) 
 from A
 ```
@@ -85,6 +86,7 @@ def fib(n):
 2.用python实现: 删除一个list里面重复元素，且保持原有顺序（重复元素取第一个）
 
 ```python
+# ???
 lenl = len(l)
 i = 0
 while(i+1 < lenl):
