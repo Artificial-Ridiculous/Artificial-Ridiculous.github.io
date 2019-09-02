@@ -1,0 +1,91 @@
+---
+layout: post
+title:  "并查集的Java实现"
+date:   2019-09-02 15:51:00 +0800
+category: java
+---
+
+并查集要解决的问题是,快速判断两个节点是否在同一个连通分支中。有一个`parent`数组，数组的下标i表示第i个节点，则`parent[i]`的值表示与这个节点的“上一级节点”。初始状态下`parent[i]==i`，即为每个节点的上一级节点都是它自己，也就是说所有节点都是一个独立的连通分支。每当我们union连通两个节点时，将其中一个节点的`parent`值设置为另一个节点，代表这两个节点连通了。如此一来判断两个节点是否在同一个连通分支就转化为了判断这两个节点的root节点是否是同一个：
+
+```java
+class UnionFind {
+    private int[] parent;
+    private int connectedBranch;
+    private int[] rank;
+
+    public UnionFind(int size){
+        this.parent = new int[size];
+        this.rank=new int[size];
+        for (int i = 0; i < size; i++) {
+            parent[i]=i;  // 初始每个节点的parent都是自己的下标 各自独立
+        }
+        for (int i = 0; i < size; i++) {
+            rank[i] = 1;
+        }
+        this.connectedBranch=size;
+    }
+
+    public int getConnectedBranch() {
+        return connectedBranch;
+    }
+
+    /**
+     *
+     * @param index index即为欲查找其root的节点下表
+     * @return 返回根节点下标
+     */
+    public int findRoot(int index){
+        int root = index;
+        //一直往上追根溯源，直到parent就是自己
+        //就代表找到了root
+        while(root!=parent[root]){
+            root=parent[root];
+        }
+        //此时的t就是index的老大;
+        //接下来要完成路径压缩
+        int next = index;
+        while(index!=root){
+            next=parent[index];
+            parent[index]=root;
+            index=next;
+        }
+        return root;
+    }
+
+    /**
+     *
+     * @param index1 欲连通的节点1下标
+     * @param index2 欲连通的节点2下标
+     * @return 返回连通后的根节点下标
+     *
+     * 注意 这里非常重要
+     * union操作时  当发现两个节点的root不同
+     * 不是简单地把某一个节点的root设置为另一个节点的root
+     * 比如现在有两个连通分支 [A->B]  [C] 现在union(A,C)
+     * 如果简单的把A的parent置为C的root   即A->C  那么现在还是[A->C]  [B]两个连通分支
+     * 所以要做的是追根溯源 把A的root的parent置为C的root
+     */
+    public int union(int index1,int index2){
+        int root1 = findRoot(index1);
+        int root2 = findRoot(index2);
+        if(root1==root2){ // 本来就在同一个连通分支
+            return root1;
+        }else { // 本来不在同一个连通分支
+            if(root1>=root2){
+                parent[root2]=root1;
+                connectedBranch -=1;
+                return root1;
+            }else{
+                parent[root1]=root2;
+                connectedBranch -=1;
+                return root2;
+            }
+        }
+    }
+
+    public boolean isConnected(int index1,int index2){
+        return (findRoot(index1)==findRoot(index2));
+    }
+
+}
+```

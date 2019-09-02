@@ -1,0 +1,50 @@
+---
+layout: post
+title:  "KMP算法的Java实现"
+date:   2019-09-02 15:51:00 +0800
+category: java
+---
+
+KMP算法用于在线性时间复杂度内解决字符串匹配的问题。假设现在有一个主串`s="abcacabcaabcabcac"`，和一个模式串`p="abcab"`。要判断主串s是否包含模式串p，若包含则返回模式串在主串中的下标；若不包含则返回`-1`。易知暴力匹配算法的时间复杂度为`O(m*n)`，其中`m=s.length()`，`n=p.length()`。KMP算法利用已匹配的信息可以有效减少匹配次数，将时间复杂度降低至`O(m+n)`。
+
+```java
+public static int KMP(String s,String p){
+    int[] next = getNext(p);
+    int i=0,j=0;
+    while(i<s.length() && j<p.length()){
+        if(j==-1 || s.charAt(i) == p.charAt(j)){
+            i++;
+            j++;
+        }else{
+            //避免会退到0
+            j=next[j];
+        }
+    }
+    if(j==p.length()){
+        return i-(p.length());
+    }else{
+        return -1;
+    }
+}
+```
+
+这里需要用到一个`next`数组，用于保存当在子串第j位失配时，不用将j回退到`0`，只需要将j回退到`next[j]`的位置即可，`next`数组的生成方法为：
+
+```java
+public static int[] getNext(String s){
+    int[] next = new int[s.length()];
+    next[0]=-1;
+    int i = 0;
+    int j = -1;
+    while(i<s.length()-1){
+        if(j==-1 || s.charAt(i)==s.charAt(j)){
+            i++;
+            j++;
+            next[i]=j;
+        }else{
+            j=next[j];
+        }
+    }
+    return next;
+}
+```
