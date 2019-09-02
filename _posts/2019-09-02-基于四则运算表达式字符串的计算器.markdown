@@ -5,6 +5,25 @@ date:   2019-09-02 18:55:00 +0800
 category: java
 ---
 
+调用演示：
+
+```java
+public static void main(String[] args) {
+    String expr = "3+2*(1+2*(4/(8-6)+7))";
+    double ans = caculatorV1(expr);
+    System.out.println(expr + " = " + ans);
+}
+public static double caculatorV1(String expr){
+    return caculate(getSuffixArraylist(getInfixArraylist(expr)));
+}
+```
+
+输出演示：
+
+```
+3+2*(1+2*(4/(8-6)+7)) = 41.0
+```
+
 总体思路分为3步：
 1. 将字符串解析分割成字符串数组，每个元素要么是运算符，要么是int
 1. 将上一步得到的（中缀）字符串数组转化成后缀字符串数组
