@@ -1,0 +1,97 @@
+---
+layout: post
+title:  "HiveQL学习笔记"
+date:   2019-08-29 14:27:00 +0800
+category: hive
+---
+
+本文的数据来源于[Hive编程指南](https://github.com/oreillymedia/programming_hive)
+
+创建一个基于完全相同数据的非分区表`temp`和分区表`dividends`
+
+```sql
+--创建hive数据库
+hive> create database hive;
+--创建未分区的temp临时表
+hive> create table if not exists temp(`exchange` string,symbol string,ymd string,dividend float) row format delimited fields terminated by ',';
+--导入数据
+hive> load data local inpath '/home/lz/hive_examples/dividends.csv' overwrite into table temp;
+--创建分区表dividends
+hive> create table if not exists dividends(ymd string,dividend float) partitioned by(exchange string,symbol string) row format delimited fields terminated by ',';
+--利用自动分区,从temp表中向dividends表中导入数据
+hive> insert into table dividends partition(`exchange`,symbol) select ymd,dividend,`exchange`,symbol from temp;
+```
+
+## 非分区表
+
+```sql
+hive> describe temp;
++-----------+------------+----------+--+
+| col_name  | data_type  | comment  |
++-----------+------------+----------+--+
+| exchange  | string     |          |
+| flag      | string     |          |
+| ymd       | string     |          |
+| dividend  | float      |          |
++-----------+------------+----------+--+
+4 rows selected (0.134 seconds)
+```
+
+```sh
+$ hdfs dfs -ls /user/hive/warehouse/hive.db/temp
+Found 1 items
+-rw-r--r--   1 lz supergroup     405380 2019-08-29 10:05 /user/hive/warehouse/hive.db/temp/dividends.csv
+```
+
+可以看到非分区表只是原封不动的把`load`命令指定的源文件copy了自己的目录底下(因为这是设置的是内部表).
+
+## 非分区表
+
+```sql
+hive> describe individends
++--------------------------+-----------------------+-----------------------+--+
+|         col_name         |       data_type       |        comment        |
++--------------------------+-----------------------+-----------------------+--+
+| ymd                      | string                |                       |
+| dividend                 | float                 |                       |
+| exchange                 | string                |                       |
+| symbol                   | string                |                       |
+|                          | NULL                  | NULL                  |
+| # Partition Information  | NULL                  | NULL                  |
+| # col_name               | data_type             | comment               |
+|                          | NULL                  | NULL                  |
+| exchange                 | string                |                       |
+| symbol                   | string                |                       |
++--------------------------+-----------------------+-----------------------+--+
+10 rows selected (0.198 seconds)
+```
+
+```sh
+$ hdfs dfs -ls /user/hive/warehouse/hive.db/dividends
+drwxr-xr-x   - lz supergroup          0 2019-08-29 13:54 /user/hive/warehouse/hive.db/dividends/exchange=NASDAQ
+drwxr-xr-x   - lz supergroup          0 2019-08-29 13:54 /user/hive/warehouse/hive.db/dividends/exchange=NYSE
+$ hdfs dfs -ls /user/hive/warehouse/hive.db/dividends/exchange=NASDAQ
+Found 159 items
+drwxr-xr-x   - lz supergroup          0 2019-08-29 13:53 /user/hive/warehouse/hive.db/dividends/exchange=NASDAQ/symbol=AACC
+drwxr-xr-x   - lz supergroup          0 2019-08-29 13:53 /user/hive/warehouse/hive.db/dividends/exchange=NASDAQ/symbol=AAON
+drwxr-xr-x   - lz supergroup          0 2019-08-29 13:53 /user/hive/warehouse/hive.db/dividends/exchange=NASDAQ/symbol=AAPL
+...
+
+$ hdfs dfs -ls /user/hive/warehouse/hive.db/dividends/exchange=NASDAQ/symbol=AAPL
+Found 1 items
+-rw-r--r--   1 lz supergroup        574 2019-08-29 13:53 /user/hive/warehouse/hive.db/dividends/exchange=NASDAQ/symbol=AAPL/000000_0
+```
+
+创建股票交易表
+
+```sql
+--创建未分区的stocks股票交易表
+hive> create external table if not exists stocks_np(`exchange` string,symbol string,ymd string,price_open float,price_high float,price_low float,price_close float,volume int,price_adj_close float)row format delimited fields terminated by ',';
+--load数据
+hive> load data local inpath '/home/lz/Downloads/hive/stocks/stocks.csv' into table stocks_np;
+--创建分区表stocks
+hive> create external table if not exists stocks(ymd string,price_open float,price_high float,price_low float,price_close float,volume int,price_adj_close float) partitioned by(`exchange` string,symbol string) row format delimited fields terminated by ',';
+--利用自动分区,从stocks_np表中向stocks表中导入数据
+hive> insert into table stocks partition(`exchange`,symbol) select ymd,price_open ,price_high,price_low ,price_close,volume,price_adj_close ,`exchange`,symbol from stocks_np;
+```
+

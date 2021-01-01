@@ -1,0 +1,134 @@
+---
+layout: post
+title:  "AVL树的Java实现及测试"
+date:   2019-08-31 12:19:00 +0800
+category: java
+---
+
+之前的文章里介绍了[BST二叉排序树的Java实现](https://www.cocobolo.top/java/2019/08/28/BST%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91%E7%9A%84Java%E5%AE%9E%E7%8E%B0%E5%8F%8A%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95.html)，并验证了在插入和删除800万个随机数下可以做到秒级的性能。但这里其实是有一个问题，即插入的数据要是随机的。
+
+考虑一个特殊情况，假如插入数据是有序的，比如`{1,2,3,4,5,6,7,...}`，此时BST的性能会退化成链表。究其原因，是因为当数据有序插入时，根据BST的规则，会一直向某个子树的同一方向反复做插入，导致某个子树的高度特别高，退化成了线性结构，从而导致二叉树的优势不再。
+
+这里引入了AVL（平衡二叉树）的概念，即在保证BST排序的前提下，保证二叉树的平衡性，即要求任一节点的两棵子树的高度相差不超过1。当插入某个节点破坏了平衡性时，通过旋转来保持平衡性。
+
+以下方法均为`BinaryNode`的方法，而非`AVLTree`的方法。
+
+先引入获取树的高度的方法：
+
+```java
+//返回当前节点右子树的高度
+public int leftHeight() {
+    if (left == null) {
+        return 0;
+    } else {
+        return left.getHeight();
+    }
+}
+
+//返回当前节点左子树的高度
+public int rightHeight() {
+    if (right == null) {
+        return 0;
+    } else {
+        return right.getHeight();
+    }
+}
+
+//返回以该节点为根节点的树的高度
+public int getHeight() {
+    return Math.max(left == null ? 0 : left.getHeight(), right == null ? 0 : right.getHeight()) + 1;
+}
+```
+
+接下来介绍旋转，旋转分为左旋和右旋。左旋发生在右子树高度超过左子树高度1，而右旋发生在左子树高度超过右子树1：
+
+```java
+private void leftSpin() {
+    System.out.print("<");
+    //创建新节点(代替当前节点) 值为当前节点的值
+    BinaryNode newNode = new BinaryNode(this.val);
+    //新节点左子树设为当前节点左子树
+    newNode.left = this.left;
+    //新节点右子树设为当前节点右子树的左子树
+    newNode.right = this.right.left;
+    //当前节点copy右节点的值(代替右节点)
+    this.val = this.right.val;
+    //当前节点的右子树指向右子树的右子树
+    this.right = this.right.right;
+    //当前节点的左子树指向新节点
+    this.left = newNode;
+}
+
+private void rightSpin() {
+    System.out.print(">");
+    //创建新节点(代替当前节点) 值为当前节点的值
+    BinaryNode newNode = new BinaryNode(this.val);
+    //新节点右子树设为当前节点右子树
+    newNode.right = this.right;
+    //新节点左子树设为当前节点左子树的右子树
+    newNode.left = this.left.right;
+    //当前节点copy左节点的值(代替左节点)
+    this.val = this.left.val;
+    //当前节点的左子树指向左子树的左子树
+    this.left = this.left.left;
+    //当前节点的右子树指向新节点
+    this.right = newNode;
+}
+```
+
+有了左旋和右旋后，就可以在每次调用`add()`方法添加一个节点是，增加一个检测机制，当检测到不满足AVL树性质时，触发旋转，保证性质：
+
+```java
+public void add(BinaryNode node) {
+
+    //此处省略添加节点的逻辑
+
+    //!!!重要 新增判断 添加完节点之后是否平衡
+    // 若右子树高度-左子树高度>1   =>  左旋转
+    if (rightHeight() - leftHeight() > 1) {
+        leftSpin();
+    }else if (leftHeight() - rightHeight() > 1) {
+        rightSpin();
+    }
+}
+```
+
+在`add()`方法中添加了检测“倾斜”的逻辑，的确可以解决一部分在添加节点后AVL树不平衡的问题。但我们会发现，在某些特定的情况下，依然会有“倾斜”的情况发生。比如本来左子树的高度超过右子树高度1，触发右旋之后，导致右子树高度反而超过左子树高度1了。这时需要在左旋和右旋之前再添加一个判断的逻辑：
+
+```java
+public void add(BinaryNode node) {
+
+    //此处省略添加节点的逻辑
+
+    //!!!重要 新增判断 添加完节点之后是否平衡
+    // 若右子树高度-左子树高度>1   =>  左旋转
+    if (rightHeight() - leftHeight() > 1) {
+        if(right!=null&& right.leftHeight()>right.rightHeight()){
+            right.rightSpin();
+        }
+        leftSpin();
+    }else if (leftHeight() - rightHeight() > 1) {
+        if(left!=null&& left.rightHeight()>left.leftHeight()){
+            left.leftSpin();
+        }
+        rightSpin();
+    }
+}
+
+```
+
+至此就实现了在BST的基础上还可以保证二叉树不发生倾斜。
+以下是测试按自然数顺序插入`1024`个(`2^10=1024`)有序节点后，检测树的高度的结果：
+
+```
+插入顺序为[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]省略以下1014个数据..
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<...
+-----------
+avlTree.getRoot().getHeight() = 11
+avlTree.getRoot().leftHeight() = 9
+avlTree.getRoot().rightHeight() = 10
+```
+
+可以看到树的高度的确维持在了`log2(1024)=10`附近，没有发生倾斜。
+
+

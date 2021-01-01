@@ -1,0 +1,124 @@
+---
+layout: post
+title:  "基于四则运算表达式字符串的计算器"
+date:   2019-09-02 18:55:00 +0800
+category: java
+---
+
+调用演示：
+
+```java
+public static void main(String[] args) {
+    String expr = "3+2*(1+2*(4/(8-6)+7))";
+    double ans = caculatorV1(expr);
+    System.out.println(expr + " = " + ans);
+}
+public static double caculatorV1(String expr){
+    return caculate(getSuffixArraylist(getInfixArraylist(expr)));
+}
+```
+
+输出演示：
+
+```
+3+2*(1+2*(4/(8-6)+7)) = 41.0
+```
+
+总体思路分为3步：
+1. 将字符串解析分割成字符串数组，每个元素要么是运算符，要么是int
+1. 将上一步得到的（中缀）字符串数组转化成后缀字符串数组
+1. 根据后缀字符串数组计算最后的结果
+
+## 1.字符串解析分割
+
+```java
+public static ArrayList<String> getInfixArraylist(String expr){
+    ArrayList<String> infixArraylist = new ArrayList<String>();
+    char ch;
+    int len = expr.length();
+    int index = 0;
+    while(index < len){
+        ch=expr.charAt(index);
+        if(ch==' '){
+            index++;
+            continue;
+        }
+        if(isOp(expr.charAt(index))){  //是+-*/()
+            infixArraylist.add(""+ch);
+            index++;
+        }else if(isNum(ch)){  //是数字 得判断数字的位数
+            StringBuilder sb = new StringBuilder();
+            do{
+                sb.append(expr.charAt(index++));
+            }while (index<len && isNum(expr.charAt(index)));
+            infixArraylist.add(sb.toString());
+        }else{
+            throw new RuntimeException("不合法的字符");
+        }
+    }
+
+    return infixArraylist;
+}
+```
+
+## 2.中缀数组转后缀数组
+
+```java
+public static ArrayList<String> getSuffixArraylist(ArrayList<String> infixArraylist){
+    ArrayList<String> suffixArraylist = new ArrayList<String>();
+    Stack<Character> s = new Stack<Character>();
+    char ch;
+    for(String element:infixArraylist){
+        if(isOp(element.charAt(0))){  // 是符号
+            if(isOpButNotBracket(element.charAt(0))){  // 是+-*/
+                while (!s.empty() && s.peek()!='(' && lessPriority(element.charAt(0),s.peek())){
+                    suffixArraylist.add(""+s.pop());
+                }
+                s.push(element.charAt(0));
+            }else{  // 是括号
+                if(element.charAt(0) == '('){
+                    s.push(element.charAt(0));  // 左括号直接入栈
+                }else {  // 是)
+                    while((ch=s.pop())!='('){
+                        suffixArraylist.add(""+ch);
+                    }
+                }
+            }
+        }else{  // 是数字
+            suffixArraylist.add(element);
+        }
+    }
+    while(!s.empty()){
+        suffixArraylist.add(""+s.pop());
+    }
+
+    return suffixArraylist;
+}
+```
+
+## 3.由后缀数组计算表达式的值
+
+```java
+public static double caculate(ArrayList<String> list){
+    if(list.size()==1){
+        return Double.parseDouble(list.get(0));
+    }
+    double numLeft =0.0;
+    double numRight = 0.0;
+    char op = ' ';
+    double res = 0.0;
+    Stack<Double> s = new Stack<Double>();
+    for(String element:list){
+        if(element.charAt(0)< '0' || element.charAt(0)>'9'){  //说明是操作符
+            op=element.charAt(0);
+            numRight=s.pop();
+            numLeft=s.pop();
+            res=calc(numLeft,op,numRight);
+            s.push(res);
+        }else{//是数字
+            s.push(Double.parseDouble(element));
+        }
+    }
+    return res;
+}
+```
