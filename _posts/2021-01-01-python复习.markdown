@@ -29,7 +29,7 @@ C:1,2,3
 D:2,4,5
 
 答案：C
-```Ppython
+```python
 >>> range(1,7)[2:6]
 range(3, 7)
 
@@ -356,7 +356,6 @@ for x in answer:
 
 第2题 （25.0分）        题号:87        难度:中        第4章
 
-"""
 本题统计电影信息。统计过程分解为多个步骤，要求实现如下两个函数：
 
 1) 函数`construct_movies_by_director(data_list)`
