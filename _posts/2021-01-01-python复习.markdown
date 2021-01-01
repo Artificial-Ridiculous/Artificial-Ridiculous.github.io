@@ -136,14 +136,15 @@ NameError: name 'a' is not defined
 --- 
 二、程序填空   共1题 （共计15分）
 第1题 （15.0分）        题号:60        难度:中        第4章
-# -*- coding:cp936 -*-
-'''------------------------------------------------------
+
+
 【程序填空】
----------------------------------------------------------
+
 题目：将股票按照股票的价格从高到低输出。运行样例见样张图片。
 程序中有三处代码不完整，请填写完整。
----------------------------------------------------------
+
 注意：除要求填空的位置之外，请勿改动程序中的其他内容。
+
 ---
 ```python
 def main():
@@ -155,17 +156,25 @@ def main():
 
     #**********SPACE**********
     stockList=[stock.strip() for stock in stocks.split(',') ]  # 此行待填
-    # strip()方法能去除字符串中头尾多余的空格
     # [expression_with_x() for x in list] 标准的列表生成式
-    # 
+    # stocks.split(',')返回一个按逗号切割好的列表，每个元素是一个字符串
+    # 将上述列表中的字符串元素一个个赋给stock
+    # stock.strip()去除了stock字符串头尾的多余空格
 
     #**********SPACE**********
     priceList=[float(price) for price in prices.split(',') ]  # 此行待填
+    # 下面用到了priceList，所以肯定要在这句生成一个priceList
+    # 大体和上述方法一直，但是需要注意的是，split()也好strip()也好都是按照字符串处理的
+    # 而且题目中说需要按照价格从高到低输出，所以需要排序，字符串没办法比较金额大小
+    # 所以需要转成数值类型，这里是小数，用float和double都可以
+    # int(expr) str(expr) float(expr)等都可以将expr转换成相应的类型
 
     pairs=zip(priceList,stockList)
 
     #**********SPACE**********
     for item in sorted(pairs,reverse=True):  # 此行待填
+    # sorted()方法返回一个排好序的新列表，接受一个可选参数reverse，但是默认是False（也就是从小到大）
+    # 下面一句用到item,所以这里肯定要用一个for循环取出上述pairs中的元素
         print('{0[1]}({0[0]:.2f}元)'.format(item))
 
 if __name__ == '__main__':
@@ -193,8 +202,8 @@ if __name__ == '__main__':
 比如456556790的魔法值的计算：
 4 ** 5 + 6 ** 5 + 5 ** 6 + 7 ** 9 + 0 ** 1 = 40378032
 4 + 0 + 3 + 7 + 8 + 0 + 3 + 2 = 27
-------------------------------------------------------'''
-
+------------------------------------------------------
+```python
 import re
 
 def f(text):
@@ -203,44 +212,63 @@ def f(text):
 
     #**********FOUND**********
     for lineno, line in range(len(lines)),lines:
+    # for lineno, line in enumerate(lines, 1):
+    # enumerate(sequence, [start=0])
+    # 用于将一个可遍历的数据对象(如列表、元组或字符串)组合为一个索引序列，
+    # 同时列出数据和数据下标，一般用在 for 循环当中。
         normalized_line = re.sub('[\s,-]', '', line)
+        # 将line中的'\s'、','、'-'全部替换去掉，'\s'包括所有的空白字符
+        # >>> re.sub('[\s,-]', '', '456-556-778') 
+        # '456556778'
+        # >>> re.sub('[\s,-]', '', '456, 556 , 790') 
+        # '456556790'
         if not normalized_line.isdigit():
+        # 如果被处理后的normalized_line不是数字
             continue
-
+            # 跳过（不是数字更不可能是候选魔法数）
+        # 如果来到了这里，说明没有被跳过，是一个数字
         total = 0
         for i in range(0, len(normalized_line), 2):
               #**********FOUND**********
-              if i < len(normalized_line) :
-                     total += int(normalized_line[i]) ** int(normalized_line[i+1])
-              else:
-                     total += int(normalized_line[i])
+            if i < len(normalized_line) :
+            # 改成if i < len(normalized_line)-1:
+            # 比如9位数，下标为8其实就是最后一位了，是个单身狗怕
+                total += int(normalized_line[i]) ** int(normalized_line[i+1])
+            else:
+                total += int(normalized_line[i])
 
         total = sum(int(i) for i in str(total))
-
+        # total转正字符串，取每一位，转成int，然后sum
+        # >>> sum(int(i) for i in '32123')
+        # 11
+        # >>> (int(i) for i in '32123')    
+        # <generator object <genexpr> at 0x000001FEAAB715C8>
         if total % 2:
             #**********FOUND**********
             sols = sols.append(lineno, total, normalized_line)
+            # 应改为sols.append([lineno, total, normalized_line])
+            # 因为append方法一次只能添加一个元素
+            # 要将他们作为列表整体append
     for item in sols:
         print('[{:^3d}] {:3d} {}'.format(*item))
 
 if __name__ == '__main__':
-        text =  '''456-556-778
-        456, 556 , 790
-        ab 456
-        45655679
-        1234
-        0
-        '''
-"""调用如下函数后的输出结果应该为:
+    text =  '''456-556-778
+    456, 556 , 790
+    ab 456
+    45655679
+    1234
+    0
+    '''
+    f(text)
+```
+
+调用如下函数后的输出结果应该为:
+```
 [ 1 ]  41 456556778
 [ 2 ]  27 456556790
 [ 4 ]  27 45655679
-"""
-f(text)
-
-
-
-
+```
 
 答案：
 
@@ -257,22 +285,27 @@ sols.append((lineno, total, normalized_line))
 =========或=========
 sols.append([lineno, total, normalized_line])
 
+---
 
 四、程序设计   共2题 （共计50分）
+
 第1题 （25.0分）        题号:88        难度:中        第4章
-# -*- coding:cp936 -*-
-'''------------------------------------------------------
+
 【程序设计】
----------------------------------------------------------
+
+ 
 题目：模拟抢红包。输入数据是一行，含有一个浮点数和一个整数，
 分别表示红包总金额amount和数量n。输出n个浮点数，分别表示
 每个人抢到的金额（至少0.01），且总和必须等于amount。
 假定用户的键盘输入没有错误，程序无需对其进行错误处理。
 提示：使用random.randint(a,b)可以得到整数a到b之间的一个
 随机整数（包含a和b）。
----------------------------------------------------------
+
 注意：仅在注释标志之间填入所编写的若干语句，请勿改动其余部分。
-------------------------------------------------------'''
+
+---
+
+```python
 import random
 
 def dispatch(amount, n):
@@ -280,14 +313,36 @@ def dispatch(amount, n):
     返回一个列表，包含n个浮点数，分别表示每个人抢到的金额
     （至少0.01），且总和必须等于amount。"""
     #**********Program**********
-  
+    a=[]
+    amount-=0.01*n
+    #为每人预留1分钱
+    for i in range(n-1):
+    # 只用roll n-1 次，最后一个人拿剩下的即可
+        t=random.randint(1,int(100*amount))/100
+        # 因为函数只能随机出整数，但是金额减去几分钱之后是含小数点的
+        # 所以只能变通到先把金额乘以100变成整数，在整数种随机
+        # 随机完了再除以100便会原来的小数模式
+        a.append(t+0.01)
+        amount-=t
+    a.append(amount+0.01)
+    # 最后剩下的钱是最后一个人的，不用从新roll一次
+    return a
+    #**********  End  **********
 
-
-
-
-
-
-
+    #**********Program**********
+    # 这样可能绕的弯少点
+    a=[]
+    amount *= 100
+    amount -= n
+    #为每人预留1分钱
+    for i in range(n-1):
+    # 只用roll n-1 次，最后一个人拿剩下的即可
+        t=random.randint(1,amount)
+        a.append((t+1)/100)
+        amount-=t
+    a.append((amount+1)/100)
+    # 最后剩下的钱是最后一个人的，不用从新roll一次
+    return a
     #**********  End  **********
 amount=float(input('请输入红包总金额：'))
 n=int(input('请输入红包数量：'))
@@ -295,62 +350,37 @@ answer=dispatch(amount, n)
 for x in answer:
     print('%.2f'%x, end=' ')
 
+```
 
-答案：    a=[]
-    amount-=0.01*n		#为每人预留1分钱
-    for i in range(n-1):
-        t=random.randint(1,int(100*amount))/100 
-        a.append(t+0.01)
-        amount-=t
-    a.append(amount+0.01)
-    return a
+---
 
 第2题 （25.0分）        题号:87        难度:中        第4章
-# -*- coding:cp936 -*-
+
 """
 本题统计电影信息。统计过程分解为多个步骤，要求实现如下两个函数：
 
-1) 函数construct_movies_by_director(data_list)
-参数data_list是一个每个元素形如"(年份，电影名，票房，导演)"元组的列表，见代码中的data_list对象。函数处理
-传入的列表对象data_list，得到并返回一个字典。返回的字典，key是导演，value是每项形如"(年份，电影名，票房)"
-元组的电影信息列表。在处理过程中，如果同样的电影信息出现多次，则抛出异常"重复数据"。代码中的data_list列表
+1) 函数`construct_movies_by_director(data_list)`
+参数`data_list`是一个每个元素形如"(年份，电影名，票房，导演)"元组的列表，见代码中的`data_list`对象。函数处理
+传入的列表对象`data_list`，得到并返回一个字典。返回的字典，key是导演，value是每项形如"(年份，电影名，票房)"
+元组的电影信息列表。在处理过程中，如果同样的电影信息出现多次，则抛出异常`"重复数据"`。代码中的`data_list`列表
 对象在处理后得到的字典如下
+```python
 {'Ron Howard': [(2013, 'Rush', 26.9), (2001, 'A Beautiful Mind', 171.0)], 'Steve McQueen': [(2008, 'Hunger', 154.0)]}
-
-2) 函数top_directors(movie_dict)
-参数movie_dict为调用函数construct_movies_by_director返回的结果。经处理后返回一个列表，其每个元素是形如
+```
+2) 函数`top_directors(movie_dict)`
+参数`movie_dict`为调用函数`construct_movies_by_director`返回的结果。经处理后返回一个列表，其每个元素是形如
 "(导演，总票房)"的元组，其中总票房是该导演所有执导电影的票房之和。且返回的列表按总票房从大到小的顺序排序。
 上面的字典，经本函数处理后返回的结果如下
+```pyhon
 [('Ron Howard', 197.9), ('Steve McQueen', 154.0)]
-
----------------------------------------------------------
+```
 注意：仅在注释标志之间填入所编写的若干语句，请勿改动其余部分。
----------------------------------------------------------
-"""
+
+```python
 
 data_list = [(2013, 'Rush', 26.9, 'Ron Howard'), (2001, 'A Beautiful Mind', 171, 'Ron Howard'), (2008, 'Hunger', 154, 'Steve McQueen')]
 
-
 #**********Program**********
-
-
-
-
-
-
-
-
-#**********  End  **********
-
-if __name__ == '__main__':
-    try:
-        movie_dict = construct_movies_by_director(data_list)
-        sorted_list = top_directors(movie_dict)
-        print(sorted_list)
-    except Exception as e:
-        print(e)
-
-答案：
 #答案
 def construct_movies_by_director(data_list):
     movies = {}
@@ -374,22 +404,13 @@ def top_directors(movie_dict):
         directors.append( (director, total) )
     return directors
 
+#**********  End  **********
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+if __name__ == '__main__':
+    try:
+        movie_dict = construct_movies_by_director(data_list)
+        sorted_list = top_directors(movie_dict)
+        print(sorted_list)
+    except Exception as e:
+        print(e)
+```
