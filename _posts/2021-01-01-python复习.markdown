@@ -401,12 +401,15 @@ def construct_movies_by_director(data_list):
         # 下标-1代表倒数第一个
         # 注意下标从0开始
         year, box_office = int(line[0]), float(line[2])
+        # 0是第一个，2是第三个
 
         if director not in movies:
             movies[director] = []
+            # 字典中key为director的项，value置为空列表[]
         if (year, title, box_office) in movies[director]:
             raise Exception("重复数据:{}".format(title))
         movies[director] += [(year, title, box_office)]
+        # 字典中key为director的value列表扩展新的一个元组
     return movies
 
 def top_directors(movie_dict):
