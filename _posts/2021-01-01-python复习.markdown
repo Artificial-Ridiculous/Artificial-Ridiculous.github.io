@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "python复习"
-date:   2001-01-01 15:19:00 +0800
+date:   2021-01-01 15:19:00 +0800
 category: python
 ---
 
@@ -106,7 +106,7 @@ D:变量lines是列表类型对象
 
 答案：C
 ```python
-with open(‘abc.txt’,’r+’) as f:
+with open('abc.txt','r+') as f:
 # 如果没用with，只是单纯的用open那么的确需要close
 # 但如果用了with，python会自动调用close()
 lines = f.readlines()
