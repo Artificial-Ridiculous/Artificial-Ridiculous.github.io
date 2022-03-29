@@ -1,0 +1,44 @@
+---
+layout: post
+title:  "Scala复习1"
+date:   2022-03-29 19:55:00 +0800
+category: scala
+---
+
+默认scala脚本以`.sc`为扩展名，scala源程序以`.scala`结尾 
+
+a.sc == 脚本 -> scala执行 
+
+a.scala == 源代码 -> scalac编译 -> scala执行 
+
+下面展示一个文件名为`upper.scala`的scala脚本
+
+```scala
+package top.cocobolo
+
+object Upper{
+    def main(args:Array[String]): Unit = {
+        args.map(s => s.toUpperCase).foreach(println(_))
+    }
+}
+```
+
+命令行输入`scalac upper.scala`可对其编译，发现在`./top/cocobolo`下会生成`Upper.class`文件；编译之后可以执行`scala -cp . top.cocobolo.Upper test`来运行刚刚编译的`.class`字节码。整个过程如下：
+
+```
+➜  Scala git:(master) ✗ scalac upper.scala
+➜  Scala git:(master) ✗ scala -cp . top.cocobolo.Upper test
+TEST
+```
+
+最后用`scalap`逆向一下class文件
+
+```
+➜  cocobolo git:(master) ✗ scalap Upper                       
+package top.cocobolo
+object Upper extends scala.AnyRef {
+  def this() = { /* compiled code */ }
+  def main(args: scala.Array[scala.Predef.String]): scala.Unit = { /* compiled code */ }
+}
+
+```
