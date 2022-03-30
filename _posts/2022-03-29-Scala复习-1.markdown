@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Scala复习1"
+title:  "Scala复习-1"
 date:   2022-03-29 19:55:00 +0800
 category: scala
 ---
@@ -41,4 +41,26 @@ object Upper extends scala.AnyRef {
   def main(args: scala.Array[scala.Predef.String]): scala.Unit = { /* compiled code */ }
 }
 
+```
+
+---
+
+以上是将该文件作为源代码先编译再运行，如果想直接作为脚本运行：
+```shell
+➜  Scala git:(master) ✗ scala ./upper.scala test            
+/Users/zhe.lin/Code/Codes/Scala/./upper.scala:1: error: illegal start of definition
+package top.cocobolo
+^
+one error found
+```
+
+报这个错的原因是：
+> It looks like you're trying to declare the `package` membership in a Scala script (run using the `scala` command) or in the REPL.Only files defining just classes and objects which are compiled with `scalac` may be defined as belonging to a package.When you run code in a script or a REPL session, behind the scenes it is actually compiled inside a method of an object, in which scope a package declaration wouldn't be legal.
+
+解决方案是将第一行的`package top.cocobolo`注释掉，再运行：
+
+```shell
+➜  Scala git:(master) ✗ scala ./upper.scala test
+TEST
+➜  Scala git:(master) ✗ 
 ```
