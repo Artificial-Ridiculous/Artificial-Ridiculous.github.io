@@ -25,7 +25,7 @@ object Upper{
 
 命令行输入`scalac upper.scala`可对其编译，发现在`./top/cocobolo`下会生成`Upper.class`文件；编译之后可以执行`scala -cp . top.cocobolo.Upper test`来运行刚刚编译的`.class`字节码。整个过程如下：
 
-```
+```shell
 ➜  Scala git:(master) ✗ scalac upper.scala
 ➜  Scala git:(master) ✗ scala -cp . top.cocobolo.Upper test
 TEST
@@ -33,14 +33,13 @@ TEST
 
 最后用`scalap`逆向一下class文件
 
-```
+```scala
 ➜  cocobolo git:(master) ✗ scalap Upper                       
 package top.cocobolo
 object Upper extends scala.AnyRef {
   def this() = { /* compiled code */ }
   def main(args: scala.Array[scala.Predef.String]): scala.Unit = { /* compiled code */ }
 }
-
 ```
 
 ---
@@ -57,10 +56,20 @@ one error found
 报这个错的原因是：
 > It looks like you're trying to declare the `package` membership in a Scala script (run using the `scala` command) or in the REPL.Only files defining just classes and objects which are compiled with `scalac` may be defined as belonging to a package.When you run code in a script or a REPL session, behind the scenes it is actually compiled inside a method of an object, in which scope a package declaration wouldn't be legal.
 
-解决方案是将第一行的`package top.cocobolo`注释掉，再运行：
+解决方案是将第一行的`package top.cocobolo`注释掉：
+
+```scala
+// package top.cocobolo
+
+object Upper{
+    def main(args:Array[String]): Unit = {
+        args.map(s => s.toUpperCase).foreach(println(_))
+    }
+```
+
+再运行：
 
 ```shell
 ➜  Scala git:(master) ✗ scala ./upper.scala test
 TEST
-➜  Scala git:(master) ✗ 
 ```
