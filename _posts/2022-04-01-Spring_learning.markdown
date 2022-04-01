@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Spring learning"
+title:  "Spring_learning"
 date:   2022-04-01 15:25:00 +0800
 category: Java
 ---
