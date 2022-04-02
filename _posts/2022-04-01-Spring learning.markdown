@@ -13,16 +13,17 @@ category: Java
 -
     - controller  // 负责对外暴露接口，定义HTTP请求类型和拼接的URL
         - public class InstanceController
-            - public ReturnMessage getAllInstanceHosts(){}  // 定义
+            - @Autowired private ReplicaService replicaService;  // autowire一个service实例
+            - public ReturnMessage getAllInstanceHosts(){}  // 通过实例调用对应的implement方法
     - service  // 负责内部逻辑
         - public interface InstanceService  // 接口
-            - List<String> getAllInstanceHosts();
+            - List<String> getAllInstanceHosts();  // 定义方法
         - impl  // 实现接口
             - InstanceServiceImpl
                 - @Autowired private InstanceMapper instanceMapper
                 - @Override getAllInstanceHosts(){}
-                    - return instanceMapper.getAllInstanceHosts()  // 这里的实例是从mapper的interface里Autowired
-    - mapper  // 封装impl中调用的方法，真正用SQL去实现getAllInstanceHosts()
+                    - return instanceMapper.getAllInstanceHosts()  // 这里的实例是从mapper的interface autowire
+    - mapper  // 封装impl中调用的方法，真正用SQL去实现getAllInstanceHosts(),依赖po中定义的bean
         - public interface InstanceMapper
             - List<String> getAllInstanceHosts();
     - po  // 包装field和getter() setter()，一个个的bean
