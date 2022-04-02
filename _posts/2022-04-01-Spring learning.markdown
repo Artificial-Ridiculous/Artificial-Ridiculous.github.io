@@ -10,11 +10,11 @@ category: Java
 以一个Spring实现的Swagger为例，一个典型的实现结构是：
 
 ```java
--
+- 包
     - controller  // 负责对外暴露接口，定义HTTP请求类型和拼接的URL
         - public class InstanceController
             - @Autowired private ReplicaService replicaService;  // autowire一个service实例
-            - public ReturnMessage getAllInstanceHosts(){}  // 通过实例调用对应的implement方法
+            - public ReturnMessage getAllInstanceHosts(){}  // 通过实例调用对应的implement方法，将bean类型封装进Message返回
     - service  // 负责内部逻辑
         - public interface InstanceService  // 接口
             - List<String> getAllInstanceHosts();  // 定义方法
@@ -23,7 +23,7 @@ category: Java
                 - @Autowired private InstanceMapper instanceMapper
                 - @Override getAllInstanceHosts(){}
                     - return instanceMapper.getAllInstanceHosts()  // 这里的实例是从mapper的interface autowire
-    - mapper  // 封装impl中调用的方法，真正用SQL去实现getAllInstanceHosts(),依赖po中定义的bean
+    - mapper  // 封装impl中调用的方法，真正用SQL去实现getAllInstanceHosts(),依赖po中定义的bean（甚至返回类型就是bean）
         - public interface InstanceMapper
             - List<String> getAllInstanceHosts();
     - po  // 包装field和getter() setter()，一个个的bean
