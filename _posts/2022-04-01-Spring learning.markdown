@@ -33,7 +33,7 @@ category: Java
 
 调用过程：
 - 外部通过swagger调用某个接口
-    - 例如通过`get`请求调用`getAllInstanceHosts()`，拼接的域名是class级别的`@RequestMapping("/instaces")`加上方法级别的`@GetMapping("/hosts")`，最后生成的URL就应该是`http://{ip-address}:{port}/replicas/hosts`
+    - 例如通过`get`请求调用`getAllInstanceHosts()`，拼接的域名是class级别的`@RequestMapping("/instaces")`加上方法级别的`@GetMapping("/hosts")`，最后生成的URL就应该是`http://{ip-address}:{port}/instaces/hosts`
 - 调用请求打到controller
     - controller在对应的方法中，用面向对象的封装特性，先`@Autowired`一个服务接口`InstanceService`的某个实例`instanceService`出来，再调用它的相应的`getAllInstanceHost()`方法返回一个统一的`ReturnMessage`
     - 这就引出了服务接口`InstanceService`以及它的实现`InstanceServiceImpl`
