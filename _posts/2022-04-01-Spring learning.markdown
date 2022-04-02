@@ -22,10 +22,10 @@ category: Java
                 - @Autowired private InstanceMapper instanceMapper
                 - @Override getAllInstanceHosts(){}
                     - return instanceMapper.getAllInstanceHosts()  // 这里的实例是从mapper的interface里Autowired
-    - mapper  // 封装CURD
+    - mapper  // 封装impl中调用的方法，真正用SQL去实现getAllInstanceHosts()
         - public interface InstanceMapper
             - List<String> getAllInstanceHosts();
-    - po  // 包装字段和方法，一个个的bean
+    - po  // 包装field和getter() setter()，一个个的bean
         - public class Replica {
             - field
             - getField(){}
