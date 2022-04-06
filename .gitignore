@@ -3,3 +3,7 @@ _site
 .jekyll-metadata
 .vscode
 .jekyll-cache
+.idea
+.metals
+.DS_Store
+.DS_Store
