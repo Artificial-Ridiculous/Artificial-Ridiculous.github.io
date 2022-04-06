@@ -23,7 +23,7 @@ category: Java
                 - @Autowired private InstanceMapper instanceMapper
                 - @Override getAllInstanceHosts(){}
                     - return instanceMapper.getAllInstanceHosts()  // 这里的实例是从mapper的interface autowire
-    - mapper  // 封装impl中调用的方法，真正用SQL去实现getAllInstanceHosts(),依赖po中定义的bean（甚至返回类型就是bean）
+    - mapper  // DAO，是一个接口，封装impl中调用的方法，真正用SQL去实现getAllInstanceHosts(),依赖po中定义的bean（甚至返回类型就是bean）
         - public interface InstanceMapper
             - List<String> getAllInstanceHosts();
     - po  // 包装field和getter() setter()，一个个的bean
@@ -45,6 +45,6 @@ category: Java
         - `@Autowired`相关bean(也就是`Mapper`)，获得与之相关的所有方法
         - 通过`Mapper`封装的各种SQL逻辑，简单地实现接口里声明的各种方法
 - mapper
-    - 通过SQL真正实现方法，返回相应地bean
+    - DAO接口，通过SQL真正实现方法，返回相应地bean
 - po
     - 上述代码中各种定义的实体类(bean)
