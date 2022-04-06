@@ -13,7 +13,7 @@ category: Java
 - 包
     - controller  // 负责对外暴露接口，定义HTTP请求类型和拼接的URL
         - public class InstanceController
-            - @Autowired private ReplicaService replicaService;  // autowire一个service实例
+            - @Autowired private InstanceService InstanceService;  // autowire一个service实例
             - public ReturnMessage getAllInstanceHosts(){}  // 通过实例调用对应的implement方法，将bean类型封装进Message返回
     - service  // 负责内部逻辑
         - public interface InstanceService  // 接口
@@ -27,7 +27,7 @@ category: Java
         - public interface InstanceMapper
             - List<String> getAllInstanceHosts();
     - po  // 包装field和getter() setter()，一个个的bean
-        - public class Replica {
+        - public class Instance {
             - field
             - getField(){}
 ```
