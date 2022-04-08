@@ -189,5 +189,80 @@ To Be Continued...
 
 注意此命令后，数组内MJ位于ZL之前了，说明顺序的确被替换了。
 
+#### 正则表达式
+
+jq正则表达式以如下语法出现：
+
+```shell
+STRING | FILTER( REGEX )
+STRING | FILTER( REGEX; FLAGS )
+STRING | FILTER( [REGEX] )
+STRING | FILTER( [REGEX, FLAGS] )
+```
+
+其中`FILTER`可以是`test / match / capture`，`FLAGS`暂且按下不表，以下分别展开说
+
+##### `test`
+`test()`只返回真假
+
+用法`jq expr | test( REGEX )`
+
+命令`cat Json.txt | jq '.game.name | test(".ys$")'`
+
+```json
+true
+```
+
+---
+
+命令`cat Json.txt | jq '.game | select(.name | test("ys$"))'` ：
+
+```json
+{
+  "name": "yys"
+}
+```
+
+---
+命令`cat Json.txt | jq '.game | select(.name | test("^ys$"))'` ：
+
+```json
+
+```
+众所周知`^`匹配字符串开头，`$`匹配字符串结尾，所以`test("ys$")`返回真而`test("^ys$")`返回假，配合`select()`可以完成从Json中匹配正则表达式的能力
+---
+
+##### `match`
+
+类似`test`，只不过`match`返回的不再是真/假，而是返回匹配上的对象
+
+用法`jq expr | match( REGEX )`
+
+命令`cat Json.txt | jq '.game.name | match(".*s$")'`
+
+```json
+{
+  "offset": 0,
+  "length": 3,
+  "string": "yys",
+  "captures": []
+}
+```
+
+---
+
+##### `capture`
+太复杂了，自己体会吧...
+大概是让你分段匹配
+
+命令`cat Json.txt | jq '.game.name | capture("(?<left>[a-z]+)y(?<right>[a-z]+)")'`
+
+```json
+{
+  "left": "y",
+  "right": "s"
+}
+```
+
 ### 参考文献
 - [jq官方文档](https://stedolan.github.io/jq/manual/#Builtinoperatorsandfunctions)
