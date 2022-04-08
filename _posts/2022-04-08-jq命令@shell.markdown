@@ -1,0 +1,150 @@
+---
+layout: post
+title:  "jq命令@shell"
+date:   2022-04-08 15:25:00 +0800
+category: linux
+---
+***所有操作默认非root用户，本文中用 `zhe.lin` 用户。***
+
+# jq
+
+`jq` 命令是Linux下的一个命令，mac用户可以用`brew install jq`来安装
+
+`jq`通过 **jq表达式** 来对Json格式的数据做处理，接下来的操作以此Json文本(`json.txt`)作为输入：
+
+```json
+{"person":[{"firstname":"Z","lastname":"L"},{"firstname":"M","lastname":"J"}],"game":{"name":"yys"}}
+```
+
+### 基本jq操作
+
+现在对这个文件使用`jq`命令 `cat shopee/Json.txt | jq .` ：
+
+```json
+{
+  "person": [
+    {
+      "firstname": "Z",
+      "lastname": "L"
+    },
+    {
+      "firstname": "M",
+      "lastname": "J"
+    }
+  ],
+  "game": {
+    "name": "yys"
+  }
+}
+```
+可以看到jq支持从管道操作符`|`接受输入，`'.'`是一个最简单的jq表达式，他表示选取这个Json并什么都不做
+
+接下来做一个选取操作`cat shopee/Json.txt | jq .person`。另外jq表达式内也支持`｜`操作符进行串行化操作，管道前面表达式的输出可以作为管道后表达式的输入，所以上面的命令也可以写成`cat shopee/Json.txt | jq '. | .person'` (为了防止歧义这里将整个jq表达式用单引号''包住了)，这两个命令可以得到相同的输出 ：
+```json
+[
+  {
+    "firstname": "Z",
+    "lastname": "L"
+  },
+  {
+    "firstname": "M",
+    "lastname": "J"
+  }
+]
+```
+可以看到`.person`代表选取这个Json中key为`person`的元素，它是一个Json数组。
+
+类似`.[]`的表达式可以操作数组（也就是上一个命令的输出），这个命令的输入既可以是数组也可以是Json对象，输出的是基于数组元素或对象属性值的迭代器。一个表达式产生的结果是迭代器时，迭代器的每一个值会分别作为的输入，传给后面的表达式。以`cat shopee/Json.txt | jq '.person | .[]'`命令为例 ：
+```json
+{
+  "firstname": "Z",
+  "lastname": "L"
+}
+{
+  "firstname": "M",
+  "lastname": "J"
+}
+```
+注意上述输出既没有代表数组的`[]`，同时两个Json对象之间也没有`,`分隔。用`.[index]`或`.[attributename]`可以访问数组元素或者Json对象的属性值。以`cat shopee/Json.txt | jq '.person | .[0]'`为例演示index访问：
+```json
+{
+  "firstname": "Z",
+  "lastname": "L"
+}
+```
+可以看到index是从 **0** 开始的；接下来以`cat shopee/Json.txt | jq '.person | .[0] | .["firstname"]'`演示attributename访问 :
+```json
+"Z"
+```
+- 事实上以下两种写法也能达到相同效果：
+    - `cat shopee/Json.txt | jq '.person | .[0] | .firstname'`
+    - `cat shopee/Json.txt | jq '.person | .[0].firstname'`
+
+`.[startindex:endindex]`可以实现数组切片操作，返回仍然是一个数组，以`cat shopee/Json.txt | jq '.person | .[0:1]'`为例，可以看到下标是左闭右开 ：
+```json
+[
+  {
+    "firstname": "Z",
+    "lastname": "L"
+  }
+]
+```
+
+### jq函数
+
+##### 删除
+`del(jq_expr)`
+命令`cat shopee/Json.txt | jq '. | del(.person)'` ：
+```json
+{
+  "game": {
+    "name": "yys"
+  }
+}
+```
+
+##### 映射
+`map(jq_expr)`
+
+To Be Continued...
+
+##### 过滤
+`select(jq_expr)`
+
+命令`cat shopee/Json.txt | jq '.["person"] | .[] | select(.lastname=="L")'` ：
+```json
+{
+  "firstname": "Z",
+  "lastname": "L"
+}
+```
+命令`cat shopee/Json.txt | jq '.["person"] | .[] | select(.lastname=="J")'` ：
+```json
+{
+  "firstname": "M",
+  "lastname": "J"
+}
+```
+命令`cat shopee/Json.txt | jq '.["person"] | .[] | select(.lastname=="l")'` ：
+```json
+
+```
+#### 数组函数
+`sort`/`sort_by`/`reverse`
+##### 排序
+`jq expr | sort`
+
+命令`cat shopee/Json.txt | jq '.["person"] | sort'` ：
+```json
+[
+  {
+    "firstname": "M",
+    "lastname": "J"
+  },
+  {
+    "firstname": "Z",
+    "lastname": "L"
+  }
+]
+```
+注意此命令后，数组内MJ位于ZL之前了，说明顺序的确被替换了。
