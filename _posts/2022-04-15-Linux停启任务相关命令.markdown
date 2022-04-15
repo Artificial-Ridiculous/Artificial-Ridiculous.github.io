@@ -94,7 +94,7 @@ Google    77514 zhe.lin  136u  IPv4 0x9f470a82b5e68ac3      0t0  UDP *:58203
 ```
 -b	为每个已存在的目标文件创建备份文件
 -d	此选项允许“root”用户建立目录的硬链接
--f	强制创建链接，即使目标文件已经存在
+-f  强制创建链接，即使目标文件已经存在
 -n  把指向目录的符号链接视为一个普通文件
 -i	交互模式，若目标文件已经存在，则提示用户确认进行覆盖
 -s	对源文件建立符号链接，而非硬链接
@@ -107,7 +107,7 @@ Google    77514 zhe.lin  136u  IPv4 0x9f470a82b5e68ac3      0t0  UDP *:58203
 
 查看：
 
-```shell
+```
 lrwxr-xr-x   1 zhe.lin  staff     9B Apr 15 14:12 ln_log -> ./log.txt
 -rw-r--r--   1 zhe.lin  staff     0B Mar 17 18:08 log.txt
 ```
