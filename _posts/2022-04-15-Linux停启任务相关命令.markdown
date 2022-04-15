@@ -1,0 +1,113 @@
+---
+layout: post
+title:  "Linux停启任务相关命令"
+date:   2022-04-15 11:43:00 +0800
+category: linux
+---
+***所有操作默认非root用户，本文中用 `zhe.lin` 用户。***
+
+`lsof`命令显示所有被打开的文件，
+
+flag列表如下：
+```
+  -?|-h list help          -a AND selections (OR)     -b avoid kernel blocks
+  -c c  cmd c ^c /c/[bix]  +c w  COMMAND width (9)    +d s  dir s files
+  -d s  select by FD set   +D D  dir D tree *SLOW?*   -i select IPv[46] files
+  -l list UID numbers      -n no host names           -N select NFS files
+  -o list file offset      -O no overhead *RISKY*     -P no port names
+  -R list paRent PID       -s list file size          -t terse listing
+  -T disable TCP/TPI info  -U select Unix socket      -v list version info
+  -V verbose search        +|-w  Warnings (+)         -X file descriptor table only
+```
+
+输出格式如下：
+
+```
+COMMAND：进程的名称
+PID：进程标识符
+USER：进程所有者
+FD：文件描述符，应用程序通过文件描述符识别该文件。如cwd、txt等
+TYPE：文件类型，如DIR、REG等
+DEVICE：指定磁盘的名称
+SIZE：文件的大小
+NODE：索引节点（文件在磁盘上的标识）
+NAME：打开文件的确切名称
+```
+
+用法示例：
+
+```
+➜  ~ lsof | grep wechat                                                                                                                
+zoom.us   20900 zhe.lin  txt       REG               1,17       1453              475540 /Applications/zoom.us.app/Contents/Frameworks/zMacResRetina.bundle/Contents/Resources/NewUI_login_large_wechat@2x.png
+zoom.us   20900 zhe.lin  txt       REG               1,17        728              473357 /Applications/zoom.us.app/Contents/Frameworks/zMacResRetina.bundle/Contents/Resources/NewUI_login_large_wechat.png
+zoom.us   20900 zhe.lin  txt       REG               1,17       1453              472766 /Applications/zoom.us.app/Contents/Frameworks/zMacResRetina.bundle/Contents/Resources/NewUI_login_large_wechat_dark@2x.png
+zoom.us   20900 zhe.lin  txt       REG               1,17        728              475049 /Applications/zoom.us.app/Contents/Frameworks/zMacResRetina.bundle/Contents/Resources/NewUI_login_large_wechat_dark.png
+zoom.us   20900 zhe.lin  txt       REG               1,17        422              476253 /Applications/zoom.us.app/Contents/Frameworks/zMacRes.bundle/Contents/Resources/NewUI_login_small_wechat.png
+zoom.us   20900 zhe.lin  txt       REG               1,17        422              477102 /Applications/zoom.us.app/Contents/Frameworks/zMacRes.bundle/Contents/Resources/NewUI_login_small_wechat_dark.png
+```
+
+---
+
+`xargs`命令以pipeline形式，将上一个命令的输入作为下一个命令的参数列表：
+
+用法示例：
+`somecommand |xargs -flag command`
+
+现在结合上面两个命令，假如要干掉某一个端口号的进程：
+
+`lsof -i -t | xargs kill -9`
+
+`-i`表示只查看ipv4/6的相关内容，`-t`表示只显示pid吗，正好pid是`kill -9`的合法参数
+
+```shell
+➜  ~ lsof -i:58203 
+COMMAND     PID    USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+Google    77514 zhe.lin  136u  IPv4 0x9f470a82b5e68ac3      0t0  UDP *:58203
+➜  ~ lsof -i:58203 -t
+77514
+```
+
+假如某个自定义程序固定占用某个端口号`${port}`，那么就可以用
+`lsof -i:${port} -t | xargs kill -9`一键干掉
+
+---
+
+`ln`全称为link，即链接的意思，它的功能是为某一个文件在另外一个位置建立一个同步的链接。 一种是hard link，又称为硬链接；另一种是symbolic link，又称为符号链接。
+
+符号链接：
+
+1. 符号链接以路径的形式存在，类似于Windows操作系统中的快捷方式。
+2. 符号链接可以跨文件系统 ，硬链接不可以。
+3. 符号链接可以对一个不存在的文件名进行链接，硬链接不可以。
+4. 符号链接可以对目录进行链接，硬链接不可以。
+
+硬链接：
+
+1. 硬链接以文件副本的形式存在，但不占用实际空间。
+2. 硬链接不允许给目录创建硬链接。
+3. 硬链接只有在同一个文件系统中才能创建。
+
+语法格式：` ln [参数] [源文件或目录] [目标文件或目录]`
+
+参数：
+
+```
+-b	为每个已存在的目标文件创建备份文件
+-d	此选项允许“root”用户建立目录的硬链接
+-f	强制创建链接，即使目标文件已经存在
+-n  把指向目录的符号链接视为一个普通文件
+-i	交互模式，若目标文件已经存在，则提示用户确认进行覆盖
+-s	对源文件建立符号链接，而非硬链接
+-v	详细信息模式，输出指令的详细执行过程
+```
+
+操作：
+
+`ln -s ./log.txt ./ln_log`
+
+查看：
+
+```shell
+lrwxr-xr-x   1 zhe.lin  staff     9B Apr 15 14:12 ln_log -> ./log.txt
+-rw-r--r--   1 zhe.lin  staff     0B Mar 17 18:08 log.txt
+```

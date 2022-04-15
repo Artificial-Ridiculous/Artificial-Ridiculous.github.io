@@ -13,8 +13,8 @@ category: Java
 举例： 
 
 ```java
-@Value("${cdc.check.status:false}")  
-private String checkStatus;
+@Value("${top.cocobolo.flag:false}")  
+private String flag;
 ```
 
 ---
