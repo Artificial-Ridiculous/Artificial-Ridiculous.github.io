@@ -1,0 +1,93 @@
+---
+layout: post
+title:  "命令行读写Kafka"
+date:   2023-11-07 15:42:00 +0800
+category: linux
+---
+***所有操作默认非root用户，本文中用 `zhe.lin` 用户。***
+
+首先在本机安装kafka
+
+```shell
+brew install kafka
+```
+
+安装完成后，kafka的安装位置应该在类似以下路径:
+
+```shell
+/opt/homebrew/Cellar/kafka/3.6.0
+```
+
+我们可以设置一个软连接
+
+```shell
+ln -s /opt/homebrew/Cellar/kafka/3.6.0/libexec/bin/ ~/kafka
+```
+
+这样以后在家目录输入kafka就默认会访问kafka的`bin`目录了
+
+接下来是5个与kafka集群交互的模版，分为:
+
+- 创建topic
+- 描述topic元数据
+- 写topic
+- 读topic
+- 删除topic
+
+### 创建topic
+
+```shell
+kafka/kafka-topics.sh \
+--bootstrap-server {your.kafka.bootstarp.server} \
+--command-config {your.properties} \
+--topic {topic.name} \
+--create \
+--replication-factor 3 \
+--partitions 3 \
+--config min.insync.replicas=2
+```
+
+### 描述topic元数据
+
+```shell
+kafka/kafka-topics.sh \
+--bootstrap-server {your.kafka.bootstarp.server} \
+--command-config {your.properties} \
+--topic {topic.name} \
+--describe
+```
+
+### 写topic
+
+```shell
+kafka/kafka-console-producer.sh \
+--bootstrap-server {your.kafka.bootstarp.server} \
+--producer.config {your.properties} \
+--topic {topic.name} \
+--property parse.key=true \
+--property key.separator=___
+```
+
+### 读topic
+
+```shell
+kafka/kafka-console-consumer.sh \
+--bootstrap-server {your.kafka.bootstarp.server} \
+--topic {topic.name} \
+--consumer.config {your.properties} \
+--group data_datahub \
+--from-beginning \
+--property print.key=true \
+--property key.separator=___ \
+--property print.timestamp=true
+```
+
+### 删除topic
+
+```shell
+kafka/kafka-topics.sh \
+--bootstrap-server {your.kafka.bootstarp.server} \
+--command-config {your.properties} \
+--topic {topic.name} \
+--delete
+```
