@@ -75,7 +75,7 @@ kafka/kafka-console-consumer.sh \
 --bootstrap-server {your.kafka.bootstarp.server} \
 --topic {topic.name} \
 --consumer.config {your.properties} \
---group data_datahub \
+--group {your.group} \
 --from-beginning \
 --property print.key=true \
 --property key.separator=___ \
