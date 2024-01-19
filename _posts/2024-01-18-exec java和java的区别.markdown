@@ -86,3 +86,30 @@ exec java -javaagent:xxxxxxx.jar
 ![Process completed](/PNG/Process_completed.png)
 
 可以看到这次`tail`直接结束了，而且与第一次实验不同的是，不仅`tail`结束了，而是直接显示`Process completed`，并没有**返回到shell的交互界面**。这两个实验验证了之前线上的jvm收不到pod被kill的`SIGTERM`信号的case和猜测。
+
+## 额外知识
+
+`kill -l`可以查看操作系统支持的kill参数，在mac上运行结果如下：
+
+```shell
+➜ ~ kill -l
+HUP INT QUIT ILL TRAP ABRT EMT FPE KILL BUS SEGV SYS PIPE ALRM TERM URG STOP TSTP CONT CHLD TTIN TTOU IO XCPU XFSZ VTALRM PROF WINCH INFO USR1 USR2
+
+➜ ~ kill -l | wc -w
+31
+```
+
+说明mac上支持31种信号，以下是其中3种常见信号：
+
+```shell
+INT # kill -2 interrupt 相当于ctrl+c
+KILL # kill -9
+TERM # kill -15
+```
+
+{% highlight java %}
+@PreDestroy
+public void destroy() {
+    // some exit logic
+}
+{% endhighlight %}
