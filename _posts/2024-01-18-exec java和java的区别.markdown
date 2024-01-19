@@ -9,7 +9,7 @@ category: linux
 ```java
 @PreDestroy
 public void destroy() {
-	// some exit logic
+    // some exit logic
 }
 ```
 
@@ -19,7 +19,7 @@ public void destroy() {
 Runtime.getRuntime().addShutdownHook(new Thread(this::destroy));
 
 public void destroy() {
-	// some exit logic
+    // some exit logic
 }
 ```
 
