@@ -58,7 +58,7 @@ exec java -javaagent:xxxxxxx.jar
 
 我们另启一个shell，运行`ps -ef | grep tail`看一下有哪些进程：
 
-![ps -ef | grep tail](/PNG/ps_-ef_|_grep_tail.png)
+![ps_-ef_|_grep_tail](/PNG/ps_-ef_|_grep_tail.png)
 
 可以看到有两个进程，一个是PID为`63855`的shell进程，另一个是PID为`64663`的`tail`进程，且通过PPID可以看到，`shell`进程是`tail`进程的父进程，这符合预期。
 
