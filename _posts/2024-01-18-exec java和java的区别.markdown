@@ -106,10 +106,3 @@ INT # kill -2 interrupt 相当于ctrl+c
 KILL # kill -9
 TERM # kill -15
 ```
-
-{% highlight java %}
-@PreDestroy
-public void destroy() {
-    // some exit logic
-}
-{% endhighlight %}
