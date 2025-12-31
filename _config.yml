@@ -32,7 +32,7 @@ highlighter: rouge
 plugins:
   - jekyll-feed
 disqus:
-  shortname: www.cocobolo.cc
+  shortname: artificial-ridiculous
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
