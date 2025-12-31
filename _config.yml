@@ -25,7 +25,7 @@ category_feeds: false
 markdown: kramdown
 kramdown:
    input: GFM
-   hard_wrap: falseS
+   hard_wrap: false
    syntax_highlighter: rouge
 theme: minima
 highlighter: rouge
