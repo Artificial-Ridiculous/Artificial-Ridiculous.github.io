@@ -1,0 +1,104 @@
+---
+layout: post
+title:  "闭包"
+date:   2025-12-31 18:30:00 +0800
+category: JavaScript FE
+---
+
+## 闭包的概念
+在JavaScript中，闭包（`Closure`）是一个非常核心且强大的概念。简单来说，闭包让你可以在一个内层函数中访问到其外层函数的作用域。
+
+在JavaScript中，每当创建一个函数，闭包就会在函数创建时刻被生成。
+
+### 闭包的核心定义
+闭包 `=` 函数 `+` 该函数能访问的自由变量（环境）
+
+
+通常情况下，函数内部的局部变量在函数执行完毕后就会被销毁（垃圾回收）。但如果这个函数内部又定义了一个子函数，并且子函数引用了父函数的变量，那么即使父函数执行结束，这些变量依然会“存活”在内存中，供子函数使用。
+
+### 一个经典的例子
+
+```js
+function createCounter() {
+    let count = 0; // 这个变量被“闭包”保护起来了
+
+    return function() {
+        count++; // 引用了外部作用域的变量
+        console.log(count);
+    };
+}
+
+const counter = createCounter();
+
+counter(); // 输出: 1
+counter(); // 输出: 2
+counter(); // 输出: 3
+```
+
+为什么`count`没有被销毁？当`createCounter`执行完毕时，按理说`count`应该消失。但因为返回的匿名函数仍然持有对`count`的引用JavaScript的垃圾回收机制（`GC`）发现这个变量还有人使用，所以将其保留在了内存中。
+
+### 闭包的实际用途
+
+1. **私有变量（封装）**
+
+   在没有ES6 `class`私有属性之前，闭包是实现封装的唯一方法。
+
+   ```js
+   function user(name) {
+       return {
+           getName: function() {
+               return name; // 外部无法直接修改 name，只能通过接口获取
+           }
+       };
+   }
+   ```
+
+2. **柯里化（Currying）与函数工厂**
+
+   柯里化:
+   
+   ```js
+   // 普通函数：每次都要传三个参数
+   function log(date, type, message) {
+       console.log(`[${date}] [${type}] ${message}`);
+   }
+   
+   // 柯里化版本
+   function curryLog(date) {
+       return function(type) {
+           return function(message) {
+               console.log(`[${date}] [${type}] ${message}`);
+           };
+       };
+   }
+   
+   // 使用方式：
+   const todayLog = curryLog("2025-12-31"); // 固定日期
+   const errorLog = todayLog("ERROR");      // 固定类型为错误
+   
+   errorLog("内存泄漏：闭包未释放"); 
+   // 输出: [2025-12-31] [ERROR] 内存泄漏：闭包未释放
+   ```
+
+   可以根据参数创建特定的函数:
+   
+   ```js
+   function makeAdder(x) {
+       return function(y) {
+           return x + y;
+       };
+   }
+   
+   const add5 = makeAdder(5);
+   console.log(add5(10)); // 15
+   ```
+
+### 闭包的“副作用”
+虽然闭包很好用，但如果使用不当，会带来一些问题：
+
+1. **内存泄漏**
+
+   由于闭包会保持对外部变量的引用，如果闭包对象长期不被销毁，这些变量占用的内存就无法释放。
+2. **性能开销**
+
+   闭包涉及作用域链的查找，相比普通函数，内存消耗和执行速度会有细微的影响。
